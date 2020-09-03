@@ -3,7 +3,8 @@
   "version": "0.0.0",
   "scripts": {
     "start": "ng serve",
-    "build": "ng build --prod --base-href 'https://jalcocerzamora.github.io/app-manhattan/'",
+    "build": "ng build --prod",
+    "heroku-postbuild": "ng build --prod", // this will be run on Heroku
     "build:prod": "ng build --prod --base-href=https://jalcocerzamora.github.io/app-manhattan/ --aot --build-optimizer && gzipper --verbose ./dist",
     "build:stats": "ng build --stats-json",
     "stats:webpack": "webpack-bundle-analyzer ./dist/store/stats.json",
