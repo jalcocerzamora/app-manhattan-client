@@ -1,0 +1,27 @@
+<nav class="flex items-center justify-between">
+  <!-- <div class="">
+    <a href="/fair-rate-mortgage/">
+      <svg xmlns="http://www.w3.org/2000/svg" width="188" height="39"><text transform="translate(87 29)" fill="#454f5b" font-size="24">
+          <tspan x="0" y="0">MyCompany</tspan>
+        </text>
+        <path d="M54 39H0L27 6l27 33zM23 22v11h8V22h-8z" fill="#4ad5f6"></path>
+        <path d="M54 0L40 16h27L54 0" fill="#95cdb1"></path>
+        <path d="M69 18L55 34h27L69 18" fill="#ffc48b"></path></svg>
+    </a>
+  </div> -->
+
+  <div class="block sm:hidden">
+    <button #navbarToggler type="button" class="navbar-toggler">
+      <span class="navbar-toggler-bar"></span>
+      <span class="navbar-toggler-bar"></span>
+      <span class="navbar-toggler-bar"></span>
+    </button>
+  </div>
+
+  <div class="hidden sm:flex">
+    <ul class="flex flex-col sm:flex-row">
+      <li><a [translate]="'NAVBAR.txtHome'" href="#" class="text-white sm:px-4 py-2 block">HOME</a></li>
+      <li><a [translate]="'NAVBAR.txtContact'" href="#" class="text-white sm:px-4 py-2 sm:hidden lg:block">CONTACT</a></li>
+    </ul>
+  </div>
+</nav>

@@ -1,0 +1,54 @@
+
+.main-menu {
+  height: 100vh;
+  background-image: linear-gradient( 90deg,rgba(0, 0, 0, 0.8) 65%,rgba(0, 0, 0, 0.8) 100% ), url(http://lorempixel.com/1280/600/food/8);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+}
+
+[class*='overflow-y'] {
+  &::-webkit-scrollbar {
+    width: 3px;
+    height: 3px;
+    overflow-y: auto;
+  }
+
+  &::-webkit-scrollbar-button {
+    width: 0;
+    height: 0;
+    display: none;
+  }
+
+  &::-webkit-scrollbar-corner {
+    background-color: transparent;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: rgba(255,255,255,0.4);
+    -webkit-box-shadow: inset 1px 1px 0 rgba(255,255,255,0.10), inset 0 -1px 0 rgba(255,255,255,0.07);
+    box-shadow: inset 1px 1px 0 rgba(255,255,255,0.10), inset 0 -1px 0 rgba(255,255,255,0.07);
+    // border-radius: 4px;
+
+    :hover {
+      // background: #b3b3b3;
+      background: #555;
+      box-shadow: 0 0 2px 1px rgba(0, 0, 0, 0.2);
+    }
+
+    :active {
+      background-color: #999999;
+    }
+  }
+
+  &::-webkit-scrollbar-track {
+    // background: #e1e1e1;
+    background: #838383;
+    border-radius: 4px;
+
+    :hover,
+    :active {
+      background: #d4d4d4;
+    }
+  }
+}

@@ -1,0 +1,276 @@
+<main class="main-menu w-full max-h-screen flex align-middle">
+  <!-- <a [routerLink]="['/']" class="absolute right-0 m-3 text-white"><i class="fas fa-times"></i></a> -->
+
+  <!-- start shopcart section -->
+  <div #modal class="_md fixed top-0 bottom-0 left-0 right-0 my-5 mx-20 rounded-lg">
+    <div #modal_dialog class="_md_dialog absolute top-0 bottom-0 left-0 right-0 w-full">
+      <div #modal_content class="_md_content absolute top-0 bottom-0 left-0 right-0 w-full rounded-lg">
+
+        <div #modal_header class="_md_header absolute top-0 bottom-0 left-0 right-0 w-full h-8 rounded-t-md z-10 80">
+          <ng-container *ngTemplateOutlet="Header"></ng-container>
+          <!--<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button> -->
+        </div>
+
+        <div #modal_body class="_md_body bg-white absolute top-0 bottom-0 left-0 right-0 w-full rounded-lg border-none text-xs">
+          <div class="fixed top-0 bottom-0 left-0 right-0 rounded-t-lg my-5 mx-16">
+            <div class="absolute top-0 bottom-0 left-0 right-0 w-full mx-auto px-10 overflow-y-auto scroll-proximity scroll-padding">
+              <div #overlay_inner class="hidden bg-white bg-opacity-50 absolute top-0 bottom-0 left-0 right-0 z-10" style="padding: 0 calc(1rem - 0vw) 0 calc(1rem);"></div>
+              <div class="absolute top-0 left-0 right-0" style="padding: 0 calc(1rem - 0vw) 0 calc(1rem);">
+                <ng-container *ngTemplateOutlet="Body"></ng-container>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div #modal_foooter class="_md_footer bg-white absolute bottom-0 w-full rounded-b-md z-10 text-xs">
+          <ng-container *ngTemplateOutlet="Footer"></ng-container>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- end shopcart section -->
+</main>
+
+<ng-template #Header>
+  <div class="flex flex-row items-center justify-between shadow-md">
+    <div class="px-3">
+      <h1 [translate]="'HOME.txtCompanyName'" class="text-gray-800 text-sm font-bold"></h1>
+    </div>
+    <div class="flex flex-row text-gray-600">
+      <a [routerLink]="['/menu']" [routerLinkActiveOptions]="{exact:true}" routerLinkActive="bg-gray-100 bg-opacity-50 text-gray-700" href="javascript:void(0)"
+        class="border-l-1 border-gray-500 py-1 px-3">
+        <i class="fas fa-book"></i>
+      </a>
+      <a [routerLink]="['/info']" [routerLinkActiveOptions]="{exact:true}" routerLinkActive="bg-gray-100 bg-opacity-50 text-gray-700" href="javascript:void(0)"
+        class="border-l-1 border-gray-500 py-1 px-3">
+        <i class="fas fa-info-circle"></i>
+      </a>
+      <a [routerLink]="['/shopcart']" [routerLinkActiveOptions]="{exact:true}" routerLinkActive="bg-gray-100 bg-opacity-50 text-gray-700" href="javascript:void(0)"
+        class="border-l-1 border-gray-500 rounded-tr-lg py-1 px-3">
+        <i class="fas fa-shopping-cart"></i>
+      </a>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #Body>
+  <div class="w-full mx-auto space-y-2 mt-12 mb-32">
+
+    <div class="w-full flex flex-row space-x-4 px-4">
+      <div class="w-1/2">
+        <div class="bg-gray-100 w-full flex flex-col divide-y divide-gray-300 border border-gray-300 rounded-sm">
+          <div class="w-full flex flex-row space-x-1 p-2">
+            <div class="w-1/12 text-gray-500"><i class="fas fa-user"></i></div>
+            <div class="w-10/12 space-y-2">
+              <p class="font-semibold">CONTACT</p>
+              <p class="leading-none"><small>Jonatan Alcocer</small><br><small>jalcocerzamora@gmail.com</small><br><small>919 130 9422</small></p>
+            </div>
+            <div class="w-1/12 text-gray-500"><button class="hover:bg-gray-600 hover:text-white focus:outline-none focus:shadow-none rounded-md border"><i class="fas fa-pencil-alt m-1"></i></button></div>
+          </div>
+          <div class="w-full flex flex-row space-x-1 p-2">
+            <div class="w-1/12 text-gray-500"><i class="fas fa-truck"></i></div>
+            <div class="w-10/12 space-y-2">
+              <p class="font-semibold">ORDERING METHOD</p>
+              <p class="leading-none">
+                <small>E 65 Street, 25B, New York</small>
+              </p>
+              <!-- <small> We've prefiled you last used address</small> -->
+            </div>
+            <div class="w-1/12 text-gray-500"><button class="hover:bg-gray-600 hover:text-white focus:outline-none focus:shadow-none rounded-md border"><i class="fas fa-pencil-alt m-1"></i></button></div>
+          </div>
+          <div class="w-full flex flex-row space-x-1 p-2">
+            <div class="w-1/12 text-gray-500"><i class="far fa-clock"></i></div>
+            <div class="w-10/12 space-y-2">
+              <p class="font-semibold">CHOOSE A TIME</p>
+              <p class="leading-none">
+                <small>Now</small>
+              </p>
+            </div>
+            <div class="w-1/12 text-gray-500"><button class="hover:bg-gray-600 hover:text-white focus:outline-none focus:shadow-none rounded-md border"><i class="fas fa-pencil-alt m-1"></i></button></div>
+          </div>
+          <div class="w-full flex flex-row space-x-1 p-2">
+            <div class="w-1/12 text-gray-500"><i class="far fa-credit-card"></i></div>
+            <div class="w-10/12 space-y-2">
+              <p class="font-semibold">PAYMENT METHOD</p>
+              <p class="leading-none">
+                <small>Credit Card</small><br>
+                <small>Ending in 1111 (Expire on 12/23)</small>
+              </p>
+            </div>
+            <div class="w-1/12 text-gray-500"><button class="hover:bg-gray-600 hover:text-white focus:outline-none focus:shadow-none rounded-md border"><i class="fas fa-pencil-alt m-1"></i></button></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="w-1/2">
+        <table class="w-full table-auto">
+          <thead class="">
+            <tr class="text-gray-700 border border-gray-400">
+              <th class="bg-gray-200 w-1/12 text-center border-t border-gray-300 rounded-tl-sm p-2">Qty</th>
+              <th class="bg-gray-200 w-10/12 text-left border-t border-gray-300 p-2">Item</th>
+              <th class="bg-gray-200 w-1/12 text-center border-t border-gray-300 rounded-tr-sm p-2">Price</th>
+            </tr>
+          </thead>
+          <tbody class="products border border-gray-400">
+            <tr class="product_item">
+              <td colspan="3" class="py-1 pl-2 pr-5">
+                <table class="w-full">
+                  <thead>
+                    <tr class="product_detail font-semibold">
+                      <td class="w-1/12 text-center">1px</td>
+                      <td class="w-10/12 text-left">Pizza Capricciosa</td>
+                      <td class="w-1/12 text-center">$103.40</td>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr class="product_summary">
+                      <td colspan="3" class="w-1/12 text-left">
+                        <ul class="leading-none pl-5">
+                          <li><small>Size: Small</small></li>
+                          <li><small>Crust: Crispy</small></li>
+                          <li><small>Extra Toppings: Mozzarrela (+0.70)</small></li>
+                          <li><small>Extra Toppings: Olives (+0.70)</small></li>
+                        </ul>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </td>
+            </tr>
+            <tr class="product_item">
+              <td colspan="3" class="py-1 pl-2 pr-5">
+                <table class="w-full">
+                  <thead>
+                    <tr class="product_detail font-semibold">
+                      <td class="w-1/12 text-center">1px</td>
+                      <td class="w-10/12 text-left">Coca Cola</td>
+                      <td class="w-1/12 text-center">$14.00</td>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <!-- <tr class="product_summary">
+                      <td colspan="3" class="w-1/12 text-left">
+                        <ul class="pl-5">
+                          <li><small>Size: Small</small></li>
+                          <li><small>Crust: Crispy</small></li>
+                          <li><small>Extra Toppings: Mozzarrela (+0.70)</small></li>
+                          <li><small>Extra Toppings: Olives (+0.70)</small></li>
+                        </ul>
+                      </td>
+                    </tr> -->
+                  </tbody>
+                </table>
+              </td>
+            </tr>
+          </tbody>
+          <tfoot class="invoice border border-gray-400">
+            <tr>
+              <td colspan="3" class="py-1 px-2">
+                <table class="w-full">
+                  <tbody>
+                    <tr class="">
+                      <td class="text-left"><small>Sub-Total</small></td>
+                      <td class="text-right"><small>$10.00 MXN</small></td>
+                    </tr>
+                    <tr class="">
+                      <td class="text-left"><small>Sales Tax (7%):</small></td>
+                      <td class="text-right"><small>$5.23 MXN</small></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </td>
+            </tr>
+            <tr class="font-semibold">
+              <td colspan="3" class="py-1 px-2">
+                <table class="w-full">
+                  <tbody>
+                    <tr class="product_summary">
+                      <td class="text-left">Total</td>
+                      <td class="text-right">$123.40 MXN</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </td>
+            </tr>
+          </tfoot>
+        </table>
+        <!-- <div class="bg-gray-100 w-full flex flex-col border border-gray-700 rounded-sm">
+          <div class="bg-gray-300 text-gray-700 w-full flex flex-row justify-center content-center align-middle items-center rounded-sm py-2 px-3">
+            <div class="w-1/6 self-center">Qty</div>
+            <div class="w-4/6">Item</div>
+            <div class="w-1/6">Price</div>
+          </div>
+          <div class="w-full p-3">
+
+            <div class="w-full flex flex-row">
+              <div class="w-5/6 text-gray-600">
+                <p class="text-gray-800 font-semibold">1x Pizza Capricciosa</p>
+                <p class="leading-none pl-3">
+                  <br>
+                  <br>
+                  <br>
+                  <br>
+                </p>
+              </div>
+              <div class="w-1/6">
+                10.40
+              </div>
+            </div>
+
+            <div class="w-full border"></div>
+
+            <div class="w-full flex flex-col">
+              <div class="w-full flex flex-row">
+                <div class="w-5/6 text-gray-600">
+                  <p class="leading-none pl-3">
+                    <small>Sub-Total</small><br>
+                    <small>Sales Tax (7%)</small><br>
+                  </p>
+                </div>
+                <div class="w-1/6">
+                  $103.40 MXN
+                </div>
+              </div>
+              <div class="w-full flex flex-row">
+                <div class="w-5/6 text-gray-600">
+                  <p class="text-gray-800 font-semibold">Total</p>
+                </div>
+                <div class="w-1/6">
+                  $103.40 MXN
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div> -->
+      </div>
+    </div>
+
+    <div class="w-full flex flex-row space-x-4 px-2">
+      <div class="w-full">
+        <p>Comments (Optional)</p>
+      </div>
+    </div>
+
+  </div>
+</ng-template>
+
+<ng-template #Footer>
+  <div class="flex flex-row justify-center content-center items-center shadow-t-md space-x-4 py-4 px-2">
+    <div class="w-1/2 text-gray-600">
+      <p class="leading-none"><small>By placing this order you expressly agree and acept the restaurant terms & ordering system provider EULA including data precessing terms.</small></p>
+    </div>
+    <div class="w-1/2 text-white">
+      <button class="focus:outline-none focus:shadow-none bg-orange-500 w-full flex flex-row justify-center items-center divide-x divide-gray-400 rounded-md font-bold p-2 pulse">
+        <div class="w-1/3 flex flex-col justify-start items-start content-start text-left px-5">
+          <p class="text-xs">TOTAL</p>
+          <p class="sm:text-sm">$124.95 MXN</p>
+        </div>
+        <div class="w-2/3">
+          <p class="sm:text-sm">Place Delivery Order Now</p>
+          <!-- Placing your order... -->
+        </div>
+      </button>
+    </div>
+  </div>
+</ng-template>

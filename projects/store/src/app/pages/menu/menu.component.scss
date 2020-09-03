@@ -1,0 +1,75 @@
+
+.main-menu {
+  height: 100vh;
+  background-image: linear-gradient( 90deg,rgba(0, 0, 0, 0.8) 65%,rgba(0, 0, 0, 0.8) 100% ), url(http://lorempixel.com/1280/600/food/8);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+}
+
+// <svg id="svgelem" width="300" height="200" xmlns="http://www.w3.org/2000/svg">
+//     <rect x="50" y="20" rx="30" ry="30" width="150" height="150"
+//       style="fill:blue;/">
+// </svg>
+
+[class*='overflow-y'] {
+  // clip-path: circle(65% at 50% 50%);
+  // clip-path: inset(0% 0% 0% 0% round 10px);
+  // clip-path: polygon(6% 0, 94% 0%, 100% 6%, 100% 94%, 94% 100%, 6% 100%, 0 88%, 0 10%);
+  // clip-path: url(#svgPath);
+
+  &.scroll-padding {
+    scroll-padding: 2rem;
+  }
+
+  &.scroll-mandatory {
+    scroll-snap-type: y mandatory;
+  }
+
+  &.scroll-proximity {
+    scroll-snap-type: y proximity;
+  }
+
+  &::-webkit-scrollbar {
+    width: 5px;
+    height: 5px;
+    overflow-y: auto;
+  }
+
+  &::-webkit-scrollbar-button {
+    width: 0;
+    height: 1rem;
+    // display: none;
+    // background-color: black;
+  }
+
+  &::-webkit-scrollbar-corner {
+    background-color: transparent;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: rgba(255, 255, 255, 0.5);
+    border-radius: 9999px;
+
+    :hover {
+      // background: #b3b3b3;
+      background: #555;
+      box-shadow: 0 0 2px 1px rgba(0, 0, 0, 0.1);
+    }
+
+    :active {
+      background-color: #999999;
+    }
+  }
+
+  &::-webkit-scrollbar-track {
+    // border: 1px solid rgb(255 255 255 / 0.3);
+    border-radius: 9999px;
+    background: rgba(0, 0, 0, 0.2);
+
+    :hover,
+    :active {
+      background: #d4d4d4;
+    }
+  }
+}

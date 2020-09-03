@@ -1,0 +1,113 @@
+/* You can add global styles to this file, and also import other style files */
+// @import url('https://fonts.googleapis.com/css2?family=Anton&display=swap');
+// @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
+// @import url('https://fonts.googleapis.com/css2?family=Ubuntu&display=swap');
+// @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&display=swap');
+
+// @import 'tailwindcss/base';
+// @import 'tailwindcss/components';
+// @import 'tailwindcss/utilities';
+
+// @import '../../../node_modules/ngx-smart-popover/scss/popover-content.component.scss';
+// @import 'assets/scss/popover.scss';
+
+// @import './../../../node_modules/ngx-smart-popover/scss/popover-content.component.scss';
+// @import "bootstrap/scss/_popover.scss";
+
+// @import './../../../node_modules/ngx-smart-popover/scss/popover-content.component.scss';
+// @import "./../../../node_modules/bootstrap/scss/_popover.scss";
+
+// :root {
+//   --bg-transparent-60: rgba(255,255,255,0.60);
+//   --bg-transparent-65: rgba(255,255,255,0.65);
+//   --bg-transparent-70: rgba(255,255,255,0.70);
+//   --bg-transparent-75: rgba(255,255,255,0.75);
+//   --bg-transparent-80: rgba(255,255,255,0.80);
+//   --bg-transparent-65: rgba(255,255,255,0.85);
+// }
+
+// .navbar-toggler {
+//   margin-top: 4px;
+//   margin-bottom: 4px;
+//   width: 26px;
+//   height: 26px;
+//   padding: 2px 0;
+//   border: none;
+//   right: 15px
+// }
+
+// .navbar-toggler:focus {
+//   outline: 0
+// }
+
+// .navbar-toggler .navbar-toggler-bar {
+//   display: block;
+//   width: 26px;
+//   height: 2px;
+//   background-color: white;
+//   transition: all .2s ease-in-out 0s;
+//   border-radius: 4px;
+//   margin-bottom: 5px
+// }
+
+// .navbar-toggler .navbar-toggler-bar:last-child {
+//   margin-bottom: 0
+// }
+
+// .navbar-toggler.active .navbar-toggler-bar:first-child {
+//   transform: rotate(45deg);
+//   position: relative;
+//   top: 7px
+// }
+
+// .navbar-toggler.active .navbar-toggler-bar:nth-child(2) {
+//   opacity: 0
+// }
+
+// .navbar-toggler.active .navbar-toggler-bar:nth-child(3) {
+//   transform: rotate(-45deg);
+//   position: relative;
+//   bottom: 7px
+// }
+
+// .hyphens-normal {
+//   -webkit-hyphens: manual;
+//   -ms-hyphens: manual;
+//   hyphens: manual;
+// }
+
+// .overflow-hidden .main-menu {
+//   background-image: linear-gradient(90deg, rgba(0, 0, 0, 0.70) 0%, rgba(103, 103, 107, 0.70) 100%), url(http://lorempixel.com/1280/600/food/8);
+// }
+
+
+
+/* mixin for multiline */
+// @mixin multiLineEllipsis($lineHeight: 1.2em, $lineCount: 1, $bgColor: white){
+//   overflow: hidden;
+//   position: relative;
+//   line-height: $lineHeight;
+//   max-height: $lineHeight * $lineCount;
+//   text-align: justify;
+//   margin-right: -1em;
+//   padding-right: 1em;
+//   &:before {
+//     content: '...';
+//     position: absolute;
+//     right: 0;
+//     bottom: 0;
+//   }
+//   &:after {
+//     content: '';
+//     position: absolute;
+//     right: 0;
+//     width: 1em;
+//     height: 1em;
+//     margin-top: 0.2em;
+//     background: $bgColor;
+//   }
+// }
+
+// .block-with-text {
+//   @include multiLineEllipsis($lineHeight: 1.2em, $lineCount: 3, $bgColor: white);
+// }
