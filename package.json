@@ -2,9 +2,12 @@
   "name": "client",
   "version": "0.0.0",
   "scripts": {
-    "start": "ng serve",
-    "build": "ng build --prod",
-    "heroku-postbuild": "ng build --prod", // this will be run on Heroku
+    "ng": "ng",
+    "start": "node server.js",
+    "startx": "ng serve",
+    "build": "ng build",
+    "heroku-postbuild": "ng build --prod",
+
     "build:prod": "ng build --prod --base-href=https://jalcocerzamora.github.io/app-manhattan/ --aot --build-optimizer && gzipper --verbose ./dist",
     "build:stats": "ng build --stats-json",
     "stats:webpack": "webpack-bundle-analyzer ./dist/store/stats.json",
@@ -14,8 +17,8 @@
     "e2e": "ng e2e"
   },
   "private": true,
-  "engines" : {
-    "node" : "12.x",
+  "engines": {
+    "node": "12.x",
     "npm": "6.x"
   },
   "browserslist": [
@@ -39,6 +42,7 @@
     "@popperjs/core": "^2.4.4",
     "@stripe/stripe-js": "^1.8.0",
     "bootstrap": "^4.5.2",
+    "express": "^4.17.1",
     "ngx-smart-popover": "^1.4.0",
     "ngx-socket-io": "^3.2.0",
     "ngx-stripe": "^9.2.0",
