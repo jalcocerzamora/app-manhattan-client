@@ -7,6 +7,7 @@
     "startx": "ng serve",
     "build": "ng build",
     "heroku-postbuild": "ng build --prod",
+    "postinstall": "ng build --prod",
 
     "build:prod": "ng build --prod --base-href=https://jalcocerzamora.github.io/app-manhattan/ --aot --build-optimizer && gzipper --verbose ./dist",
     "build:stats": "ng build --stats-json",
