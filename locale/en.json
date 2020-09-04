@@ -1,0 +1,12 @@
+{
+  "NAVBAR": {
+    "txtHome": "Home",
+    "txtContact": "Contact"
+  },
+
+  "HOME": {
+    "txtCompanyName": "RESTAURANT MANHATTAN",
+    "txtCompanySlogan": "Susshi & Burger",
+    "btnSeeMenu": "See MENU"
+  }
+}
