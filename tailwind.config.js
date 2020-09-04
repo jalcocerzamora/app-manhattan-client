@@ -3,6 +3,7 @@ const plugin = require('tailwindcss/plugin')
 module.exports = {
   important: false,
   purge: [
+    enabled: true,
     './src/**/*.html'
   ],
   theme: {
