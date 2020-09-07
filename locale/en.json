@@ -8,5 +8,15 @@
     "txtCompanyName": "RESTAURANT MANHATTAN",
     "txtCompanySlogan": "Susshi & Burger",
     "btnSeeMenu": "See MENU"
+  },
+
+  "ADDTOCART" : {
+    "btnSubmit": "add to cart",
+    "txtInstructions": "Instrucciones",
+    "txtQuantity": "Quantity"
+  },
+
+  "SHOPCART": {
+    "txtFooterLegend": "By placing this order you expressly agree and accept the restaurant terms & ordering system provider EULA including data processing terms."
   }
 }
