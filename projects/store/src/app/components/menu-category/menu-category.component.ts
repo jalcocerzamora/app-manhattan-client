@@ -3,8 +3,6 @@ import { Component, OnInit, ChangeDetectionStrategy, Input, ElementRef } from '@
 import { MenuCategoryItemComponent } from '../index';
 import { ISubproductsWithCategory } from '../../core/models';
 
-
-
 @Component({
   selector: 'app-menu-category',
   // templateUrl: './menu-category.component.html',

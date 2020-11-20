@@ -61,3 +61,10 @@ import 'zone.js/dist/zone';  // Included with Angular CLI.
 /***************************************************************************************************
  * APPLICATION IMPORTS
  */
+
+import '@angular/localize/init';
+
+/* harmony import */
+// const _angular_localize_init__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/localize/init */ "./node_modules/@angular-devkit/build-angular/src/utils/empty.js");
+/* harmony import */
+// const _angular_localize_init__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_angular_localize_init__WEBPACK_IMPORTED_MODULE_1__);

@@ -1,8 +1,14 @@
 import { Component, OnInit, ChangeDetectionStrategy, ViewChild, ElementRef, Renderer2, AfterViewInit } from '@angular/core';
-import { ISubproductsWithCategory } from '../../core/models';
+import { ISubproductsWithCategory, Subproduct } from '../../core/models';
 import { Observable } from 'rxjs';
+
 import { ScriptService } from '../../core/services/script.service';
 import { SubproductService } from '../../core/services/db/subproduct.service';
+import { ShopCartService } from '../../core/services/shopcart/shop-cart.service';
+
+import { DeliveryTime, ShopCart } from '../../core/models/shop-cart';
+import { PaymentGatewayService } from '../../core/services/payment-gateway.service';
+import { StripeCardComponent } from 'ngx-stripe';
 
 @Component({
   selector: 'app-shopcart',
@@ -11,44 +17,63 @@ import { SubproductService } from '../../core/services/db/subproduct.service';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ShopcartComponent implements OnInit, AfterViewInit {
-  @ViewChild('container_menu_header') containerHeader: ElementRef;
-  @ViewChild('container_menu_body_markup_banner') containerBanner: ElementRef;
+  @ViewChild('container_menu_header') containerHeader: ElementRef<HTMLDivElement>;
+  @ViewChild('container_menu_body_markup_banner') containerBanner: ElementRef<HTMLDivElement>;
+
+  @ViewChild('btnPaymentOrder') btnPaymentOrder: ElementRef<HTMLButtonElement>;
 
   public CategoryWithProducts: Observable<Array<ISubproductsWithCategory>> = this.getProducts();
+
+  public shopcart: ShopCart<Subproduct> = null;
+
+  @ViewChild(StripeCardComponent) card: StripeCardComponent;
+  public formPaymentGatewayValid = false;
 
   constructor(
     private el: ElementRef,
     private rd: Renderer2,
     private scriptService: ScriptService,
-    private serviceSubproducts: SubproductService
+    private serviceSubproducts: SubproductService,
+
+    public serviceShopCart: ShopCartService<Subproduct>,
+    private paymentGatewayService: PaymentGatewayService
   ) {
-    console.log('Loading External Scripts');
-    this.scriptService.load('fontAwesome', 'fontAwesome');
+    // console.log('ShopcartComponent.constructor');
+    // console.log('Loading External Scripts');
+    this.scriptService.load('mapbox-gl');
   }
 
   ngOnInit(): void {
-    // this.loadComponent();
-    this.el.nativeElement.closest('body').classList.add('overflow-hidden');
-    // this.getProducts();
+    this.loadComponent();
+    // console.log('ShopcartComponent.ngOnInit', this);
+    this.paymentGatewayService.setButtonSubmit = this.btnPaymentOrder;
   }
 
   ngAfterViewInit(): void {
-    // const observer = new IntersectionObserver((entries) => {
-    //   if (entries[0].isIntersecting === true) {
-    //     if (entries[0].intersectionRatio === 1) {
-    //       this.containerHeader.nativeElement.classList.add('bg-transparent-80');
-    //       this.containerHeader.nativeElement.classList.remove('bg-white');
-    //     }
-    //   } else {
-    //     this.containerHeader.nativeElement.classList.remove('bg-transparent-80');
-    //     this.containerHeader.nativeElement.classList.add('bg-white');
-    //   }
-    // }, { threshold: [0, 0.5, 1] });
-    // observer.observe(this.containerBanner.nativeElement);
   }
 
   getProducts(): Observable<Array<ISubproductsWithCategory>> {
     return this.serviceSubproducts.All();
+  }
+
+  loadComponent() {
+    this.shopcart = this.serviceShopCart.GetShopCart;
+    this.el.nativeElement.closest('body').classList.add('overflow-hidden');
+  }
+
+  formPaymentGatewayUpdate(status: boolean){
+    this.formPaymentGatewayValid = status;
+  }
+
+  onSubmitOrder(event) {
+    if (this.formPaymentGatewayValid) {
+      this.paymentGatewayService.setButtonSubmit = this.btnPaymentOrder;
+      this.paymentGatewayService.createPaymentIntent();
+    }
+  }
+
+  onClickRemove(id: number){
+    this.serviceShopCart.RemoveItem(id);
   }
 
 }

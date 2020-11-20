@@ -1,0 +1,42 @@
+:host ::ng-deep {
+    .input-group {
+        // @apply mb-4;
+
+        .input-group-prepend {
+            @apply absolute;
+            @apply inset-y-0;
+            @apply pointer-events-none;
+            @apply pl-1;
+            @apply leading-loose;
+            @apply flex;
+            @apply items-start;
+            @apply mb-5;
+        }
+
+        .input-addons {
+
+            .form-control {
+                @apply pl-6;
+            }
+
+        }
+
+        // >:not(:first-child) .form-control {
+        //     border-top-left-radius: 0;
+        //     border-bottom-left-radius: 0;
+        // }
+        
+        // >:not(:last-child) .form-control {
+        //     border-top-right-radius: 0;
+        //     border-bottom-right-radius: 0;
+        // }
+
+    }
+
+    // .input-addons {
+    //     position: relative;
+    //     flex: 1 1 auto;
+    //     width: 1%;
+    //     margin-bottom: 0;
+    // }
+}

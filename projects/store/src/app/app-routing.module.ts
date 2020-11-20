@@ -3,7 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { AuthGuard } from 'projects/core/helpers';
 import { NotFoundComponent } from './components';
-import { HomeComponent, MenuComponent, ShopcartComponent } from './pages';
+import { HomeComponent, MenuComponent, ShopcartComponent, PlacingYourOrderComponent } from './pages';
 
 
 const routes: Routes = [
@@ -38,6 +38,10 @@ const routes: Routes = [
   },
   {
     path: 'shopcart', component: ShopcartComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'placing-your-order', component: PlacingYourOrderComponent,
     canActivate: [AuthGuard],
   },
   // {

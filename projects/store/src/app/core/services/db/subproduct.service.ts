@@ -2,10 +2,8 @@ import { Injectable } from '@angular/core';
 
 import { environment } from 'projects/environments/environment';
 
-import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
-import { Observable, throwError, concat, of } from 'rxjs';
-import { map, publishReplay } from 'rxjs/operators';
-import { catchError } from 'rxjs/internal/operators';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { Observable, throwError } from 'rxjs';
 
 import { ISubproductsWithCategory } from '../../models/subproduct';
 import { Socket } from 'ngx-socket-io';
@@ -37,16 +35,18 @@ export class SubproductService {
   }
 
   All(): Observable<any> {
-    return this.http.get<Array<ISubproductsWithCategory>>(API_ENDPOINT.concat('subproduct/all')).pipe(
+    return this.http.get<Array<ISubproductsWithCategory>>(API_ENDPOINT.concat('subproduct/all'));
+    // .pipe(
       // map(this.extractData),
-      catchError(this.handleError)
-    );
+      // catchError(this.handleError)
+    // );
   }
 
   GetById(id: string): Observable<any> {
-    return this.http.get(API_ENDPOINT.concat('products/' + id)).pipe(
-      map(this.extractData),
-      catchError(this.handleError)
-    );
+    return this.http.get(API_ENDPOINT.concat('products/' + id));
+    // .pipe(
+      // map(this.extractData),
+      // catchError(this.handleError)
+    // );
   }
 }

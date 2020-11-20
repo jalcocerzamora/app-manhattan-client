@@ -1,0 +1,33 @@
+<button (click)="onClose()" class="popper_close absolute top-0 right-0 -m-3 text-xs">
+    <fa-stack [class]="'pointer-events-none'">
+        <fa-icon [icon]="['fas', 'circle']" stackItemSize="2x" style="color: #faf9fa;"></fa-icon>
+        <fa-icon icon="times" [inverse]="true" [inverse]="false" stackItemSize="1x"></fa-icon>
+    </fa-stack>
+</button>
+<div class="width-popper lg:max-w-lg block font-normal leading-normal text-sm text-left no-underline break-words z-30">
+    <form [formGroup]="formAddToCart" (ngSubmit)="onSubmit()" autocomplete="off" novalidate>
+        <div class="popper_body mt-2 lg:mt-4">
+            <div class="text-gray-500 overflow-x-hidden overflow-y-auto overscroll-contain mx-3 lg:mx-5 mb-3">
+                <div class="w-full flex flex-col">
+                    <img [src]="productImage" [alt]="productAlt" class="w-full h-24 lg:h-32 object-cover object-center">
+                    <small [innerText]="subproduct.description | firstcase"
+                        class="w-full text-2xs lg:text-sm text-justify text-gray-600"></small>
+                </div>
+                <formly-form [form]="formAddToCart" [fields]="fieldsAddToCart" [options]="optionsAddToCart" [model]="modelAddToCart"></formly-form>
+            </div>
+        </div>
+        <div class="popper_footer text-white block shadow-t-md p-2 lg:p-4">
+            <button [disabled]="!formAddToCart.valid" type="submit"
+                class="button_addtocart focus:outline-none focus:shadow-none bg-orange-500 w-full flex flex-row justify-center items-center divide-x divide-gray-400 rounded-md font-bold p-2 pulse">
+                <div
+                    class="pointer-events-none select-none w-2/5 flex flex-col justify-start items-start content-start text-left px-1">
+                    <p class="text-xs lg:text-sm" [innerText]="modelAddToCart.getTotal | currency"></p>
+                </div>
+                <div class="pointer-events-none select-none w-3/5">
+                    <p class="text-xs lg:text-sm" [translate]="'ADDTOCART.btnSubmit'">Agregar al carrito</p>
+                </div>
+            </button>
+        </div>
+    </form>
+</div>
+<div id="arrow" data-popper-arrow></div>

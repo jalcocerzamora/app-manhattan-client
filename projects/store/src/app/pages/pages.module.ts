@@ -1,71 +1,88 @@
-import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA, LOCALE_ID } from '@angular/core';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { CommonModule, PlatformLocation } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { CommonModule, APP_BASE_HREF } from '@angular/common';
-
-import { HttpClient } from '@angular/common/http';
 
 import { environment } from 'projects/environments/environment';
 
-import { PopoverModule } from 'ngx-smart-popover';
+import { FormlyModule, FORMLY_CONFIG } from '@ngx-formly/core';
+import { FormlyConfig } from '../directives/formly/formly.config';
 
 // Translation
-import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
-import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { TranslateService, TranslateLoader, TranslateModule } from '@ngx-translate/core';
+import { HttpLoaderFactory, registerTranslateExtension } from 'projects/core/helpers/translate.extension';
 
 import { AppRoutingModule } from '../app-routing.module';
+
+import { FontAwesomeModule, FaIconLibrary, FaConfig } from '@fortawesome/angular-fontawesome';
+import { faSpinner,
+  faBook, faInfoCircle, faShoppingCart,
+  faUser, faTruck, faClock, faCreditCard, faPencilAlt, faTimes, faTrash,
+  faPlus, faMinus, faCircle, faSave } from '@fortawesome/free-solid-svg-icons';
 
 import { ComponentsModule } from '../components/components.module';
 
 import { HomeComponent, MenuComponent } from './';
 import { ShopcartComponent } from './shopcart/shopcart.component';
-
-export function createTranslateLoader(http: HttpClient) {
-  console.log(http, APP_BASE_HREF);
-  return new TranslateHttpLoader(http, '/locale/', '.json');
-}
-
-// constructor(@Inject(APP_BASE_HREF) private baseHref:string) {
-//   console.log(this.baseHref);
-// }
-
+import { DirectivesModule } from '../directives/directives.module';
+import { PipesModule } from '../pipes/pipes.module';
+import { PlacingYourOrderComponent } from './placing-your-order/placing-your-order.component';
 
 @NgModule({
   declarations: [
-    // NotFoundComponent,
-    // NavbarComponent,
-    // HeaderComponent,
+    // LoginComponent, RegisterComponent, VerifyEmailComponent, ForgotPasswordComponent,
+    // NotFoundComponent, NavbarComponent, HeaderComponent,
+    // ControlErrorComponent, ControlErrorsDirective, ControlErrorContainerDirective, FormSubmitDirective, FormCompetenceComponent,
 
     HomeComponent,
     MenuComponent,
     ShopcartComponent,
+    PlacingYourOrderComponent,
   ],
   imports: [
-    CommonModule, AppRoutingModule,
-    // FormsModule, ReactiveFormsModule,
-    TranslateModule.forRoot({
-      defaultLanguage: environment.language,
-      loader: {
-        provide: TranslateLoader,
-        // useFactory: (http: HttpClient) => { return new TranslateHttpLoader(http); },
-        useFactory: (createTranslateLoader),
-        deps: [ HttpClient ]
-      }
-    }),
-    ComponentsModule,
-    PopoverModule
+    CommonModule, AppRoutingModule, HttpClientModule,
+    FormsModule, ReactiveFormsModule,
+    FontAwesomeModule,
 
+    PipesModule,
+    DirectivesModule,
+    ComponentsModule,
+    FormlyModule.forRoot(FormlyConfig),
+    TranslateModule.forRoot({ defaultLanguage: environment.language, loader: { provide: TranslateLoader, useFactory: HttpLoaderFactory, deps: [HttpClient, PlatformLocation] } }),
   ],
   exports: [
-    // LoginComponent, RegisterComponent, VerifyEmailComponent, ForgotPasswordComponent,
-
-    // NotFoundComponent,
     HomeComponent,
     MenuComponent,
-
-    // ModalComponent,
+    ShopcartComponent,
+    PlacingYourOrderComponent
+  ],
+  providers: [
+    { provide: LOCALE_ID, useValue: environment.locale },
+    { provide: FORMLY_CONFIG, multi: true, useFactory: registerTranslateExtension, deps: [TranslateService] },
   ],
   schemas: [
     CUSTOM_ELEMENTS_SCHEMA
-  ]
+  ],
+  // entryComponents: [ControlErrorComponent],
 })
-export class PagesModule { }
+export class PagesModule {
+  constructor(
+    iconLibrary: FaIconLibrary,
+    iconConfig: FaConfig
+  ){
+    // iconLibrary.addIconPacks(fas, far);
+    iconConfig.defaultPrefix = 'fas';
+    iconConfig.fixedWidth = true;
+    // Add an icon to the library for convenient access in other components
+    // tslint:disable-next-line: max-line-length
+    iconLibrary.addIcons(faSpinner);
+    iconLibrary.addIcons(faBook, faInfoCircle, faShoppingCart);
+    iconLibrary.addIcons(faUser, faTruck, faClock, faCreditCard, faPencilAlt, faTimes, faTrash, faSave);
+    iconLibrary.addIcons(faTimes, faPlus, faMinus, faCircle);
+
+    // <!-- simple name only that assumes the default prefix -->
+    // <fa-icon icon="coffee"></fa-icon>
+    // <!-- ['fas', 'coffee'] is an array that indicates the [prefix, iconName] -->
+    // <fa-icon [icon]="['fas', 'coffee']"></fa-icon>
+  }
+}

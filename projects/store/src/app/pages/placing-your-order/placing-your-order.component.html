@@ -1,0 +1,66 @@
+<svg width="0" height="0">
+    <defs>
+        <clipPath id="svgPath">
+            <path
+                d="M1131.26 3.51C1148.44 3.51 1162.36 17.43 1162.37 34.61C1162.37 137.99 1162.4 417.02 1162.4 520.39C1162.41 537.57 1148.48 551.5 1131.3 551.5C912.83 551.51 288.52 551.56 70.05 551.58C52.88 551.58 38.95 537.66 38.95 520.48C38.94 417.1 38.92 138.08 38.91 34.7C38.91 17.52 52.83 3.6 70.01 3.59C288.48 3.58 912.79 3.53 1131.26 3.51Z"
+                id="e3mVYwcRFQ"></path>
+            <mask id="maskbnmAZYFha" x="38.91" y="3.51" width="1123.49" height="548.07" maskUnits="userSpaceOnUse">
+                <rect x="38.91" y="3.51" width="1123.49" height="548.07" fill="white"></rect>
+                <use xlink:href="#e3mVYwcRFQ" opacity="1" fill="black"></use>
+            </mask>
+            <path d="M1169 0.1L1199 0L1200.97 548L1170.97 548.1L1169 0.1Z" id="akdeuocT"></path>
+        </clipPath>
+    </defs>
+</svg>
+
+<main class="main-placing-your-order w-full max-h-screen flex align-middle">
+    <!-- start shopcart section -->
+    <div #modal class="modal">
+        <div #modal_dialog class="modal-dialog">
+            <div #modal_content class="modal-content">
+
+                <div #modal_header class="modal-header">
+                    <ng-container *ngTemplateOutlet="Header"></ng-container>
+                </div>
+
+                <div #modal_body class="modal-body">
+                    <ng-container *ngTemplateOutlet="Body"></ng-container>
+                </div>
+
+                <div #modal_foooter class="modal-footer">
+                    <ng-container *ngTemplateOutlet="Footer"></ng-container>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- end shopcart section -->
+</main>
+
+<ng-template #Header>
+    <div class="nabvar">
+        <div class="w-full text-center px-6">
+            <h1 [translate]="'PLACINGYOURORDER.txtHeaderTitle'" class="text-gray-800 text-sm font-bold"></h1>
+        </div>
+    </div>
+</ng-template>
+
+<ng-template #Body>
+    <div class="w-full mx-auto h-full space-y-2 pt-20 lg:text-sm">
+        <div class="w-2/3 mx-auto flex flex-col flex-wrap">
+            <div class="w-full">
+                <div class="progress-bg-in">
+                    <div #myBar class="progress-bar progress-bg-out" style="height:24px;width:0%">
+                    </div>
+                </div>
+                <div class="w-full mt-5 text-center">
+                    <p>Wrapping up the order,</p>
+                    <p>please wait...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</ng-template>
+
+<ng-template #Footer>
+
+</ng-template>

@@ -1,11 +1,8 @@
+$backgroundImage: "https://source.unsplash.com/-1GEAA8q3wk/1200x600";
+
 .main-home {
   height: 100vh;
-  background-image: linear-gradient(
-      90deg,
-      rgba(0, 0, 0, 0.3) 40%,
-      rgba(0, 0, 0, 0.1) 65%
-    ),
-    url(http://lorempixel.com/1280/600/food/8);
+  background-image: linear-gradient(90deg, rgba(0, 0, 0, 0.3) 40%, rgba(0, 0, 0, 0.1) 65%), url($backgroundImage);
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;

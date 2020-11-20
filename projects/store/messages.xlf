@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+  <file source-language="en-US" datatype="plaintext" original="ng2.template">
+    <body>
+      <trans-unit id="d04d5b5d13ac9acf9750f1807f0227eeee98b247" datatype="html">
+        <source>Total</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/shopcart/shopcart.component.html</context>
+          <context context-type="linenumber">132</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="26035b4cff2bc57391f0489ac7c4a11d4e9c52be" datatype="html">
+        <source>Comments (Optional)</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/shopcart/shopcart.component.html</context>
+          <context context-type="linenumber">146</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="b1443b0f23f1ccca9f67caec37ab95e01c29dfa8" datatype="html">
+        <source>TOTAL</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/shopcart/shopcart.component.html</context>
+          <context context-type="linenumber">161</context>
+        </context-group>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

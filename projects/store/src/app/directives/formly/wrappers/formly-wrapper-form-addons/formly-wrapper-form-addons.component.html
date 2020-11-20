@@ -1,0 +1,13 @@
+<div class="input-group">
+    <div class="input-group-prepend" *ngIf="to.addonLeft" [ngStyle]="{ cursor: to.addonLeft.onClick ? 'pointer' : 'inherit' }" (click)="addonLeftClick($event)">
+        <fa-icon class="input-group-text" *ngIf="to.addonLeft.icon" [icon]="to.addonLeft.icon"></fa-icon>
+        <span *ngIf="to.addonLeft.text" class="input-group-text">{{ to.addonLeft.text }}</span>
+    </div>
+    <div class="input-addons">
+        <ng-container #fieldComponent></ng-container>
+    </div>
+    <div class="input-group-append" *ngIf="to.addonRight" [ngStyle]="{ cursor: to.addonRight.onClick ? 'pointer' : 'inherit' }" (click)="addonRightClick($event)">
+        <fa-icon class="input-group-text" *ngIf="to.addonRight.icon" [icon]="to.addonRight.icon"></fa-icon>
+        <span *ngIf="to.addonRight.text" class="input-group-text">{{ to.addonRight.text }}</span>
+    </div>
+</div>

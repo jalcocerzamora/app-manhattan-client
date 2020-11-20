@@ -1,0 +1,292 @@
+$backgroundImage: "https://source.unsplash.com/-1GEAA8q3wk/1200x600";
+
+/* Small (sm) */
+// @media (min-width: 640px) { /* ... */ }
+
+/* Medium (md) */
+// @media (min-width: 768px) { /* ... */ }
+
+/* Large (lg) */
+// @media (min-width: 1024px) { /* ... */ }
+
+/* Extra Large (xl) */
+// @media (min-width: 1280px) { /* ... */ }
+
+:host {
+  --modal-margins-xs: {
+    @apply my-5 mx-20;
+  }
+  --navbar-height-xs: {
+    @apply h-8;
+  }
+  --overlay-margins-xs: {
+    @apply my-5 mx-20;
+  }
+  --content-margins-xs: {
+    @apply my-5 mx-16;
+  }
+
+  --modal-margins-lg: {
+    @apply my-10 mx-32;
+  }
+  --navbar-height-lg: {
+    @apply h-10;
+  }
+  --overlay-margins-lg: {
+    @apply my-10 mx-32;
+  }
+  --content-margins-lg: {
+    @apply my-10 mx-24;
+  }
+}
+
+.main-placing-your-order {
+  // w-full max-h-screen flex align-middle
+  @apply h-screen;
+  background-image: linear-gradient(
+      90deg,
+      rgba(0, 0, 0, 0.8) 65%,
+      rgba(0, 0, 0, 0.8) 100%
+    ),
+    url($backgroundImage);
+  @apply bg-no-repeat;
+  @apply bg-cover;
+  @apply bg-center;
+  @apply w-full;
+  @apply max-h-screen;
+  @apply flex;
+  @apply align-middle;
+
+  .progress-bar {
+    padding: 0.01em 16px;
+    height: 24px;
+    width: 100%;
+  }
+
+  .progress-bg-out,
+  .w3-hover-green:hover {
+    color: #fff !important;
+    background-color: #4caf50 !important;
+    border-radius: 35px;
+  }
+
+  .progress-bg-in,
+  .w3-hover-light-grey:hover,
+  .progress-bg-in,
+  .w3-hover-light-gray:hover {
+    color: #000 !important;
+    background-color: #f1f1f1 !important;
+    border-radius: 35px;
+  }
+
+  .modal {
+    // fixed top-0 bottom-0 left-0 right-0 my-5 mx-20 rounded-lg
+    @apply fixed;
+    @apply top-0;
+    @apply bottom-0;
+    @apply left-0;
+    @apply right-0;
+    @apply my-5 mx-20; // --modal-margins-xs;
+    @apply rounded-lg;
+
+    @media (min-width: 1024px) {
+      @apply my-10 mx-32; // --modal-margins-lg;
+    }
+
+    .modal-dialog {
+      // absolute top-0 bottom-0 left-0 right-0 w-full
+      @apply absolute;
+      @apply top-0;
+      @apply bottom-0;
+      @apply left-0;
+      @apply right-0;
+      @apply w-full;
+
+      .modal-content {
+        // absolute top-0 bottom-0 left-0 right-0 w-full rounded-lg
+        @apply absolute;
+        @apply top-0;
+        @apply bottom-0;
+        @apply left-0;
+        @apply right-0;
+        @apply w-full;
+        @apply rounded-lg;
+
+        .modal-header {
+          // bg-white absolute top-0 bottom-0 left-0 right-0 w-full h-8 rounded-t-md z-10
+          @apply bg-white;
+          @apply absolute;
+          @apply top-0;
+          @apply bottom-0;
+          @apply left-0;
+          @apply right-0;
+          @apply w-full;
+          @apply h-8; // --navbar-height-xs;
+          @apply rounded-t;
+          @apply z-10;
+
+          @media (min-width: 1024px) {
+            @apply h-10; // --navbar-height-lg;
+          }
+
+          & .modal-header-transparent {
+            @apply bg-opacity-80;
+          }
+
+          & > .nabvar {
+            @apply h-full;
+            @apply flex;
+            @apply flex-row;
+            @apply items-center;
+            @apply justify-between;
+            @apply shadow-md;
+          }
+        }
+
+        .modal-body {
+          // bg-white absolute top-0 bottom-0 left-0 right-0 w-full rounded-lg border-none
+          @apply bg-white;
+          @apply absolute;
+          @apply top-0;
+          @apply bottom-0;
+          @apply left-0;
+          @apply right-0;
+          @apply w-full;
+          @apply h-90vh;
+          @apply rounded-lg;
+          @apply border-none;
+
+          .custom-content {
+            // fixed top-0 bottom-0 left-0 right-0 rounded-t-lg my-5 mx-16
+            @apply fixed;
+            @apply top-0;
+            @apply bottom-0;
+            @apply left-0;
+            @apply right-0;
+            @apply rounded-t-lg;
+            @apply my-5 mx-16; // --content-margins-xs;
+
+            @media (min-width: 1024px) {
+              @apply my-10 mx-24; // --content-margins-lg;
+            }
+          }
+
+          .modal-body-inner {
+            // absolute top-0 bottom-0 left-0 right-0 w-full mx-auto px-10 overflow-y-auto scroll-proximity scroll-padding
+            @apply overflow-y-auto;
+            @apply overscroll-y-contain;
+            @apply absolute;
+            @apply top-0;
+            @apply bottom-0;
+            @apply left-0;
+            @apply right-0;
+            @apply w-full;
+            @apply h-90vh;
+            @apply mx-auto;
+            @apply px-10;
+
+            scroll-snap-type: y proximity;
+            scroll-padding: 2rem;
+
+            &.scroll-mandatory {
+              scroll-snap-type: y mandatory;
+            }
+
+            &::-webkit-scrollbar {
+              width: 5px;
+              height: 5px;
+              overflow-y: auto;
+            }
+
+            &::-webkit-scrollbar-button {
+              width: 0;
+              height: 1rem;
+              // display: none;
+              // background-color: black;
+            }
+
+            &::-webkit-scrollbar-corner {
+              background-color: transparent;
+            }
+
+            &::-webkit-scrollbar-thumb {
+              background-color: rgba(255, 255, 255, 0.5);
+              border-radius: 9999px;
+
+              :hover {
+                // background: #b3b3b3;
+                background: #555;
+                box-shadow: 0 0 2px 1px rgba(0, 0, 0, 0.1);
+              }
+
+              :active {
+                background-color: #999999;
+              }
+            }
+
+            &::-webkit-scrollbar-track {
+              // border: 1px solid rgb(255 255 255 / 0.3);
+              border-radius: 9999px;
+              background: rgba(0, 0, 0, 0.2);
+
+              :hover,
+              :active {
+                background: #d4d4d4;
+              }
+            }
+
+            .modal-overlay {
+              // bg-white bg-opacity-75 fixed top-0 bottom-0 left-0 right-0 my-5 mx-20 z-10
+              @apply bg-white;
+              @apply bg-opacity-75;
+              @apply fixed;
+              width: calc(81vw - 5px); // 80.5vw
+              height: calc(90vh - 2rem); // apply h-90vh;
+              @apply mt-8; // --navbar-height-xs
+              @apply -ml-6;
+              @apply rounded;
+              @apply z-10;
+
+              @media (min-width: 1024px) {
+                @apply my-10 mx-32; // --overlay-margins-lg;
+              }
+            }
+
+            .custom-content-body {
+              @apply absolute;
+              @apply top-0;
+              @apply left-0;
+              @apply right-0;
+              @apply text-xs;
+              padding: 0 calc(1rem - 5px) 0 calc(1rem);
+
+              @media (min-width: 1024px) {
+                padding: 0 calc(2rem - 5px) 0 calc(2rem);
+              }
+            }
+
+            &.overflow-y-hidden {
+              @apply overflow-y-hidden;
+
+              .custom-content-body {
+                padding: 0 calc(1rem) 0 calc(1rem);
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+// <svg id="svgelem" width="300" height="200" xmlns="http://www.w3.org/2000/svg">
+//     <rect x="50" y="20" rx="30" ry="30" width="150" height="150"
+//       style="fill:blue;/">
+// </svg>
+
+// [class*='overflow-y'] {
+// clip-path: circle(65% at 50% 50%);
+// clip-path: inset(0% 0% 0% 0% round 10px);
+// clip-path: polygon(6% 0, 94% 0%, 100% 6%, 100% 94%, 94% 100%, 6% 100%, 0 88%, 0 10%);
+// clip-path: url(#svgPath);
+// }

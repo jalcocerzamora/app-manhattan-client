@@ -1,0 +1,64 @@
+{
+  "NAVBAR": {
+    "txtHome": "Inicio",
+    "txtContact": "Contáctanos"
+  },
+
+  "HOME" : {
+    "txtCompanyName": "RESTAURANTE MANHATTAN",
+    "txtCompanySlogan": "Susshi & Burger",
+    "btnSeeMenu": "Ver MENU",
+
+    "welcome-w-name": "Welcome {{value}}"
+  },
+
+  "ADDTOCART" : {
+    "btnSubmit": "Añadir al carrito",
+    "txtInstructions": "Instrucciones",
+    "txtQuantity": "Cantidad"
+  },
+
+  "SHOPCART": {
+    "STEPS": {
+      "txtStep1": "Contacto",
+      "txtStep2": "Dirección de Entrega",
+      "txtStep3": "Hora de Entrega",
+      "txtStep4": "Métodos de Pago"
+    },
+    "FORMS": {
+      "btnSave": "Guardar",
+      "Step1": {
+        "lblFisrtName": "Nombre",
+        "lblLastName": "Apellidos",
+        "lblCellPhone": "Celular",
+        "lblEmail": "Correo electrónico",
+        "lblCountry": "País"
+      },
+      "Step2": {
+      },
+      "Step3": {
+        "txtDate": "Fecha",
+        "txtSchedule": "Horario",
+        "txtNow": "Ahora"
+      },
+      "Step4": {
+      }
+    },
+    "FOOTER": {
+      "txtLegend": "Al realizar este pedido, usted acepta y acepta expresamente los términos del restaurante y el CLUF del proveedor del sistema de pedidos, incluidos los términos del procesamiento de datos.",
+      "btnOrderNow": "Hacer pedido"
+    }
+  },
+
+  "PLACINGYOURORDER": {
+    "txtHeaderTitle": "Haciendo su pedido"
+  },
+
+  "FORM": {
+    "VALIDATION": {
+      "REQUIRED": "Este campo es obligatorio",
+      "EMAIL": "'{{value}}' no es valido.",
+      "TEL": "'{{value}}' no es valido."
+    }
+  }
+}
