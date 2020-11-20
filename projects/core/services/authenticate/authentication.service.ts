@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Location } from '@angular/common';
-import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
-import { BehaviorSubject, Observable, throwError } from 'rxjs';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { BehaviorSubject, Observable, throwError, of } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
-import 'rxjs/add/observable/of';
 
 import { environment } from 'projects/environments/environment';
 import { Login } from 'projects/core/models/db/index';
@@ -49,7 +48,7 @@ export class AuthenticationService {
         observer.complete();
       });
 
-      const obs2 = Observable.of(this.currentLoginValue);
+      const obs2 = of(this.currentLoginValue);
 
       return obs2;
     }
