@@ -1,0 +1,66 @@
+{
+  "NAVBAR": {
+    "txtHome": "Home",
+    "txtContact": "Contact"
+  },
+
+  "HOME": {
+    "txtCompanyName": "RESTAURANT MANHATTAN",
+    "txtCompanySlogan": "Susshi & Burger",
+    "btnSeeMenu": "See MENU"
+  },
+
+  "ADDTOCART" : {
+    "btnSubmit": "add to cart",
+    "txtInstructions": "Instrucciones",
+    "txtQuantity": "Quantity"
+  },
+
+  "SHOPCART": {
+    "STEPS": {
+      "txtStep1": "Contact",
+      "txtStep2": "Ordering Method",
+      "txtStep3": "Choose a Time",
+      "txtStep4": "Payment Method"
+    },
+    "FORMS": {
+      "btnSave": "Save",
+      "Step1": {
+        "lblFisrtName": "Fisrtname",
+        "lblLastName": "Lastname",
+        "lblCellPhone": "Cellphone",
+        "lblEmail": "Email",
+        "lblCountry": "Country"
+      },
+      "Step2": {
+      },
+      "Step3": {
+        "txtDate": "Date",
+        "txtSchedule": "Schedule",
+        "txtNow": "Now"
+      },
+      "Step4": {
+      }
+    },
+    "FOOTER": {
+      "txtLegend": "By placing this order you expressly agree and accept the restaurant terms & ordering system provider EULA including data processing terms.",
+      "btnOrderNow": "Place Delivery Order Now"
+    }
+  },
+
+  "PLACINGYOURORDER": {
+    "txtHeaderTitle": "Placing Your Order"
+  },
+
+  "GENERAL": {
+    
+  },
+
+  "FORM": {
+    "VALIDATION": {
+      "REQUIRED": "This field is required.",
+      "EMAIL": "'{{value}}' is not a valid.",
+      "TEL": "'{{value}}' is not a valid."
+    }
+  }
+}
