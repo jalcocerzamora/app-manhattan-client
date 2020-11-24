@@ -18,8 +18,8 @@ const API_URL: string = environment.BACKEND_ENDPOINT;
 })
 export class AuthenticationService {
   permissions: Array<string>; // Store the actions for which this user has permission
-  private currentLoginSubject: BehaviorSubject<Login>;
-  public currentLogin: Observable<Login>;
+  private currentLoginSubject: BehaviorSubject<Login> = new BehaviorSubject<Login>(null);
+  public currentLogin: Observable<Login> = this.currentLoginSubject.asObservable();
 
   constructor(
     private http: HttpClient,
@@ -29,15 +29,24 @@ export class AuthenticationService {
     // private authorizationDataService: AuthorizationDataService
   ) {
     const usr = localStorage.getItem('Token') || localStorage.getItem('currentLogin');
+    console.log('AuthenticationService.constructor');
+    // if (usr === null) {
+    //   this.login(environment.BACKEND_USERNAME, environment.BACKEND_PASSWORD);
+        // .do(res => this.setSession);
+        // .shareReplay();
+    // }
     this.currentLoginSubject = new BehaviorSubject<Login>(JSON.parse(usr));
     this.currentLogin = this.currentLoginSubject.asObservable();
   }
 
   public get currentLoginValue(): Login {
+    console.log('AuthenticationService.currentLoginValue');
     return this.currentLoginSubject.value;
   }
 
   login(username: string, password: string) {
+    console.log('AuthenticationService.login');
+
     const options = {}; // { headers: new HttpHeaders( { 'Content-Type': 'application/json', Origin: window.location.origin } ) };
     const URL = API_URL.concat('authenticate');
 
@@ -54,33 +63,43 @@ export class AuthenticationService {
     }
 
     return this.http.post<Login>(API_URL.concat('authenticate'), { username, password }, options)
-      .pipe(
-        map(login => {
-          // login successful if there's a jwt token in the response
-          if (login && login.Token && login.Role) {
-            // store USER details and jwt token in local storage to keep USER logged in between page refreshes
-            localStorage.setItem('currentLogin', JSON.stringify(login));
-            this.currentLoginSubject.next(login);
-          } else {
-            delete login.Username;
-            localStorage.setItem('Token', JSON.stringify(login));
-            this.currentLoginSubject.next(login);
-          }
-
-          return login;
-        }),
-        catchError(this.handleError1),
-        catchError(this.handleError2)
-      );
+      .do(req => this.setSession(req), catchError(this.handleError1));
+      // .pipe(
+      //   map(res => this.setSession),
+      //   catchError(this.handleError1),
+      //   catchError(this.handleError2)
+      // );
   }
 
   logout() {
+    console.log('AuthenticationService.logout');
+
     // remove USER from local storage to log USER out
     localStorage.removeItem('currentLogin');
     this.currentLoginSubject.next(null);
   }
 
+  private setSession(request) {
+    console.log('AuthenticationService.setSession');
+
+    // login successful if there's a jwt token in the response
+    if (request && request.Token && request.Role) {
+      // store USER details and jwt token in local storage to keep USER logged in between page refreshes
+      localStorage.setItem('currentLogin', JSON.stringify(request));
+      this.currentLoginSubject.next(request);
+    } else {
+      delete request.Username;
+      localStorage.setItem('Token', JSON.stringify(request));
+      this.currentLoginSubject.next(request);
+    }
+    // const expiresAt = moment().add(authResult.expiresIn,'second');
+
+    // localStorage.setItem('id_token', authResult.idToken);
+    // localStorage.setItem("expires_at", JSON.stringify(expiresAt.valueOf()) );
+  }
+
   private handleError1(error) {
+    console.log('AuthenticationService.handleError1');
     let errorMessage = '';
     if (error.error instanceof ErrorEvent) {
       // Get client-side error
@@ -94,6 +113,7 @@ export class AuthenticationService {
   }
 
   private handleError2(error: HttpErrorResponse): any {
+    console.log('AuthenticationService.handleError2');
     if (error.error instanceof ErrorEvent) {
       console.error('An error occurred:', error.error.message);
     } else {
