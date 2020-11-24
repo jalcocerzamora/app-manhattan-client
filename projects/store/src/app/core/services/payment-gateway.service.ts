@@ -5,7 +5,7 @@ import { StripeCardComponent, StripeService } from 'ngx-stripe';
 import { environment } from 'projects/environments/environment';
 import { BehaviorSubject, Observable, of, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { Subproduct } from '../models';
+import { Subproduct } from 'projects/core/models/db';
 import { ShopCartService } from './shopcart/shop-cart.service';
 
 @Injectable({

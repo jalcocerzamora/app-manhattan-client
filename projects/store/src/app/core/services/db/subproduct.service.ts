@@ -5,7 +5,7 @@ import { environment } from 'projects/environments/environment';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 
-import { ISubproductsWithCategory } from '../../models/subproduct';
+import { ISubproductsWithCategory } from 'projects/core/models/db';
 import { Socket } from 'ngx-socket-io';
 
 const API_ENDPOINT: string = environment.BACKEND_ENDPOINT;
