@@ -5,12 +5,16 @@ export const environment = {
   locale: 'es-MX',
   currency: 'MXN',
 
-  PATH_ASSETS_IMAGES_MENU_LOGO: 'assets/images/logo.png',
-  PATH_ASSETS_IMAGES_MENU: 'assets/images/menu/',
+  PATH_ASSETS_IMAGES_MENU_LOGO: '/assets/images/logo-min.png',
+  PATH_ASSETS_IMAGES_MENU: '/assets/images/menu/',
 
-  SOCKET_ENDPOINT: 'https://localhost:3456/',
-  BACKEND_ENDPOINT: 'https://localhost:3456/api/',
+  SOCKET_ENDPOINT: 'https://app-manhattan-api.herokuapp.com:3456/',
+  BACKEND_ENDPOINT: 'https://app-manhattan-api.herokuapp.com/api/',
 
   BACKEND_USERNAME: 'manhattan',
   BACKEND_PASSWORD: 'manhattan-prod',
+
+  MAPBOX: {
+    ACCESS_TOKEN: 'pk.eyJ1IjoiamFsY29jZXJ6IiwiYSI6ImNrZnhqcWZsbzAwMnEycnBqOHRoYzMyOG0ifQ._n_2a1STgpk1kDVdRPJxgw'
+  }
 };
