@@ -4,7 +4,7 @@ import '@angular/common/locales/fr-CA';
 
 import { environment } from 'projects/environments/environment';
 
-import { Product, Subproduct, Category, ISubproduct, ICategory } from '../../core/models';
+import { Product, Subproduct, Category, ISubproduct, ICategory } from 'projects/core/models/db';
 
 import { detectOverflow, createPopper, Placement, OptionsGeneric, State } from '@popperjs/core';
 

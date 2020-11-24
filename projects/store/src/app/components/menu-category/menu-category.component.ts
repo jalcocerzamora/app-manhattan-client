@@ -1,7 +1,7 @@
 import { Component, OnInit, ChangeDetectionStrategy, Input, ElementRef } from '@angular/core';
 
 import { MenuCategoryItemComponent } from '../index';
-import { ISubproductsWithCategory } from '../../core/models';
+import { ISubproductsWithCategory } from 'projects/core/models/db';
 
 @Component({
   selector: 'app-menu-category',

@@ -1,7 +1,7 @@
 import { Component, OnInit, ChangeDetectionStrategy, Input, ElementRef } from '@angular/core';
 import { environment } from 'projects/environments/environment';
 
-import { ICategory, IProduct, ISubproduct, Subproduct } from '../../core/models';
+import { ICategory, IProduct, ISubproduct, Subproduct } from 'projects/core/models/db';
 
 @Component({
   selector: 'app-menu-category-item',
