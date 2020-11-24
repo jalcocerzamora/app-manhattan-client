@@ -19,42 +19,39 @@ const routes: Routes = [
   {
     path: 'menu', component: MenuComponent,
     canActivate: [AuthGuard],
-    // children: [
-    //   {
-    //     path: '',
-    //     children: [
-    //       {
-    //         path: 'searchresults',
-    //         component: SearchResultsComponent,
-    //         canActivate: [AuthGuard],
-    //         data: { auth: 'VIEW_ONLY' },
-    //         resolve: { searchResults: SearchResultsResolver }
-    //       },
-    //     ]
-    //   }
-    // data: {
-    //   title: 'Menu'
-    // }
+    data: {
+      title: 'Restaurante Manhattan | Menú',
+      meta: '',
+      auth: 'VIEW_ONLY',
+      expectedRole: 'admin'
+    }
   },
   {
     path: 'shopcart', component: ShopcartComponent,
-    canActivate: [AuthGuard],
+    // canActivate: [AuthGuard],
+    data: {
+      title: 'Restaurante Manhattan | ShopCart',
+      meta: '',
+      auth: 'VIEW_ONLY',
+      expectedRole: 'admin'
+    }
   },
   {
     path: 'placing-your-order', component: PlacingYourOrderComponent,
     canActivate: [AuthGuard],
+    data: {
+      title: 'Restaurante Manhattan | Placing Your Order',
+      meta: '',
+      auth: 'VIEW_ONLY',
+      expectedRole: 'admin'
+    }
   },
-  // {
-  //   path: 'shopcart', component: ShopCartComponent,
-  //   data: {
-  //     title: 'ShopCart'
-  //   }
-  // },
   { path: '**', component: NotFoundComponent }
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
+  // providers: [AuthGuard, UserToken, Permissions]
 })
 export class AppRoutingModule { }

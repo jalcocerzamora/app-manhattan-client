@@ -1,6 +1,6 @@
 import { DEFAULT_CURRENCY_CODE, LOCALE_ID, NgModule } from '@angular/core';
 import { PlatformLocation } from '@angular/common';
-import { BrowserModule } from '@angular/platform-browser';
+import { BrowserModule, Title } from '@angular/platform-browser';
 import { HttpClient, HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
@@ -14,23 +14,7 @@ import { environment } from 'projects/environments/environment';
 
 // Translation
 import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
-import { TranslateHttpLoader } from '@ngx-translate/http-loader';
-function trimLastSlashFromUrl(baseUrl: string) {
-  if (baseUrl === undefined && baseUrl === null) {
-    return null;
-  } else if (baseUrl[baseUrl.length - 1] === '/') {
-    const trimmedUrl = baseUrl.substring(0, baseUrl.length - 1);
-    return trimmedUrl;
-  }
-}
-
-// AoT requires an exported function for factories
-export function HttpLoaderFactory(httpClient: HttpClient, s: PlatformLocation) {
-  const baseHref = trimLastSlashFromUrl(s.getBaseHrefFromDOM());
-  return new TranslateHttpLoader(httpClient, baseHref.concat('assets/i18n/'), '.json');
-}
-
-import { registerTranslateExtension } from 'projects/core/helpers/translate.extension';
+import { HttpLoaderFactory, registerTranslateExtension } from 'projects/core/helpers/translate.extension';
 
 // import { ServiceWorkerModule } from '@angular/service-worker';
 
@@ -39,7 +23,7 @@ import { AppComponent } from './app.component';
 import { PagesModule } from './pages/pages.module';
 import { ComponentsModule } from './components/components.module';
 
-import { FieldType, FormlyModule, FORMLY_CONFIG, } from '@ngx-formly/core';
+import { FORMLY_CONFIG, } from '@ngx-formly/core';
 import { FormlyConfig } from './directives/formly/formly.config';
 
 // Locales
@@ -80,13 +64,14 @@ import { SocketIoModule } from 'ngx-socket-io';
     TranslateModule.forRoot({ defaultLanguage: environment.language, loader: { provide: TranslateLoader, useFactory: HttpLoaderFactory, deps: [HttpClient, PlatformLocation] } }),
   ],
   providers: [
+    Title,
     AuthenticationService,
 
     { provide: LOCALE_ID, useValue: environment.locale },
     { provide: DEFAULT_CURRENCY_CODE, useValue: environment.currency },
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
-    { provide: HTTP_INTERCEPTORS, useClass: CacheInterceptor, multi: true },
+    // { provide: HTTP_INTERCEPTORS, useClass: CacheInterceptor, multi: true },
     { provide: FORMLY_CONFIG, multi: true, useFactory: registerTranslateExtension, deps: [TranslateService] },
     // { provide: APP_BASE_HREF, useFactory: (s: PlatformLocation) => trimLastSlashFromUrl(s.getBaseHrefFromDOM()), deps: [PlatformLocation] // }
   ],
