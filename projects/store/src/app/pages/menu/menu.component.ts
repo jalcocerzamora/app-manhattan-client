@@ -1,15 +1,15 @@
 import { Component, OnInit, ElementRef, Renderer2, ViewChild, AfterViewInit } from '@angular/core';
+import { Observable } from 'rxjs';
 
 import {
   Category, Product, Subproduct,
   ICategory, IProduct, ISubproduct, ISubproductsWithCategory
-} from './../../core/models/index';
+} from 'projects/core/models/db';
 
-import { ScriptService } from '../../core/services/script.service';
-import { SubproductService } from './../../core/services/db/subproduct.service';
-import { Observable } from 'rxjs';
-import { ShopCartService } from '../../core/services/shopcart/shop-cart.service';
-import { IShopCartItem } from '../../core/models/shop-cart-item';
+import { ScriptService } from 'projects/store/src/app/core/services/script.service';
+import { SubproductService } from 'projects/store/src/app/core/services/db/subproduct.service';
+import { ShopCartService } from 'projects/store/src/app/core/services/shopcart/shop-cart.service';
+import { IShopCartItem } from 'projects/core/models/shopcart';
 
 declare let fontAwesome: any;
 

@@ -1,12 +1,12 @@
 import { Component, OnInit, ChangeDetectionStrategy, ViewChild, ElementRef, Renderer2, AfterViewInit } from '@angular/core';
-import { ISubproductsWithCategory, Subproduct } from '../../core/models';
+import { ISubproductsWithCategory, Subproduct } from 'projects/core/models/db';
 import { Observable } from 'rxjs';
 
 import { ScriptService } from '../../core/services/script.service';
 import { SubproductService } from '../../core/services/db/subproduct.service';
 import { ShopCartService } from '../../core/services/shopcart/shop-cart.service';
 
-import { DeliveryTime, ShopCart } from '../../core/models/shop-cart';
+import { DeliveryTime, ShopCart } from 'projects/core/models/shopcart';
 import { PaymentGatewayService } from '../../core/services/payment-gateway.service';
 import { StripeCardComponent } from 'ngx-stripe';
 

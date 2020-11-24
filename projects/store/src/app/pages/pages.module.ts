@@ -27,6 +27,7 @@ import { ShopcartComponent } from './shopcart/shopcart.component';
 import { DirectivesModule } from '../directives/directives.module';
 import { PipesModule } from '../pipes/pipes.module';
 import { PlacingYourOrderComponent } from './placing-your-order/placing-your-order.component';
+import { Title } from '@angular/platform-browser';
 
 @NgModule({
   declarations: [
@@ -57,6 +58,7 @@ import { PlacingYourOrderComponent } from './placing-your-order/placing-your-ord
     PlacingYourOrderComponent
   ],
   providers: [
+    Title,
     { provide: LOCALE_ID, useValue: environment.locale },
     { provide: FORMLY_CONFIG, multi: true, useFactory: registerTranslateExtension, deps: [TranslateService] },
   ],
