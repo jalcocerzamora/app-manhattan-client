@@ -56,6 +56,6 @@ function trimLastSlashFromUrl(baseUrl: string) {
 export function HttpLoaderFactory(httpClient: HttpClient, s: PlatformLocation) {
   const baseHref = trimLastSlashFromUrl(s.getBaseHrefFromDOM());
   const prefix = baseHref.concat('/assets/i18n/');
-  console.log('HttpLoaderFactory.', baseHref, prefix);
+  // console.log('HttpLoaderFactory.', baseHref, prefix);
   return new TranslateHttpLoader(httpClient, prefix, '.json');
 }

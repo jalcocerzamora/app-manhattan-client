@@ -24,17 +24,17 @@ export class AuthGuard implements CanActivate {
     private authenticationService: AuthenticationService,
     protected authorizationService: AuthorizationService
   ) {
-    console.log('AuthGuard.constructor');
+    // console.log('AuthGuard.constructor');
   }
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-    console.log('AuthGuard.canActivate');
+    // console.log('AuthGuard.canActivate');
 
     // return this.permissions.canActivate(this.currentUser, route.params.id);
     // return this.hasRequiredPermission(this.currentUser, route.params.id);
 
     const currentLogin = this.authenticationService.currentLoginValue;
-    console.log(currentLogin);
+    // console.log(currentLogin);
     if (currentLogin) {
       // check if route is restricted by role
       if (route.data.roles && route.data.roles.indexOf(currentLogin.Role) === -1) {
@@ -47,17 +47,13 @@ export class AuthGuard implements CanActivate {
       return true;
     }
 
-    if (this.CurrentLogin) {
-
-    }
-
     // not logged in so redirect to login page with the return url
     this.router.navigate(['/'], { queryParams: { returnUrl: state.url } });
     return false;
   }
 
   protected hasRequiredPermission(authGroup: AuthGroup): Promise<boolean> | boolean {
-    console.log('canActivate.hasRequiredPermission');
+    // console.log('canActivate.hasRequiredPermission');
 
     // If user’s permissions already retrieved from the API
     if (this.authorizationService.permissions) {

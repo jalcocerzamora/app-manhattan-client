@@ -8,12 +8,12 @@ import { AuthenticationService } from 'projects/core/services/authenticate/authe
 @Injectable()
 export class ErrorInterceptor implements HttpInterceptor {
     constructor(private authenticationService: AuthenticationService) {
-        console.log('ErrorInterceptor.constructor');
+        // console.log('ErrorInterceptor.constructor');
     }
 
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-        console.log('ErrorInterceptor.intercept');
-        console.log(request);
+        // console.log('ErrorInterceptor.intercept');
+        // console.log(request);
 
         return next.handle(request).pipe(catchError(err => {
             if ([401, 403].indexOf(err.status) !== -1) {

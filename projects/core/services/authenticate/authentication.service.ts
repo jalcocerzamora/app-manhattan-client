@@ -4,6 +4,8 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { BehaviorSubject, Observable, throwError, of } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
 
+import { AES } from 'crypto-js';
+
 import { environment } from 'projects/environments/environment';
 import { Login } from 'projects/core/models/db/index';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -26,10 +28,9 @@ export class AuthenticationService {
     private router: Router,
     private route: ActivatedRoute,
     private location: Location,
-    // private authorizationDataService: AuthorizationDataService
   ) {
     const usr = localStorage.getItem('Token') || localStorage.getItem('currentLogin');
-    console.log('AuthenticationService.constructor');
+    // console.log('AuthenticationService.constructor');
     // if (usr === null) {
     //   this.login(environment.BACKEND_USERNAME, environment.BACKEND_PASSWORD);
         // .do(res => this.setSession);
@@ -40,12 +41,11 @@ export class AuthenticationService {
   }
 
   public get currentLoginValue(): Login {
-    console.log('AuthenticationService.currentLoginValue');
     return this.currentLoginSubject.value;
   }
 
   login(username: string, password: string) {
-    console.log('AuthenticationService.login');
+    // console.log('AuthenticationService.login');
 
     const options = {}; // { headers: new HttpHeaders( { 'Content-Type': 'application/json', Origin: window.location.origin } ) };
     const URL = API_URL.concat('authenticate');
@@ -61,6 +61,8 @@ export class AuthenticationService {
 
       return obs2;
     }
+
+    password = AES.encrypt(environment.BACKEND_PASSWORD, environment.PRIVATE_CRYPTO).toString();
 
     return this.http.post<Login>(API_URL.concat('authenticate'), { username, password }, options)
       .do(req => this.setSession(req), catchError(this.handleError1));
@@ -80,7 +82,7 @@ export class AuthenticationService {
   }
 
   private setSession(request) {
-    console.log('AuthenticationService.setSession');
+    // console.log('AuthenticationService.setSession');
 
     // login successful if there's a jwt token in the response
     if (request && request.Token && request.Role) {
