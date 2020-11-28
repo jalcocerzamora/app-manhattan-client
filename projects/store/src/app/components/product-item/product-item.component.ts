@@ -9,6 +9,7 @@ import { Product, Subproduct, Category, ISubproduct, ICategory } from 'projects/
 import { detectOverflow, createPopper, Placement, OptionsGeneric, State } from '@popperjs/core';
 
 import { ProductPopperComponent } from 'projects/store/src/app/components/product-popper/product-popper.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-product-item',
@@ -69,7 +70,9 @@ export class ProductItemComponent implements OnInit, AfterViewInit {
 
   get productImage(): string {
     const product = (this.Product.image === null || this.Product.image === undefined ? '' : this.Product.image.trim());
-    return (product ? environment.PATH_ASSETS_IMAGES_MENU.concat(product) : environment.PATH_ASSETS_IMAGES_MENU_LOGO);
+    const host = window.location;
+    const url = host.href.includes('app-manhattan-client') ? host.href.concat(environment.PATH_ASSETS_IMAGES_MENU) : host.origin.concat(environment.PATH_ASSETS_IMAGES_MENU);
+    return (product ? url.concat(product) : environment.PATH_ASSETS_IMAGES_MENU_LOGO);
   }
 
   get productAlt(): string {
@@ -79,6 +82,7 @@ export class ProductItemComponent implements OnInit, AfterViewInit {
   constructor(
     @Inject(LOCALE_ID) public locale: string,
     @Inject(DEFAULT_CURRENCY_CODE) public currencyCode: string,
+    private router: Router,
     private resolver: ComponentFactoryResolver,
     private readonly el: ElementRef<HTMLDivElement>,
     private readonly renderer: Renderer2
@@ -195,5 +199,4 @@ export class ProductItemComponent implements OnInit, AfterViewInit {
     this.renderer.addClass($boundary, 'hidden');
     this.destroyPopper();
   }
-
 }
