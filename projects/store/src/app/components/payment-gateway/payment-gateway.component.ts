@@ -1,5 +1,5 @@
 import { Component, OnInit, ChangeDetectionStrategy, OnDestroy, Output, EventEmitter, ViewChild, ElementRef } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { FormGroup, Validators } from '@angular/forms';
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, Subscription, throwError } from 'rxjs';
@@ -21,6 +21,9 @@ import {
 } from 'projects/core/models/shopcart';
 import { DatePipe } from '@angular/common';
 import { element } from 'protractor';
+
+import { ValidationService } from '../../directives/formly/validation/validation.service';
+
 import { PaymentGatewayService } from '../../core/services/payment-gateway.service';
 import { StripeService, StripeCardComponent } from 'ngx-stripe';
 import { StripeCardElementChangeEvent, StripeCardElementOptions, StripeElementsOptions } from '@stripe/stripe-js';
@@ -185,6 +188,9 @@ export class PaymentGatewayComponent implements OnInit, OnDestroy {
             key: 'Email', type: 'email', defaultValue: 'jalcocerzamora@gmail.com', className: 'flex-grow lg:flex-grow mb-5',
             templateOptions: { placeholder: 'SHOPCART.FORMS.Step1.lblEmail', inputClass: 'form-control-sm', addonLeft: { icon: 'envelope', }, required: true, translate: true, },
             validation: { show: true, messages: { pattern: (error, field: FormlyFieldConfig) => this.translate.stream('FORM.VALIDATION.EMAIL', { value: field.formControl.value }), }, },
+            validators: {
+              validation: Validators.compose([Validators.required, ValidationService.emailValidator])
+            }
           },
         ]
       },

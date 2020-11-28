@@ -8,7 +8,7 @@ import { Product, Subproduct, Category, ISubproduct, ICategory } from 'projects/
 
 import { detectOverflow, createPopper, Placement, OptionsGeneric, State } from '@popperjs/core';
 
-import { ProductPopperComponent } from './../product-popper/product-popper.component';
+import { ProductPopperComponent } from 'projects/store/src/app/components/product-popper/product-popper.component';
 
 @Component({
   selector: 'app-product-item',
@@ -36,6 +36,7 @@ import { ProductPopperComponent } from './../product-popper/product-popper.compo
     <ng-template #viewTemplatePopper></ng-template>
   `,
   styleUrls: ['./product-item.component.scss'],
+  // providers: [ ProductPopperComponent ],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ProductItemComponent implements OnInit, AfterViewInit {

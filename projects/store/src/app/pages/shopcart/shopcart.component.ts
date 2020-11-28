@@ -1,14 +1,16 @@
 import { Component, OnInit, ChangeDetectionStrategy, ViewChild, ElementRef, Renderer2, AfterViewInit } from '@angular/core';
-import { ISubproductsWithCategory, Subproduct } from 'projects/core/models/db';
 import { Observable } from 'rxjs';
 
-import { ScriptService } from '../../core/services/script.service';
-import { SubproductService } from '../../core/services/db/subproduct.service';
-import { ShopCartService } from '../../core/services/shopcart/shop-cart.service';
-
-import { DeliveryTime, ShopCart } from 'projects/core/models/shopcart';
-import { PaymentGatewayService } from '../../core/services/payment-gateway.service';
 import { StripeCardComponent } from 'ngx-stripe';
+
+import { ScriptService } from 'projects/store/src/app/core/services/script.service';
+
+import { SubproductService } from 'projects/store/src/app/core/services/db/subproduct.service';
+import { ShopCartService } from 'projects/store/src/app/core/services/shopcart/shop-cart.service';
+import { PaymentGatewayService } from 'projects/store/src/app/core/services/payment-gateway.service';
+
+import { ISubproductsWithCategory, Subproduct } from 'projects/core/models/db';
+import { DeliveryTime, ShopCart } from 'projects/core/models/shopcart';
 
 @Component({
   selector: 'app-shopcart',
@@ -31,7 +33,6 @@ export class ShopcartComponent implements OnInit, AfterViewInit {
 
   constructor(
     private el: ElementRef,
-    private rd: Renderer2,
     private scriptService: ScriptService,
     private serviceSubproducts: SubproductService,
 

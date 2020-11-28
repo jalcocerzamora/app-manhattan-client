@@ -16,6 +16,9 @@ export function dateFutureValidator(control: FormControl, field: FormlyFieldConf
     return { 'date-future': { message: `Validator options: ${JSON.stringify(options)}` } };
 }
 
+const emailRegex =  new RegExp(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
+
+
 export const FormlyConfig = {
     validationMessages: [
         { name: 'required', message: 'This field is required' },
@@ -26,7 +29,7 @@ export const FormlyConfig = {
         // { name: 'number', extends: 'input', defaultOptions: { templateOptions: { type: 'number', }, }, },
         { name: 'integer',  extends: 'input', defaultOptions: { templateOptions: { type: 'number', }, }, },
         { name: 'tel',      extends: 'input', defaultOptions: { templateOptions: { type: 'tel', pattern: '[0-9]{3}[0-9]{3}[0-9]{4}' }, }, },
-        { name: 'email',    extends: 'input', defaultOptions: { templateOptions: { type: 'email', pattern: /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/ }, }, },
+        { name: 'email',    extends: 'input', defaultOptions: { templateOptions: { type: 'email', /*pattern: "/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/"*/ }, }, },
 
         { name: 'number',   component: FormlyFieldQuantityComponent,    wrappers: ['form-field'], },
         { name: 'radio',    component: FormlyFieldRadioComponent,       wrappers: ['form-field'], },

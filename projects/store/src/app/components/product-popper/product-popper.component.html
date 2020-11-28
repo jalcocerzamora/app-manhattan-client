@@ -1,11 +1,11 @@
-<button (click)="onClose()" class="popper_close absolute top-0 right-0 -m-3 text-xs">
-    <fa-stack [class]="'pointer-events-none'">
-        <fa-icon [icon]="['fas', 'circle']" stackItemSize="2x" style="color: #faf9fa;"></fa-icon>
-        <fa-icon icon="times" [inverse]="true" [inverse]="false" stackItemSize="1x"></fa-icon>
-    </fa-stack>
-</button>
 <div class="width-popper lg:max-w-lg block font-normal leading-normal text-sm text-left no-underline break-words z-30">
     <form [formGroup]="formAddToCart" (ngSubmit)="onSubmit()" autocomplete="off" novalidate>
+        <button (click)="onClose()" class="popper_close absolute top-0 w-8 h-8 text-xs">
+            <fa-stack [class]="'pointer-events-none'">
+                <fa-icon [icon]="['fas', 'circle']" stackItemSize="2x" style="color: #faf9fa;"></fa-icon>
+                <fa-icon icon="times" [inverse]="false" stackItemSize="1x"></fa-icon>
+            </fa-stack>
+        </button>
         <div class="popper_body mt-2 lg:mt-4">
             <div class="text-gray-500 overflow-x-hidden overflow-y-auto overscroll-contain mx-3 lg:mx-5 mb-3">
                 <div class="w-full flex flex-col">

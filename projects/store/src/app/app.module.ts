@@ -38,6 +38,7 @@ import '@angular/common/locales/global/en';
 
 import { JwtInterceptor, ErrorInterceptor, CacheInterceptor } from 'projects/core/helpers';
 import { AuthenticationService } from 'projects/core/services/authenticate/authentication.service';
+import { RequestCacheService } from 'projects/core/services/requestCache.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DirectivesModule } from './directives/directives.module';
 import { PipesModule } from './pipes/pipes.module';
@@ -66,12 +67,12 @@ import { SocketIoModule } from 'ngx-socket-io';
   providers: [
     Title,
     AuthenticationService,
-
+    RequestCacheService,
     { provide: LOCALE_ID, useValue: environment.locale },
     { provide: DEFAULT_CURRENCY_CODE, useValue: environment.currency },
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
-    // { provide: HTTP_INTERCEPTORS, useClass: CacheInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: CacheInterceptor, multi: true },
     { provide: FORMLY_CONFIG, multi: true, useFactory: registerTranslateExtension, deps: [TranslateService] },
     // { provide: APP_BASE_HREF, useFactory: (s: PlatformLocation) => trimLastSlashFromUrl(s.getBaseHrefFromDOM()), deps: [PlatformLocation] // }
   ],

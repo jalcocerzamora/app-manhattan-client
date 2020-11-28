@@ -20,7 +20,7 @@ const routes: Routes = [
     path: 'menu', component: MenuComponent,
     canActivate: [AuthGuard],
     data: {
-      title: 'Restaurante Manhattan | Menú',
+      title: 'Menú | Restaurante Manhattan',
       meta: '',
       auth: 'VIEW_ONLY',
       expectedRole: 'admin'
@@ -30,7 +30,7 @@ const routes: Routes = [
     path: 'shopcart', component: ShopcartComponent,
     // canActivate: [AuthGuard],
     data: {
-      title: 'Restaurante Manhattan | ShopCart',
+      title: 'ShopCart | Restaurante Manhattan',
       meta: '',
       auth: 'VIEW_ONLY',
       expectedRole: 'admin'
@@ -40,7 +40,7 @@ const routes: Routes = [
     path: 'placing-your-order', component: PlacingYourOrderComponent,
     canActivate: [AuthGuard],
     data: {
-      title: 'Restaurante Manhattan | Placing Your Order',
+      title: 'Placing Your Order | Restaurante Manhattan',
       meta: '',
       auth: 'VIEW_ONLY',
       expectedRole: 'admin'

@@ -106,8 +106,16 @@ input[type="number"]::-webkit-outer-spin-button {
   right: -4px;
 }
 
+:host([data-popper-placement^="left"] .popper_close ) {
+  left: 0;
+}
+
 :host([data-popper-placement^="right"] > #arrow) {
   left: -4px;
+}
+
+:host([data-popper-placement^="right"] .popper_close ) {
+  right: 0;
 }
 
 

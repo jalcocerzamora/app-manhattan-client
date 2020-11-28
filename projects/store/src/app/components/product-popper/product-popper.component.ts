@@ -1,10 +1,10 @@
 import { Component, OnInit, Input, ViewContainerRef, Output, EventEmitter, HostListener } from '@angular/core';
 import { environment } from 'projects/environments/environment';
 
-import { FormGroup, FormControl, FormBuilder, Validators, } from '@angular/forms';
+import { FormGroup, FormBuilder, } from '@angular/forms';
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
 
-import { Subproduct, ISubproduct, Category, ICategory } from 'projects/core/models/db';
+import { Subproduct, ISubproduct, ICategory } from 'projects/core/models/db';
 import { ShopCartItem, IShopCartItem } from 'projects/core/models/shopcart';
 import { ShopCartService } from 'projects/store/src/app/core/services/shopcart/shop-cart.service';
 
@@ -47,11 +47,13 @@ export class ProductPopperComponent implements OnInit {
 
   ngOnInit(): void {
     // console.log('ProductPopperComponent.constructor', this.subproduct.id, this.subproduct.price, this.subproduct as Subproduct);
+    const foundItem = this.serviceShopCart.FoundItem(this.subproduct.id);
     const model: IShopCartItem<Subproduct> = {
       Id: this.subproduct.id,
       Price: this.subproduct.price,
       Data: this.subproduct as Subproduct,
-      Quantity: 1,
+      Quantity: foundItem.Quantity,
+      Instructions: foundItem.Instructions,
     };
     this.modelAddToCart = new ShopCartItem<Subproduct>(model as ShopCartItem<Subproduct>);
     this.fieldsAddToCart = [

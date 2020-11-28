@@ -29,6 +29,9 @@ import { PipesModule } from '../pipes/pipes.module';
 import { PlacingYourOrderComponent } from './placing-your-order/placing-your-order.component';
 import { Title } from '@angular/platform-browser';
 
+import { SubproductService } from 'projects/store/src/app/core/services/db/subproduct.service';
+import { CoreModule } from '../core/core.module';
+
 @NgModule({
   declarations: [
     // LoginComponent, RegisterComponent, VerifyEmailComponent, ForgotPasswordComponent,
@@ -46,6 +49,7 @@ import { Title } from '@angular/platform-browser';
     FontAwesomeModule,
 
     PipesModule,
+    CoreModule,
     DirectivesModule,
     ComponentsModule,
     FormlyModule.forRoot(FormlyConfig),
@@ -59,13 +63,17 @@ import { Title } from '@angular/platform-browser';
   ],
   providers: [
     Title,
+    HttpClient,
+    // SubproductService,
     { provide: LOCALE_ID, useValue: environment.locale },
     { provide: FORMLY_CONFIG, multi: true, useFactory: registerTranslateExtension, deps: [TranslateService] },
   ],
   schemas: [
     CUSTOM_ELEMENTS_SCHEMA
   ],
-  // entryComponents: [ControlErrorComponent],
+  entryComponents: [
+    // ControlErrorComponent
+  ],
 })
 export class PagesModule {
   constructor(

@@ -45,8 +45,8 @@ import { NgxStripeModule } from 'ngx-stripe';
     MenuCategoryComponent,
     MenuCategoryItemComponent,
 
-    ProductItemComponent,
     ProductPopperComponent,
+    ProductItemComponent,
 
     PaymentGatewayComponent,
   ],
@@ -70,17 +70,21 @@ import { NgxStripeModule } from 'ngx-stripe';
     MenuCategoryComponent,
     MenuCategoryItemComponent,
 
-    ProductItemComponent,
     ProductPopperComponent,
+    ProductItemComponent,
 
     PaymentGatewayComponent,
   ],
   providers: [
+    DatePipe,
+    TranslateService,
     { provide: LOCALE_ID, useValue: environment.locale },
     { provide: DEFAULT_CURRENCY_CODE, useValue: environment.currency },
     { provide: FORMLY_CONFIG, multi: true, useFactory: registerTranslateExtension, deps: [TranslateService] },
-
-    DatePipe,
+  ],
+  entryComponents: [
+    ProductPopperComponent,
+    // ControlErrorComponent
   ],
   schemas: [
     CUSTOM_ELEMENTS_SCHEMA

@@ -5,6 +5,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { Category, ICategory, Product, IProduct } from 'projects/core/models/db';
 import { IShopCart } from 'projects/core/models/shopcart';
 
+import { SubproductService } from './services/db/index';
+
 @NgModule(
   {
     declarations: [],
@@ -12,7 +14,10 @@ import { IShopCart } from 'projects/core/models/shopcart';
       CommonModule, HttpClientModule
     ],
     exports: [
-
+      // SubproductService,
+    ],
+    providers: [
+      SubproductService
     ]
   }
 )

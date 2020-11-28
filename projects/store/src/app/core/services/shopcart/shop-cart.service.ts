@@ -86,8 +86,16 @@ export class ShopCartService<T> {
     }
   }
 
-  public SetItemKey(indexItem: number, keyItem: string) {
-    // this.ShopCart.Items[indexItem].Data.Key = keyItem;
+  public FoundItem(idItem: number) {
+    let result: ShopCartItem<T> = new ShopCartItem<T>();
+    if (this.GetAny) {
+      const found = this.GetItems.find(i => i.Id === idItem);
+      if (found) {
+        result = found;
+      }
+    }
+
+    return result;
   }
 
   public Clear(): void {
