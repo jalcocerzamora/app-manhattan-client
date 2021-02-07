@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Location } from '@angular/common';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { BehaviorSubject, Observable, throwError, of } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
 
-import { AES } from 'crypto-js';
+import * as crypto from 'crypto-js';
 
 import { environment } from 'projects/environments/environment';
 import { Login } from 'projects/core/models/db/index';
@@ -29,13 +29,7 @@ export class AuthenticationService {
     private route: ActivatedRoute,
     private location: Location,
   ) {
-    const usr = localStorage.getItem('Token') || localStorage.getItem('currentLogin');
-    // console.log('AuthenticationService.constructor');
-    // if (usr === null) {
-    //   this.login(environment.BACKEND_USERNAME, environment.BACKEND_PASSWORD);
-        // .do(res => this.setSession);
-        // .shareReplay();
-    // }
+    const usr = localStorage.getItem('Token') || localStorage.getItem('currentLogin') || environment.TOKEN_API;
     this.currentLoginSubject = new BehaviorSubject<Login>(JSON.parse(usr));
     this.currentLogin = this.currentLoginSubject.asObservable();
   }
@@ -47,7 +41,7 @@ export class AuthenticationService {
   login(username: string, password: string) {
     // console.log('AuthenticationService.login');
 
-    const options = {}; // { headers: new HttpHeaders( { 'Content-Type': 'application/json', Origin: window.location.origin } ) };
+    const options = { headers: new HttpHeaders( { 'Content-Type': 'application/json', /*Origin: window.location.origin*/ } ) };
     const URL = API_URL.concat('authenticate');
 
     if (this.currentLoginValue) {
@@ -61,20 +55,20 @@ export class AuthenticationService {
 
       return obs2;
     }
-
-    password = AES.encrypt(environment.BACKEND_PASSWORD, environment.PRIVATE_CRYPTO).toString();
+    const confirmPassword = this.router.url.includes('login') ? password : environment.BACKEND_PASSWORD;
+    password = crypto.AES.encrypt(confirmPassword, environment.PRIVATE_CRYPTO).toString();
 
     return this.http.post<Login>(API_URL.concat('authenticate'), { username, password }, options)
       .do(req => this.setSession(req), catchError(this.handleError1));
       // .pipe(
-      //   map(res => this.setSession),
+      //   map(res => this.setSession(res)),
       //   catchError(this.handleError1),
       //   catchError(this.handleError2)
       // );
   }
 
   logout() {
-    console.log('AuthenticationService.logout');
+    // console.log('AuthenticationService.logout');
 
     // remove USER from local storage to log USER out
     localStorage.removeItem('currentLogin');
@@ -82,7 +76,7 @@ export class AuthenticationService {
   }
 
   private setSession(request) {
-    // console.log('AuthenticationService.setSession');
+    // console.log('AuthenticationService.setSession', request);
 
     // login successful if there's a jwt token in the response
     if (request && request.Token && request.Role) {

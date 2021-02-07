@@ -1,7 +1,12 @@
+/**
+ * @property Admin
+ * @property Interviewer
+ * @property Interviewed
+ */
 export enum Role {
-  Undefined = 'Undefined',
-  Developer = 'Developer',
-  Admin     = 'Admin',
-  User      = 'User',
-  Client    = 'Client',
+  Undefined = 'undefined',
+  Developer = 'developer',
+  Admin     = 'admin',
+  User      = 'user',
+  Client    = 'client',
 }

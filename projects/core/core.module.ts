@@ -3,6 +3,8 @@ import { CommonModule } from '@angular/common';
 
 import { HttpClientModule } from '@angular/common/http';
 import { RequestCacheService } from './services/requestCache.service';
+import { DirectivesModule } from './directives/directives.module';
+import { AuthenticationService } from './services';
 // import { HideIfUnauthorizedDirective } from './directives/hide-if-unauthorized.directive';
 // import { DisableIfUnauthorizedDirective } from './directives/disable-if-unauthorized.directive';
 
@@ -10,11 +12,14 @@ import { RequestCacheService } from './services/requestCache.service';
   // declarations: [HideIfUnauthorizedDirective, DisableIfUnauthorizedDirective],
   imports: [
     CommonModule,
+    HttpClientModule,
 
-    HttpClientModule
+    DirectivesModule,
   ],
   providers: [
     // RequestCacheService
+    AuthenticationService,
+    RequestCacheService,
   ]
 })
 export class CoreModule { }

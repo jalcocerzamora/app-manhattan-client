@@ -13,7 +13,6 @@ export class ErrorInterceptor implements HttpInterceptor {
 
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         // console.log('ErrorInterceptor.intercept');
-        // console.log(request);
 
         return next.handle(request).pipe(catchError(err => {
             if ([401, 403].indexOf(err.status) !== -1) {

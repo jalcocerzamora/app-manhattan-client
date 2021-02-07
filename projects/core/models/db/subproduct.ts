@@ -5,7 +5,7 @@ import { isNullOrUndefined } from 'util';
 
 export interface ISubproduct {
   id?: number;
-  productId: number;
+  product_id: number;
   image: string;
   name: string;
   price: number;
@@ -24,7 +24,7 @@ export interface ISubproductsWithCategory {
 
 export class Subproduct implements ISubproduct {
   id?: number;
-  productId: number;
+  product_id: number;
   image: string;
   name: string;
   price: number;
@@ -36,9 +36,7 @@ export class Subproduct implements ISubproduct {
   product: Product;
 
   get urlImage(): string {
-    // tslint:disable-next-line: deprecation
-    const product = (isNullOrUndefined(this.image) ? '' : this.image.trim());
-    console.log(product);
+    const product = (this.image && this.image !== null && this.image !== undefined ? '' : this.image.trim());
     return (product ? `/assets/images/menu/${product}` : '/assets/images/logo.png');
   }
 }

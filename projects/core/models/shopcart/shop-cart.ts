@@ -123,11 +123,11 @@ export interface IDeliveryPaymentMethod {
   AddressCountry: string;
   Currency: string;
 
-  Brand: string;
-  CardNumber: string;
-  CardExpiry: string;
-  CardCvc: string;
-  PostalCode: number;
+  Brand?: string;
+  CardNumber?: string;
+  CardExpiry?: string;
+  CardCvc?: string;
+  PostalCode?: number;
 }
 export class DeliveryPaymentMethod implements IDeliveryPaymentMethod {
   Method: PaymentMethodEnum;

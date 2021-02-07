@@ -3,7 +3,7 @@ import { Type } from '@angular/core';
 
 export interface IProduct {
   id?: number;
-  categoryId: number;
+  category_id: number;
   image: string;
   name: string;
   description: string;
@@ -15,7 +15,7 @@ export interface IProduct {
 
 export class Product implements IProduct {
   id?: number;
-  categoryId: number;
+  category_id: number;
   image: string;
   name: string;
   description: string;

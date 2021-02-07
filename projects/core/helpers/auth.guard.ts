@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Router, CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 
+import { Projects } from 'projects/core/models/projects.enum';
+
 import { AuthenticationService } from 'projects/core/services/authenticate/authentication.service';
 import { AuthorizationService } from '../services/authorization.service';
 import { AuthGroup } from '../services/authenticate/authorization.types';
@@ -34,7 +36,6 @@ export class AuthGuard implements CanActivate {
     // return this.hasRequiredPermission(this.currentUser, route.params.id);
 
     const currentLogin = this.authenticationService.currentLoginValue;
-    // console.log(currentLogin);
     if (currentLogin) {
       // check if route is restricted by role
       if (route.data.roles && route.data.roles.indexOf(currentLogin.Role) === -1) {
@@ -48,7 +49,8 @@ export class AuthGuard implements CanActivate {
     }
 
     // not logged in so redirect to login page with the return url
-    this.router.navigate(['/'], { queryParams: { returnUrl: state.url } });
+    const urlRedirect = (route.data.project === Projects.BACKOFFICE ? 'login' : '/');
+    this.router.navigate([urlRedirect], { queryParams: { returnUrl: state.url } });
     return false;
   }
 
