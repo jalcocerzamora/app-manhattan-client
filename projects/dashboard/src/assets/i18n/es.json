@@ -1,0 +1,30 @@
+{
+  "NAVBAR": {
+    "txtHome": "Inicio",
+    "txtContact": "Contáctanos"
+  },
+  "HOME": {
+    "txtCompanyName": "RESTAURANTE MANHATTAN",
+    "txtCompanySlogan": "Susshi & Burger",
+    "btnSeeMenu": "Ver MENU",
+    "welcome-w-name": "Welcome {{value}}"
+  },
+  "LOGIN": {
+    "txtH1": "Registrarse",
+    "txtH2": "Unos pocos clics más para <br> iniciar sesión en su cuenta.",
+    "txtH3": "Administre todas sus cuentas de comercio electrónico en un solo lugar",
+    "txtH2+H3": "Unos pocos clics más para iniciar sesión en su cuenta. Administre todas sus cuentas de comercio electrónico en un solo lugar",
+    "FORM": {
+      "txtEmail": "Correo electronico",
+      "txtPasword": "Contraseña",
+      "btnLogin": "Iniciar sesión"
+    }
+  },
+  "FORM": {
+    "VALIDATION": {
+      "REQUIRED": "Este campo es obligatorio",
+      "EMAIL": "'{{value}}' no es valido.",
+      "TEL": "'{{value}}' no es valido."
+    }
+  }
+}

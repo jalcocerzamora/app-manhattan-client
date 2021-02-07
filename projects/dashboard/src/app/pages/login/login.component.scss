@@ -1,0 +1,115 @@
+:host {
+    .container {
+        margin-right: auto;
+        margin-left: auto;
+    }
+
+    .logo {
+        filter: brightness(0) invert(1);
+    }
+
+    // button, input, optgroup, select, textarea {
+    //     font-family: inherit;
+    //     font-size: 100%;
+    //     line-height: 1.15;
+    //     margin: 0;
+    // }
+
+    .input[type=checkbox]:not(.input--switch) {
+        width: 16px;
+        height: 16px;
+        border-radius: .2em;
+        position: relative;
+        overflow: hidden;
+        cursor: pointer;
+    }
+
+    *>.-intro-x:first-child, *>.intro-x:first-child {
+        z-index: 49;
+        opacity: 0;
+        position: relative;
+        -webkit-animation: intro-x-animation .4s ease-in-out .33333s;
+        animation: intro-x-animation .4s ease-in-out .33333s;
+        -webkit-animation-fill-mode: forwards;
+        animation-fill-mode: forwards;
+        -webkit-animation-delay: .1s;
+        animation-delay: .1s;
+    }
+
+    *>.intro-x:first-child {
+        transform: translateX(50px);
+    }
+
+    *>.-intro-x:nth-child(2), *>.intro-x:nth-child(2) {
+        z-index: 48;
+        opacity: 0;
+        position: relative;
+        -webkit-animation: intro-x-animation .4s ease-in-out .33333s;
+        animation: intro-x-animation .4s ease-in-out .33333s;
+        -webkit-animation-fill-mode: forwards;
+        animation-fill-mode: forwards;
+        -webkit-animation-delay: .2s;
+        animation-delay: .2s;
+    }
+
+    *>.-intro-x:nth-child(2) {
+        transform: translateX(-50px);
+    }
+
+    *>.-intro-x:nth-child(3), *>.intro-x:nth-child(3) {
+        z-index: 47;
+        opacity: 0;
+        position: relative;
+        -webkit-animation: intro-x-animation .4s ease-in-out .33333s;
+        animation: intro-x-animation .4s ease-in-out .33333s;
+        -webkit-animation-fill-mode: forwards;
+        animation-fill-mode: forwards;
+        -webkit-animation-delay: .3s;
+        animation-delay: .3s;
+    }
+
+    *>.-intro-x:nth-child(3) {
+        transform: translateX(-50px);
+    }
+
+    @keyframes intro-x-animation {
+        100% {
+            opacity: 1;
+            transform: translateX(0);
+        }
+    }
+
+    .button {
+        @apply py-3;
+        @apply px-4;
+        @apply rounded-md;
+    
+        &.button--lg {
+            padding-top: .75rem;
+            padding-bottom: .75rem;
+            padding-left: 1rem;
+            padding-right: 1rem;
+        }
+    }
+
+    .login__input {
+        min-width: 350px;
+        box-shadow: 0 3px 5px rgba(0,0,0,.03);
+    }
+
+    .input {
+        padding-top: .5rem;
+        padding-bottom: .5rem;
+        padding-left: .75rem;
+        padding-right: .75rem;
+        border-radius: .375rem;
+        appearance: none;
+    }
+
+    .input:not(textarea).input--lg {
+        padding-top: .75rem;
+        padding-bottom: .75rem;
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+}
