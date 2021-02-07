@@ -55,16 +55,23 @@ $backgroundImage: "https://source.unsplash.com/-1GEAA8q3wk/1200x600";
   .modal {
     // fixed top-0 bottom-0 left-0 right-0 my-5 mx-20 rounded-lg
     @apply fixed;
-    @apply top-0;
-    @apply bottom-0;
-    @apply left-0;
-    @apply right-0;
-    margin: 1.25rem 5rem;
-    // @apply my-5 mx-20; // --modal-margins-xs;
+    @apply inset-0;
+    @apply my-5;
+    @apply mx-20;
     @apply rounded-lg;
 
+    @media (min-width: 640px) { 
+
+    }
+
     @media (min-width: 1024px) {
-      // @apply my-10 mx-32; // --modal-margins-lg;
+      @apply w-2/3; // my-10 mx-32;
+      @apply mx-auto;
+      @apply my-10;
+    }
+
+    @media (min-width: 1280px) {
+
     }
 
     .modal-dialog {
@@ -126,7 +133,7 @@ $backgroundImage: "https://source.unsplash.com/-1GEAA8q3wk/1200x600";
           @apply left-0;
           @apply right-0;
           @apply w-full;
-          @apply h-90vh;
+          // @apply h-90vh;
           @apply rounded-lg;
           @apply border-none;
 
@@ -151,14 +158,14 @@ $backgroundImage: "https://source.unsplash.com/-1GEAA8q3wk/1200x600";
             @apply overscroll-contain;
             @apply relative;
             @apply w-full;
-            @apply h-90vh;
+            @apply h-full;
             @apply mx-auto;
             @apply pb-12;
 
             // scroll-snap-type: y proximity;
             // scroll-padding: 2rem;
 
-            &.overflow-y-hidden {
+            &.overflow-hidden {
               @apply overflow-y-hidden;
 
               // @apply absolute;
@@ -228,19 +235,20 @@ $backgroundImage: "https://source.unsplash.com/-1GEAA8q3wk/1200x600";
               @apply fixed;
               // @apply top-0;
               // @apply bottom-0;
-              @apply left-0;
-              @apply right-0;
+              @apply inset-0;
               @apply mt-10;
               @apply ml-20;
               @apply mr-20;
               // left: 5rem;
               // right: 5rem;
-              height: calc(90vh - 2.5rem); // apply h-90vh;
+              // height: calc(90vh - 2.5rem); // apply h-90vh;
               @apply rounded-b-lg;
               z-index: 9;
 
               @media (min-width: 1024px) {
-                // @apply my-10 mx-32; // --overlay-margins-lg;
+                @apply w-2/3; // my-10 mx-32;
+                @apply mx-auto;
+                @apply my-10;
               }
             }
 
@@ -304,7 +312,7 @@ $backgroundImage: "https://source.unsplash.com/-1GEAA8q3wk/1200x600";
                 }
               }
 
-              &.overflow-y-hidden {
+              &.overflow-hidden {
                 @apply overflow-y-hidden;
 
                 .custom-content-body {

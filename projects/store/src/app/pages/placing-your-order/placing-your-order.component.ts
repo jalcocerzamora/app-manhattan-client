@@ -1,5 +1,5 @@
 import { Component, ElementRef, OnInit, Renderer2, ViewChild } from '@angular/core';
-import { Socket } from 'ngx-socket-io';
+// import { Socket } from 'ngx-socket-io';
 import { map } from 'rxjs/operators';
 import { Subproduct } from 'projects/core/models/db';
 import { SubproductService } from 'projects/store/src/app/core/services/db/subproduct.service';
@@ -22,7 +22,7 @@ export class PlacingYourOrderComponent implements OnInit {
     private el: ElementRef,
     private rd: Renderer2,
 
-    private socket: Socket,
+    // private socket: Socket,
 
     private scriptService: ScriptService,
     private serviceSubproducts: SubproductService,
@@ -54,12 +54,12 @@ export class PlacingYourOrderComponent implements OnInit {
   }
 
   sendMessage(msg: string) {
-    this.socket.emit('message', msg);
+    // this.socket.emit('message', msg);
   }
 
   getMessage() {
-    return this.socket
-      .fromEvent('message')
-      .pipe(map((data) => data));
+    // return this.socket
+    //   .fromEvent('message')
+    //   .pipe(map((data) => data));
   }
 }

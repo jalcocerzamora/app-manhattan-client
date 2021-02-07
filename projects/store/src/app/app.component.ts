@@ -22,10 +22,10 @@ export class AppComponent implements OnInit {
     private titleService: Title,
     private authenticationService: AuthenticationService
   ) {
-    // console.log('AppComponent.constructor');
-    this.authenticationService.login(environment.BACKEND_USERNAME, environment.BACKEND_PASSWORD)
-        .toPromise()
-        .finally();
+    console.log('AppComponent.constructor');
+    // this.authenticationService.login(environment.BACKEND_USERNAME, environment.BACKEND_PASSWORD)
+    //     .toPromise()
+    //     .finally();
   }
 
   ngOnInit() {

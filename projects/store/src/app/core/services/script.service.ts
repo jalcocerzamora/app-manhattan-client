@@ -9,7 +9,9 @@ export const ScriptStore: Scripts[] = [
   // { name: 'pdfMake', src: 'https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.59/pdfmake.min.js' },
   // { name: 'vfsFonts', src: 'https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.59/vfs_fonts.js' }
   { name: 'fontAwesome', src: 'https://kit.fontawesome.com/33b7a69c4d.js' },
-  { name: 'mapbox-gl', src: 'https://api.mapbox.com/mapbox-gl-js/v1.0.0/mapbox-gl.js' }
+  { name: 'mapbox-gl', src: 'https://api.mapbox.com/mapbox-gl-js/v1.0.0/mapbox-gl.js' },
+  { name: 'chart-js', src: 'node_modules/chart.js/dist/Chart.min.js' },
+  // { name: 'chart-js', src: 'node_modules/angular-chart.js/dist/angular-chart.min.js' },
 ];
 
 @Injectable({

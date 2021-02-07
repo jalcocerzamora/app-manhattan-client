@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { StripeCardComponent } from 'ngx-stripe';
 
 import { ScriptService } from 'projects/store/src/app/core/services/script.service';
+import { StyleService } from 'projects/store/src/app/core/services/style.service';
 
 import { SubproductService } from 'projects/store/src/app/core/services/db/subproduct.service';
 import { ShopCartService } from 'projects/store/src/app/core/services/shopcart/shop-cart.service';
@@ -11,11 +12,17 @@ import { PaymentGatewayService } from 'projects/store/src/app/core/services/paym
 
 import { ISubproductsWithCategory, Subproduct } from 'projects/core/models/db';
 import { DeliveryTime, ShopCart } from 'projects/core/models/shopcart';
+import { PlacedOrderService } from '../../core/services/db/placed-order.service';
+import { PlacedOrder } from 'projects/core/models/db/placed-order';
+import { first } from 'rxjs/operators';
 
 @Component({
   selector: 'app-shopcart',
   templateUrl: './shopcart.component.html',
-  styleUrls: ['./shopcart.component.scss'],
+  styleUrls: [
+    './shopcart.component.scss',
+    // '../../../../../../node_modules/leaflet/dist/leaflet.css',
+  ],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ShopcartComponent implements OnInit, AfterViewInit {
@@ -33,15 +40,19 @@ export class ShopcartComponent implements OnInit, AfterViewInit {
 
   constructor(
     private el: ElementRef,
-    private scriptService: ScriptService,
     private serviceSubproducts: SubproductService,
 
     public serviceShopCart: ShopCartService<Subproduct>,
-    private paymentGatewayService: PaymentGatewayService
+    private paymentGatewayService: PaymentGatewayService,
+    private placedOrderService: PlacedOrderService,
+
+    private tagScriptService: ScriptService,
+    private tagStyleService: StyleService,
   ) {
     // console.log('ShopcartComponent.constructor');
     // console.log('Loading External Scripts');
-    this.scriptService.load('mapbox-gl');
+    // this.tagScriptService.load('mapbox-gl');
+    // this.tagStyleService.load('leaflet');
   }
 
   ngOnInit(): void {
@@ -62,18 +73,45 @@ export class ShopcartComponent implements OnInit, AfterViewInit {
     this.el.nativeElement.closest('body').classList.add('overflow-hidden');
   }
 
-  formPaymentGatewayUpdate(status: boolean){
+  formPaymentGatewayUpdate(status: boolean) {
     this.formPaymentGatewayValid = status;
   }
 
   onSubmitOrder(event) {
     if (this.formPaymentGatewayValid) {
-      this.paymentGatewayService.setButtonSubmit = this.btnPaymentOrder;
-      this.paymentGatewayService.createPaymentIntent();
+      if (this.paymentGatewayService.cardStripe !== null) {
+        this.paymentGatewayService.setButtonSubmit = this.btnPaymentOrder;
+        this.paymentGatewayService.createPaymentIntent();
+      } else {
+        const data: PlacedOrder = {
+          // customer_id: null,
+          // order_time: new da;
+          // estimated_delivery_time: null;
+          // food_ready: null;
+          // actual_delivery_time: null;
+          // delivery_address_id: null;
+          // customer_id: null,
+          subtotal: this.shopcart.Subtotal,
+          discount: 0,
+          total: this.shopcart.getTotal,
+          // comment: null,
+        };
+
+        this.placedOrderService.Create(data).pipe(first()).subscribe(
+          next => {
+            console.log('ShopcartComponent.onSubmitOrder', next);
+          },
+          error => {
+            console.error('ShopcartComponent.onSubmitOrder', error);
+            // this.errorMessage = error;
+            // this.loading = false;
+          }
+        );
+      }
     }
   }
 
-  onClickRemove(id: number){
+  onClickRemove(id: number) {
     this.serviceShopCart.RemoveItem(id);
   }
 

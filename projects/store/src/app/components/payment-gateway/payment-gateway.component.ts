@@ -9,27 +9,34 @@ import { environment } from 'projects/environments/environment';
 
 import { TranslateService } from '@ngx-translate/core';
 
-import MapboxGeocoder from '@mapbox/mapbox-gl-geocoder';
-import * as mapboxgl from 'mapbox-gl';
-import { Map, Marker, GeolocateControl, NavigationControl } from 'mapbox-gl';
+// MAPS
 
+// import MapboxGeocoder from '@mapbox/mapbox-gl-geocoder';
+// import * as mapboxgl from 'mapbox-gl';
+// import { Map, Marker, GeolocateControl, NavigationControl } from 'mapbox-gl';
 // import '@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css';
 
+//
+import { Map, circle, latLng, polygon, tileLayer, marker, Marker, Layer } from 'leaflet';
+
+//
 import {
   IDeliveryContact, IDeliveryMethod, IDeliveryTime, IDeliveryPaymentMethod,
   DeliveryContact, DeliveryMethod, DeliveryTime, DeliveryPaymentMethod, PaymentMethodEnum
 } from 'projects/core/models/shopcart';
 import { DatePipe } from '@angular/common';
-import { element } from 'protractor';
 
-import { ValidationService } from '../../directives/formly/validation/validation.service';
+import { ValidationService } from 'projects/core/directives/formly/validation/validation.service';
 
 import { PaymentGatewayService } from '../../core/services/payment-gateway.service';
 import { StripeService, StripeCardComponent } from 'ngx-stripe';
 import { StripeCardElementChangeEvent, StripeCardElementOptions, StripeElementsOptions } from '@stripe/stripe-js';
+import { LeafletControlLayersConfig, LeafletDirective } from '@asymmetrik/ngx-leaflet';
 
 // Before the component
 declare var Stripe: any;
+const DEFAULT_MAP_CENTER = { latitude: 21.16056, longitude: -86.8475 };
+const DEFAULT_MAP_ZOOM = 12;
 
 export enum StepsPaymentGateway { None = 0, Contact = 1, Ordering = 2, Time = 3, Payment = 4 }
 
@@ -66,6 +73,38 @@ export class PaymentGatewayComponent implements OnInit, OnDestroy {
   public optionsTime: FormlyFormOptions = {};
   public fieldsTime: FormlyFieldConfig[] = [];
 
+  @ViewChild(LeafletDirective) LeafletMap!: LeafletDirective;
+  public leafletOptions = {
+    layers: [
+      tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 18, attribution: '...' })
+    ],
+    zoom: DEFAULT_MAP_ZOOM,
+    center: latLng(DEFAULT_MAP_CENTER.latitude, DEFAULT_MAP_CENTER.longitude),
+    trackResize: true,
+    maxBounds: [
+      -86.9712121848562, 21.0297633301856, // Southwest coordinates
+      -86.7405402017646, 21.2130333805118, // Northeast coordinates
+    ],
+  };
+
+  public leafletLayerControls: LeafletControlLayersConfig = null;
+  //  {
+  //   baseLayers: {
+  //     // 'Open Street Map': tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 18, attribution: '...' }),
+  //     // 'Open Cycle Map': tileLayer('https://{s}.tile.opencyclemap.org/cycle/{z}/{x}/{y}.png', { maxZoom: 18, attribution: '...' })
+  //   },
+  //   overlays: {
+  //     // 'Big Circle': circle([ 46.95, -122 ], { radius: 5000 }),
+  //     // 'Big Square': polygon([[ 46.8, -121.55 ], [ 46.9, -121.55 ], [ 46.9, -121.7 ], [ 46.8, -121.7 ]])
+  //   }
+  // };
+
+  public leafletLayers: Layer[] = [
+    // circle([ 46.95, -122 ], { radius: 5000 }),
+    // polygon([[ 46.8, -121.85 ], [ 46.92, -121.92 ], [ 46.87, -121.8 ]]),
+    marker([ 21.155369999999998, -83.847211 ])
+  ];
+
   // STRIPE ELEMENTS
   @ViewChild(StripeCardComponent) card: StripeCardComponent;
   public elementsOptions: StripeElementsOptions = { locale: 'es' };
@@ -95,7 +134,7 @@ export class PaymentGatewayComponent implements OnInit, OnDestroy {
   public optionsPayment: FormlyFormOptions = {};
   public fieldsPayment: FormlyFieldConfig[] = [];
 
-  public map: Map;
+  public map: any; // Map;
 
   private subscriptionMapBoxResult$: Subscription;
   private subscriptionMapBoxResult: Observable<any>;
@@ -291,11 +330,18 @@ export class PaymentGatewayComponent implements OnInit, OnDestroy {
             },
             hooks: {
               onInit: (field) => {
-                return field.formControl.valueChanges.pipe(tap(value => {
-                  this.paymentGatewayService.setCardStripe = this.card;
-                  const validBrand = (value === PaymentMethodEnum.Cash || this.modelPayment.hasOwnProperty('Brand') ? true : false );
+                return field.formControl.valueChanges.pipe(tap((value: PaymentMethodEnum) => {
+                  let validBrand = false;
+                  if (value !== PaymentMethodEnum.Cash) {
+                    this.paymentGatewayService.setCardStripe = this.card;
+                  } else {
+                    this.paymentGatewayService.setCardStripe = null;
+                    this.formPayment.controls.Brand.reset();
+                    validBrand = (value === PaymentMethodEnum.Cash || this.modelPayment.hasOwnProperty('Brand') ? true : false );
+                  }
                   const fullStatus = (this.formContact.valid && this.formOrdering.valid && this.formTime.valid && this.formPayment.valid && validBrand);
                   this.stepCompleteRequest.emit(fullStatus);
+                  console.log(this.formPayment.controls);
                 }));
               },
             },
@@ -314,9 +360,12 @@ export class PaymentGatewayComponent implements OnInit, OnDestroy {
           // }
           {
             key: 'Brand', type: 'input', className: 'hidden flex-grow mb-5 mr-1', hide: false,
-            templateOptions: { inputClass: 'form-control-sm', required: true },
+            templateOptions: { inputClass: 'form-control-sm', required: false },
             validation: { show: true, },
-            expressionProperties: { 'templateOptions.required': '!!model.Method', },
+            expressionProperties: {
+              // 'templateOptions.required': '!model.Method',
+              // 'templateOptions.disabled': '!model.Method',
+            },
           },
           {
             key: 'CardNumber', type: 'input', className: 'hidden flex-grow mb-5 mr-1', hide: true,
@@ -340,7 +389,8 @@ export class PaymentGatewayComponent implements OnInit, OnDestroy {
       }
     ];
 
-    this.GenerateMapBox();
+    // this.GenerateMapBox();
+    // this.GenerateMapLeaflet();
 
     setTimeout(() => {
       this.onSubmitContact();
@@ -424,12 +474,51 @@ export class PaymentGatewayComponent implements OnInit, OnDestroy {
     // $submitButton.disabled = false;
   }
 
-    // const elements = stripe.elements();
-    // const data = {
-    //   clientSecret: 'sk_test_51HXya7EBr7ET6lVJB1AGb1SPlyWiGYUhv39zLBFRPqyKQk4wTWxHAZWJKfPNwLLYg5BMDsvbFYYxgzzUJAcQA8PD00TJg2bSdT',
-    //   publicKey: 'pk_test_51HXya7EBr7ET6lVJzagRfQLbyPHuUUA2fiubhV68rK5BGiVpjgkNwvWf0aqTiAzV7i0afuyhZ51qaf9wKwU9DuNv004qz4ckgX'
-    // };
+  // tslint:disable-next-line: no-shadowed-variable
+  onLeafletMapReady(map: Map) {
+    const $component = this;
+    console.groupCollapsed('onLeafletMapReady');
+    console.groupEnd();
+    map.locate({ setView: true, maxZoom: DEFAULT_MAP_ZOOM + 10 });
+    map.on('locationfound', (e) => {
+      console.groupCollapsed('onLeafletMapReady.locationfound');
+      const radius = e.accuracy;
+      this.leafletLayers.push(marker(e.latlng).bindPopup('You are within ' + radius + ' meters <from this point').openPopup());
+      this.leafletLayers.push(circle(e.latlng, radius));
+      const deliveryMethod: IDeliveryMethod = { Latitude: e.latlng.lat, Longitude: e.latlng.lng, PlaceName: 'Testing', PostCode: 1 };
+      $component.formOrdering.setValue(deliveryMethod);
+      // $component.formOrdering.updateValueAndValidity({ emitEvent: true, onlySelf: true });
+      $component.orderingComplete = true;
+      console.log('e', e);
+      console.log('LeafletMap', [this.LeafletMap, marker(e.latlng)]);
+      console.groupEnd();
+    });
+    map.on('locationerror', (e) => {
+      console.groupCollapsed('onLeafletMapReady.locationerror');
+      alert(e.message);
+      console.groupEnd();
+    });
+  }
 
+  GenerateMapLeaflet(){
+    // var map = L.map('map').setView([51.505, -0.09], 13);
+
+    // L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    //     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    // }).addTo(map);
+
+    // L.marker([51.5, -0.09]).addTo(map)
+    //   .bindPopup('A pretty CSS3 popup.<br> Easily customizable.')
+    //   .openPopup();
+  }
+
+  // const elements = stripe.elements();
+  // const data = {
+  //   clientSecret: 'sk_test_51HXya7EBr7ET6lVJB1AGb1SPlyWiGYUhv39zLBFRPqyKQk4wTWxHAZWJKfPNwLLYg5BMDsvbFYYxgzzUJAcQA8PD00TJg2bSdT',
+  //   publicKey: 'pk_test_51HXya7EBr7ET6lVJzagRfQLbyPHuUUA2fiubhV68rK5BGiVpjgkNwvWf0aqTiAzV7i0afuyhZ51qaf9wKwU9DuNv004qz4ckgX'
+  // };
+
+  /*
   GenerateMapBox() {
     const coordinatesGeocoder = (query) => {
       // console.log('coordinatesGeocoder', query);
@@ -545,7 +634,7 @@ export class PaymentGatewayComponent implements OnInit, OnDestroy {
       geolocate.trigger();
 
       // Listen for the `geocoder.input` event that is triggered when a user
-      geolocate.on('geolocate', (ev: Position) => {
+      geolocate.on('geolocate', (ev: any) => {
         const longitude = ev.coords.longitude;
         const latitude = ev.coords.latitude;
         const coords = { coordinates: [-90.32958984375, -0.6344474832838974] };
@@ -622,6 +711,7 @@ export class PaymentGatewayComponent implements OnInit, OnDestroy {
     // disable map rotation using touch rotation gesture
     this.map.touchZoomRotate.disableRotation();
   }
+  */
 
   getCurrentStep(step: StepsPaymentGateway) {
     return (this.CurrentStep !== step);

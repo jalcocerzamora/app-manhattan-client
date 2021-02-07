@@ -7,6 +7,7 @@ import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
 import { Subproduct, ISubproduct, ICategory } from 'projects/core/models/db';
 import { ShopCartItem, IShopCartItem } from 'projects/core/models/shopcart';
 import { ShopCartService } from 'projects/store/src/app/core/services/shopcart/shop-cart.service';
+import { GET_URL_ASSETS } from 'projects/core/helpers/functions';
 
 @Component({
   selector: 'app-product-popper',
@@ -69,8 +70,8 @@ export class ProductPopperComponent implements OnInit {
   }
 
   get productImage(): string {
-    const product = (this.subproduct.image === null || this.subproduct.image === undefined ? '' : this.subproduct.image.trim());
-    return (product ? environment.PATH_ASSETS_IMAGES_MENU.concat(product) : environment.PATH_ASSETS_IMAGES_MENU_LOGO);
+    const productImage = (this.subproduct.image === null || this.subproduct.image === undefined ? null : this.subproduct.image.trim());
+    return GET_URL_ASSETS(productImage);
   }
 
   get productAlt(): string {

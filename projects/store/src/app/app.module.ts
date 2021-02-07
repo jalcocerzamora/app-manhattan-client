@@ -24,7 +24,6 @@ import { PagesModule } from './pages/pages.module';
 import { ComponentsModule } from './components/components.module';
 
 import { FORMLY_CONFIG, } from '@ngx-formly/core';
-import { FormlyConfig } from './directives/formly/formly.config';
 
 // Locales
 // import { registerLocaleData } from '@angular/common';
@@ -40,9 +39,11 @@ import { JwtInterceptor, ErrorInterceptor, CacheInterceptor } from 'projects/cor
 import { AuthenticationService } from 'projects/core/services/authenticate/authentication.service';
 import { RequestCacheService } from 'projects/core/services/requestCache.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { DirectivesModule } from './directives/directives.module';
-import { PipesModule } from './pipes/pipes.module';
-import { SocketIoModule } from 'ngx-socket-io';
+import { DirectivesModule } from 'projects/core/directives/directives.module';
+import { PipesModule } from 'projects/core/pipes/pipes.module';
+// import { SocketIoModule } from 'ngx-socket-io';
+
+import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 
 @NgModule({
   declarations: [
@@ -55,7 +56,7 @@ import { SocketIoModule } from 'ngx-socket-io';
     FormsModule, ReactiveFormsModule,
     FontAwesomeModule,
 
-    SocketIoModule.forRoot({ url: environment.SOCKET_ENDPOINT, options: {} }),
+    // SocketIoModule.forRoot({ url: environment.SOCKET_ENDPOINT, options: {} }),
 
     PipesModule,
     DirectivesModule,
@@ -63,6 +64,8 @@ import { SocketIoModule } from 'ngx-socket-io';
     PagesModule,
 
     TranslateModule.forRoot({ defaultLanguage: environment.language, loader: { provide: TranslateLoader, useFactory: HttpLoaderFactory, deps: [HttpClient, PlatformLocation] } }),
+
+    LeafletModule,
   ],
   providers: [
     Title,

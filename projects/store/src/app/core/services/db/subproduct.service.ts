@@ -21,25 +21,27 @@ export class SubproductService {
     // private socket: Socket
   ) { }
 
-  private extractData(res: Response): any {
+  private extractData(res: any): any {
     const body = res;
-    return body || { };
+    return body.data || { };
   }
 
-  private handleError(error: HttpErrorResponse): any {
-    if (error.error instanceof ErrorEvent) {
-      console.error('An error occurred:', error.error.message);
+  private handleError(err: HttpErrorResponse): any {
+    if (err.error instanceof ErrorEvent) {
+      console.error('An error occurred:', err.error.message);
+    } else if (typeof(err) === 'object') {
+      console.error(`Backend returned code ${err.status}, body was: ${err.message}`);
     } else {
-      console.error(`Backend returned code ${error.status}, body was: ${error.message}`);
+      console.error(err);
     }
-    return throwError(
-      'Something bad happened; please try again later.');
+
+    return throwError('Something bad happened; please try again later.');
   }
 
   All(): Observable<any> {
-      return this.http.get<Array<ISubproductsWithCategory>>(API_ENDPOINT.concat('subproduct/all'))
+      return this.http.get<Array<ISubproductsWithCategory>>(API_ENDPOINT.concat('menu'))
       .pipe(
-        // map(this.extractData(res)),
+        map(this.extractData),
         catchError(this.handleError)
       );
   }

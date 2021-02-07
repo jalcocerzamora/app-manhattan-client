@@ -13,7 +13,7 @@ const routes: Routes = [
     // pathMatch: 'full'
     data: {
       title: 'Restaurante Manhattan',
-      meta: ''
+      // meta: ''
     }
   },
   {

@@ -1,111 +1,110 @@
 /* You can add global styles to this file, and also import other style files */
-// @import url('https://fonts.googleapis.com/css2?family=Anton&display=swap');
-// @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
-// @import url('https://fonts.googleapis.com/css2?family=Ubuntu&display=swap');
-// @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&display=swap');
+/*
+*     store/src/styles.scss
+*/
 
-// @import 'tailwindcss/base';
-// @import 'tailwindcss/components';
-// @import 'tailwindcss/utilities';
+@import url("https://fonts.googleapis.com/css2?family=Anton&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Ubuntu&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&display=swap");
 
-// @import '../../../node_modules/ngx-smart-popover/scss/popover-content.component.scss';
-// @import 'assets/scss/popover.scss';
+/** "tailwindcss/base" */
+@import "tailwindcss/base";
 
-// @import './../../../node_modules/ngx-smart-popover/scss/popover-content.component.scss';
+/** "tailwindcss/components" */
+@import "tailwindcss/components";
 
-// @import './../../../node_modules/ngx-smart-popover/scss/popover-content.component.scss';
+/** "tailwindcss/utilities" */
+@import "tailwindcss/utilities";
 
-// :root {
-//   --bg-transparent-60: rgba(255,255,255,0.60);
-//   --bg-transparent-65: rgba(255,255,255,0.65);
-//   --bg-transparent-70: rgba(255,255,255,0.70);
-//   --bg-transparent-75: rgba(255,255,255,0.75);
-//   --bg-transparent-80: rgba(255,255,255,0.80);
-//   --bg-transparent-65: rgba(255,255,255,0.85);
-// }
+// Animate the size, outside
+.pulse {
+  animation: pulse 1s infinite;
+  box-shadow: 0 0 0 1em rgba(#fff, 0);
+}
 
-// .navbar-toggler {
-//   margin-top: 4px;
-//   margin-bottom: 4px;
-//   width: 26px;
-//   height: 26px;
-//   padding: 2px 0;
-//   border: none;
-//   right: 15px
-// }
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0 #ed8936;
+  }
+}
 
-// .navbar-toggler:focus {
-//   outline: 0
-// }
+.flip {
+  position: absolute;
+  width: 160px;
+  height: 48px;
+  perspective: 500px;
+  top: 50%;
+  left: 50%;
+  margin: -24px 0 0 -80px;
 
-// .navbar-toggler .navbar-toggler-bar {
-//   display: block;
-//   width: 26px;
-//   height: 2px;
-//   background-color: white;
-//   transition: all .2s ease-in-out 0s;
-//   border-radius: 4px;
-//   margin-bottom: 5px
-// }
+  a {
+    font-weight: 400;
+    text-transform: uppercase;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    transform-style: preserve-3d;
+    transform: translateZ(-25px);
+    transition: transform 0.3s;
+    cursor: pointer;
 
-// .navbar-toggler .navbar-toggler-bar:last-child {
-//   margin-bottom: 0
-// }
+    .front,
+    .back {
+      margin: 0;
+      width: 160px;
+      height: 48px;
+      line-height: 48px;
+      position: absolute;
+      text-align: center;
+      letter-spacing: 0.4em;
+    }
 
-// .navbar-toggler.active .navbar-toggler-bar:first-child {
-//   transform: rotate(45deg);
-//   position: relative;
-//   top: 7px
-// }
+    .front {
+      background-color: #222;
+      color: #fff;
+      transform: rotateY(0) translateZ(24px);
+    }
 
-// .navbar-toggler.active .navbar-toggler-bar:nth-child(2) {
-//   opacity: 0
-// }
+    .back {
+      background-color: rgba(white, 0);
+      color: rgba(#222, 0);
+      transform: rotateX(90deg) translateZ(24px);
+      overflow: hidden;
 
-// .navbar-toggler.active .navbar-toggler-bar:nth-child(3) {
-//   transform: rotate(-45deg);
-//   position: relative;
-//   bottom: 7px
-// }
+      &:after {
+        content: "";
+        position: absolute;
+        top: -32%;
+        left: -10%;
+        width: 120%;
+        height: 50%;
+        background: #222;
+        transform: rotate(8deg);
+        transition: all 0.5s ease;
+        transition-delay: 0.15s;
+      }
+    }
 
-// .hyphens-normal {
-//   -webkit-hyphens: manual;
-//   -ms-hyphens: manual;
-//   hyphens: manual;
-// }
+    &:hover {
+      transform: translateZ(-24px) rotateX(-90deg);
 
-// .overflow-hidden .main-menu {
-//   background-image: linear-gradient(90deg, rgba(0, 0, 0, 0.70) 0%, rgba(103, 103, 107, 0.70) 100%), url(https://lorempixel.com/1280/600/food/8);
-// }
+      .front {
+        background: black;
+        transition: all 0.8s ease;
+      }
 
+      .back {
+        color: #222;
+        transition: color 0.4s linear;
+        background: white;
 
-
-/* mixin for multiline */
-// @mixin multiLineEllipsis($lineHeight: 1.2em, $lineCount: 1, $bgColor: white){
-//   overflow: hidden;
-//   position: relative;
-//   line-height: $lineHeight;
-//   max-height: $lineHeight * $lineCount;
-//   text-align: justify;
-//   margin-right: -1em;
-//   padding-right: 1em;
-//   &:before {
-//     content: '...';
-//     position: absolute;
-//     right: 0;
-//     bottom: 0;
-//   }
-//   &:after {
-//     content: '';
-//     position: absolute;
-//     right: 0;
-//     width: 1em;
-//     height: 1em;
-//     margin-top: 0.2em;
-//     background: $bgColor;
-//   }
-// }
-
-// .block-with-text {
-//   @include multiLineEllipsis($lineHeight: 1.2em, $lineCount: 3, $bgColor: white);
-// }
+        &:after {
+          transform: rotate(6deg) translate(100px, -18px);
+        }
+      }
+    }
+  }
+}

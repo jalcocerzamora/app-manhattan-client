@@ -43,15 +43,15 @@ $backgroundImage: "https://source.unsplash.com/-1GEAA8q3wk/1200x600";
   .modal {
     // fixed top-0 bottom-0 left-0 right-0 my-5 mx-20 rounded-lg
     @apply fixed;
-    @apply top-0;
-    @apply bottom-0;
-    @apply left-0;
-    @apply right-0;
-    @apply my-5 mx-20; // --modal-margins-xs;
+    @apply inset-0;
+    @apply my-5;
+    @apply mx-20;
     @apply rounded-lg;
 
     @media (min-width: 1024px) {
-      @apply my-10 mx-32; // --modal-margins-lg;
+      @apply w-2/3; // --modal-margins-lg;
+      @apply mx-auto;
+      @apply my-10;
     }
 
     .modal-dialog {
@@ -90,9 +90,10 @@ $backgroundImage: "https://source.unsplash.com/-1GEAA8q3wk/1200x600";
             @apply h-10; // --navbar-height-lg;
           }
 
-          & .bg-opacity-80 {
+          & [class*="bg-opacity-80"] {
             @apply bg-opacity-80;
           }
+
 
           & > .nabvar {
             @apply h-full;
@@ -200,12 +201,14 @@ $backgroundImage: "https://source.unsplash.com/-1GEAA8q3wk/1200x600";
               @apply bottom-0;
               @apply left-0;
               @apply right-0;
-              @apply my-5 mx-20; // --overlay-margins-xs;
+              @apply my-5;  // --overlay-margins-xs;
+              @apply mx-20; // --overlay-margins-xs;
               @apply rounded;
               @apply z-10;
 
               @media (min-width: 1024px) {
-                @apply my-10 mx-32; // --overlay-margins-lg;
+                @apply my-10; // --overlay-margins-lg;
+                @apply mx-32; // --overlay-margins-lg;
               }
             }
 

@@ -2,14 +2,13 @@
 import { Component, OnInit, AfterViewInit, Input, ViewChild, HostListener, ChangeDetectionStrategy, ElementRef, TemplateRef, ViewContainerRef, Renderer2, Optional, ComponentRef, ComponentFactoryResolver, LOCALE_ID, Inject, DEFAULT_CURRENCY_CODE } from '@angular/core';
 import '@angular/common/locales/fr-CA';
 
-import { environment } from 'projects/environments/environment';
+import { ISubproduct, ICategory } from 'projects/core/models/db';
 
-import { Product, Subproduct, Category, ISubproduct, ICategory } from 'projects/core/models/db';
-
-import { detectOverflow, createPopper, Placement, OptionsGeneric, State } from '@popperjs/core';
+import { createPopper, Placement } from '@popperjs/core';
 
 import { ProductPopperComponent } from 'projects/store/src/app/components/product-popper/product-popper.component';
 import { Router } from '@angular/router';
+import { GET_URL_ASSETS } from 'projects/core/helpers/functions';
 
 @Component({
   selector: 'app-product-item',
@@ -69,10 +68,8 @@ export class ProductItemComponent implements OnInit, AfterViewInit {
   }
 
   get productImage(): string {
-    const product = (this.Product.image === null || this.Product.image === undefined ? '' : this.Product.image.trim());
-    const host = window.location;
-    const url = host.href.includes('app-manhattan-client') ? host.href.concat(environment.PATH_ASSETS_IMAGES_MENU) : host.origin.concat(environment.PATH_ASSETS_IMAGES_MENU);
-    return (product ? url.concat(product) : environment.PATH_ASSETS_IMAGES_MENU_LOGO);
+    const productImage = (this.Product.image === null || this.Product.image === undefined ? null : this.Product.image.trim());
+    return GET_URL_ASSETS(productImage);
   }
 
   get productAlt(): string {
@@ -101,7 +98,7 @@ export class ProductItemComponent implements OnInit, AfterViewInit {
   createComponent(target: Element ) {
     target.classList.toggle('relative');
     target.classList.toggle('bg-white');
-    this.renderer.addClass(this.ParentContainer.nativeElement, 'overflow-y-hidden');
+    this.renderer.addClass(this.ParentContainer.nativeElement, 'overflow-hidden');
 
     this.productCurrent = target;
     this.popoverShow = true;
@@ -173,7 +170,7 @@ export class ProductItemComponent implements OnInit, AfterViewInit {
 
   destroyComponent() {
     // console.log('destroyComponent');
-    this.renderer.removeClass(this.ParentContainer.nativeElement, 'overflow-y-hidden');
+    this.renderer.removeClass(this.ParentContainer.nativeElement, 'overflow-hidden');
     this.productCurrent.classList.toggle('relative');
     this.productCurrent.classList.toggle('bg-white');
     this.componentRef.destroy();

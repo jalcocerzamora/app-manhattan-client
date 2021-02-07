@@ -265,7 +265,7 @@ $backgroundImage: "https://source.unsplash.com/-1GEAA8q3wk/1200x600";
               }
             }
 
-            &.overflow-y-hidden {
+            &.overflow-hidden {
               @apply overflow-y-hidden;
 
               .custom-content-body {

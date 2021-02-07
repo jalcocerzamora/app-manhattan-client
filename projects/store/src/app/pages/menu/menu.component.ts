@@ -1,17 +1,14 @@
-import { Component, OnInit, ElementRef, Renderer2, ViewChild, AfterViewInit } from '@angular/core';
+import { Component, OnInit, ElementRef, ViewChild, AfterViewInit, ResolvedReflectiveFactory } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import {
-  Category, Product, Subproduct,
-  ICategory, IProduct, ISubproduct, ISubproductsWithCategory
+  Subproduct,
+  ISubproductsWithCategory
 } from 'projects/core/models/db';
 
-import { ScriptService } from 'projects/store/src/app/core/services/script.service';
 import { SubproductService } from 'projects/store/src/app/core/services/db/subproduct.service';
 import { ShopCartService } from 'projects/store/src/app/core/services/shopcart/shop-cart.service';
-import { IShopCartItem } from 'projects/core/models/shopcart';
 
-declare let fontAwesome: any;
 
 @Component({
   selector: 'app-menu',
@@ -29,8 +26,6 @@ export class MenuComponent implements OnInit, AfterViewInit {
 
   constructor(
     private el: ElementRef,
-    private rd: Renderer2,
-    private scriptService: ScriptService,
     private serviceSubproducts: SubproductService,
     public serviceShopCart: ShopCartService<Subproduct>
   ) {

@@ -5,10 +5,13 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 
 import { FormlyModule, FORMLY_CONFIG } from '@ngx-formly/core';
-import { FormlyConfig } from '../directives/formly/formly.config';
+import { FormlyConfig } from 'projects/core/directives/formly/formly.config';
 
 import { FaIconLibrary, FaConfig, FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faTimes, faPlus, faMinus, faCircle, faEdit } from '@fortawesome/free-solid-svg-icons';
+
+// Maps
+import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 
 // Translation
 import { TranslateService, TranslateLoader, TranslateModule } from '@ngx-translate/core';
@@ -18,9 +21,9 @@ import { environment } from 'projects/environments/environment';
 
 import { AppRoutingModule } from './../app-routing.module';
 
-import { PipesModule } from './../pipes/pipes.module';
+import { PipesModule } from 'projects/core/pipes/pipes.module';
 
-import { DirectivesModule } from './../directives/directives.module';
+import { DirectivesModule } from 'projects/core/directives/directives.module';
 
 import { NotFoundComponent } from './not-found/not-found.component';
 
@@ -60,6 +63,7 @@ import { NgxStripeModule } from 'ngx-stripe';
     FormlyModule.forRoot(FormlyConfig),
     TranslateModule.forRoot({ defaultLanguage: environment.language, loader: { provide: TranslateLoader, useFactory: HttpLoaderFactory, deps: [HttpClient, PlatformLocation] } }),
     NgxStripeModule.forRoot('pk_test_51HXya7EBr7ET6lVJzagRfQLbyPHuUUA2fiubhV68rK5BGiVpjgkNwvWf0aqTiAzV7i0afuyhZ51qaf9wKwU9DuNv004qz4ckgX'),
+    LeafletModule,
   ],
   exports: [
     NotFoundComponent,

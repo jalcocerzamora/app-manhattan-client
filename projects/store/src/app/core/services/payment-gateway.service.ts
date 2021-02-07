@@ -17,7 +17,7 @@ export class PaymentGatewayService {
   private API_ENDPOINT: string = environment.BACKEND_ENDPOINT;
   private HTTP_OPTIONS = { headers: new HttpHeaders( { 'Content-Type': 'application/json', } ) };
 
-  protected cardStripe: StripeCardComponent = null;
+  public cardStripe: StripeCardComponent = null;
   protected buttonSubmit: ElementRef<HTMLButtonElement> = null;
   protected dataStripe: any = null;
 

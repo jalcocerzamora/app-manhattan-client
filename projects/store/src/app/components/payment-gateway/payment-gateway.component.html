@@ -64,7 +64,13 @@
                 <form novalidate autocomplete="off" [formGroup]="formOrdering" (ngSubmit)="onSubmitOrdering()">
                     <formly-form [form]="formOrdering" [fields]="fieldsOrdering" [options]="optionsOrdering"
                         [model]="modelOrdering"></formly-form>
-                    <div id="map" class="mb-5"></div>
+                    <!-- <div id="map" class="mb-5"></div> -->
+                    <!-- [leafletLayersControl]="leafletLayerControls" -->
+                    <div leaflet 
+                        [leafletOptions]="leafletOptions"
+                        [leafletLayers]="leafletLayers"
+                        (leafletMapReady)="onLeafletMapReady($event)"
+                        class="h-40 mb-5"></div>
                     <button [translate]="'SHOPCART.FORMS.btnSave'" [disabled]="!formOrdering.valid" type="submit"
                         class="btn-default">Guardar</button>
                 </form>
