@@ -17,19 +17,18 @@
         "sourceLocale": "es-MX",
         "locales": {
           "es": {
-            "translation": "projects/store/src/assets/i18n/messages.es.xlf",
-            "baseHref": ""
+            "translation": "projects/store/src/assets/i18n/messages.es.xlf"
           }
         }
       },
       "architect": {
         "build": {
-          "builder": "@angular-builders/custom-webpack:browser",
+          "builder": "ngx-build-plus:browser",
           "options": {
-            "allowedCommonJsDependencies": [ "lodash" ],
-            "customWebpackConfig": {
-              "path": "./webpack.config.js"
-            },
+            "allowedCommonJsDependencies": [
+              "lodash"
+            ],
+            "extraWebpackConfig": "webpack.config.js",
             "outputPath": "dist/store",
             "index": "projects/store/src/index.html",
             "main": "projects/store/src/main.ts",
@@ -41,10 +40,15 @@
               "projects/store/src/favicon.ico",
               "projects/store/src/assets",
               "projects/store/src/manifest.webmanifest",
-              "projects/store/src/locale"
+              "projects/store/src/locale",
+              {
+                "glob": "**/*",
+                "input": "./node_modules/leaflet/dist/images",
+                "output": "assets/images/leaflet"
+              }
             ],
             "styles": [
-              "projects/store/sass/styles.scss"
+              "projects/store/src/styles.scss"
             ],
             "stylePreprocessorOptions": {
               "includePaths": []
@@ -84,7 +88,9 @@
             },
             "es": {
               "aot": true,
-              "localize": ["es"],
+              "localize": [
+                "es"
+              ],
               "outputPath": "dist/under-construction-es/",
               "i18nFile": "src/assets/i18n/messages.es.xlf",
               "i18nFormat": "xlf",
@@ -93,7 +99,9 @@
             },
             "en": {
               "aot": true,
-              "localize": ["en"],
+              "localize": [
+                "en"
+              ],
               "outputPath": "dist/under-construction-en/",
               "i18nFile": "src/assets/i18n/messages.en.xlf",
               "i18nFormat": "xlf",
@@ -103,11 +111,9 @@
           }
         },
         "serve": {
-          "builder": "@angular-builders/custom-webpack:dev-server",
+          "builder": "ngx-build-plus:dev-server",
           "options": {
-            "customWebpackConfig": {
-              "path": "./webpack.config.js"
-            },
+            "extraWebpackConfig": "webpack.config.js",
             "browserTarget": "store:build",
             "ssl": true,
             "sslCert": "projects/store/ssl/server.crt",
@@ -130,7 +136,7 @@
           "options": {
             "browserTarget": "store:build"
           },
-          "configurations" : {
+          "configurations": {
             "es": {
               "outputPath": "src/assets/i18n",
               "outFile": "messages.es.xlf",
@@ -146,8 +152,9 @@
           }
         },
         "test": {
-          "builder": "@angular-devkit/build-angular:karma",
+          "builder": "ngx-build-plus:karma",
           "options": {
+            "extraWebpackConfig": "webpack.config.js",
             "main": "projects/store/src/test.ts",
             "polyfills": "projects/store/src/polyfills.ts",
             "tsConfig": "projects/store/tsconfig.spec.json",
@@ -158,8 +165,7 @@
               "projects/store/src/manifest.webmanifest"
             ],
             "styles": [
-              "projects/store/src/styles.scss",
-              "./node_modules/ngx-smart-popover/scss/popover-content.component.scss"
+              "projects/store/src/styles.scss"
             ],
             "scripts": []
           }
@@ -191,7 +197,12 @@
         },
         "deploy": {
           "builder": "angular-cli-ghpages:deploy",
-          "options": {}
+          "options": {
+            "baseHref": "https://jalcocerzamora.github.io/app-manhattan-client/",
+            "repo": "https://github.com/jalcocerzamora/app-manhattan-client.git",
+            "name": "jalcocerzamora",
+            "email": "alco_1993@hotmail.com"
+          }
         }
       }
     },
@@ -205,6 +216,14 @@
       "root": "projects/admin",
       "sourceRoot": "projects/admin/src",
       "prefix": "app",
+      "i18n": {
+        "sourceLocale": "es-MX",
+        "locales": {
+          "es": {
+            "translation": "projects/admin/src/assets/i18n/messages.es.xlf"
+          }
+        }
+      },
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
@@ -258,11 +277,20 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "admin:build"
+            "browserTarget": "admin:build",
+            "ssl": true,
+            "sslCert": "projects/admin/ssl/server.crt",
+            "sslKey": "projects/admin/ssl/server.key"
           },
           "configurations": {
             "production": {
               "browserTarget": "admin:build:production"
+            },
+            "es": {
+              "browserTarget": "admin:build:es"
+            },
+            "en": {
+              "browserTarget": "admin:build:en"
             }
           }
         },
@@ -311,6 +339,268 @@
           "configurations": {
             "production": {
               "devServerTarget": "admin:serve:production"
+            }
+          }
+        }
+      }
+    },
+    "dashboard": {
+      "projectType": "application",
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss"
+        },
+        "@schematics/angular:application": {
+          "strict": true
+        }
+      },
+      "root": "projects/dashboard",
+      "sourceRoot": "projects/dashboard/src",
+      "prefix": "app",
+      "architect": {
+        "build": {
+          "builder": "ngx-build-plus:browser",
+          "options": {
+            "allowedCommonJsDependencies": [
+              "lodash"
+            ],
+            "extraWebpackConfig": "webpack.config.js",
+            "outputPath": "dist/dashboard",
+            "index": "projects/dashboard/src/index.html",
+            "main": "projects/dashboard/src/main.ts",
+            "polyfills": "projects/dashboard/src/polyfills.ts",
+            "tsConfig": "projects/dashboard/tsconfig.app.json",
+            "localize": false,
+            "aot": true,
+            "assets": [
+              "projects/dashboard/src/favicon.ico",
+              "projects/dashboard/src/assets"
+            ],
+            "styles": [
+              "projects/dashboard/src/styles.scss"
+            ],
+            "scripts": [
+              "./node_modules/chart.js/dist/Chart.min.js"
+            ]
+          },
+          "configurations": {
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "projects/dashboard/src/environments/environment.ts",
+                  "with": "projects/dashboard/src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "namedChunks": false,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb",
+                  "maximumError": "10kb"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "ngx-build-plus:dev-server",
+          "options": {
+            "extraWebpackConfig": "webpack.config.js",
+            "browserTarget": "dashboard:build",
+            "proxyConfig": "projects/dashboard/src/proxy.conf.json",
+            "ssl": true,
+            "sslCert": "projects/dashboard/ssl/server.crt",
+            "sslKey": "projects/dashboard/ssl/server.key"
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "dashboard:build:production"
+            },
+            "es": {
+              "browserTarget": "store:build:es"
+            },
+            "en": {
+              "browserTarget": "store:build:en"
+            }
+          }
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "dashboard:build"
+          }
+        },
+        "test": {
+          "builder": "ngx-build-plus:karma",
+          "options": {
+            "extraWebpackConfig": "webpack.config.js",
+            "main": "projects/dashboard/src/test.ts",
+            "polyfills": "projects/dashboard/src/polyfills.ts",
+            "tsConfig": "projects/dashboard/tsconfig.spec.json",
+            "karmaConfig": "projects/dashboard/karma.conf.js",
+            "assets": [
+              "projects/dashboard/src/favicon.ico",
+              "projects/dashboard/src/assets"
+            ],
+            "styles": [
+              "projects/dashboard/src/styles.scss"
+            ],
+            "scripts": []
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/dashboard/tsconfig.app.json",
+              "projects/dashboard/tsconfig.spec.json",
+              "projects/dashboard/e2e/tsconfig.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        },
+        "e2e": {
+          "builder": "@angular-devkit/build-angular:protractor",
+          "options": {
+            "protractorConfig": "projects/dashboard/e2e/protractor.conf.js",
+            "devServerTarget": "dashboard:serve"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "dashboard:serve:production"
+            }
+          }
+        }
+      }
+    },
+    "backoffice": {
+      "projectType": "application",
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss"
+        }
+      },
+      "root": "projects/backoffice",
+      "sourceRoot": "projects/backoffice/src",
+      "prefix": "app",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "dist/backoffice",
+            "index": "projects/backoffice/src/index.html",
+            "main": "projects/backoffice/src/main.ts",
+            "polyfills": "projects/backoffice/src/polyfills.ts",
+            "tsConfig": "projects/backoffice/tsconfig.app.json",
+            "aot": true,
+            "assets": [
+              "projects/backoffice/src/favicon.ico",
+              "projects/backoffice/src/assets"
+            ],
+            "styles": [
+              "projects/backoffice/src/styles.scss"
+            ],
+            "scripts": []
+          },
+          "configurations": {
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "projects/backoffice/src/environments/environment.ts",
+                  "with": "projects/backoffice/src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "namedChunks": false,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb",
+                  "maximumError": "10kb"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "browserTarget": "backoffice:build"
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "backoffice:build:production"
+            }
+          }
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "backoffice:build"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/backoffice/src/test.ts",
+            "polyfills": "projects/backoffice/src/polyfills.ts",
+            "tsConfig": "projects/backoffice/tsconfig.spec.json",
+            "karmaConfig": "projects/backoffice/karma.conf.js",
+            "assets": [
+              "projects/backoffice/src/favicon.ico",
+              "projects/backoffice/src/assets"
+            ],
+            "styles": [
+              "projects/backoffice/src/styles.scss"
+            ],
+            "scripts": []
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/backoffice/tsconfig.app.json",
+              "projects/backoffice/tsconfig.spec.json",
+              "projects/backoffice/e2e/tsconfig.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        },
+        "e2e": {
+          "builder": "@angular-devkit/build-angular:protractor",
+          "options": {
+            "protractorConfig": "projects/backoffice/e2e/protractor.conf.js",
+            "devServerTarget": "backoffice:serve"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "backoffice:serve:production"
             }
           }
         }
