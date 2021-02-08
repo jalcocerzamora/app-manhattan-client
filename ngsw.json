@@ -1,6 +1,6 @@
 {
   "configVersion": 1,
-  "timestamp": 1612756626029,
+  "timestamp": 1612757343435,
   "index": "https://jalcocerzamora.github.io/app-manhattan-client/index.html",
   "assetGroups": [
     {
@@ -207,7 +207,7 @@
     "https://jalcocerzamora.github.io/app-manhattan-client/assets/images/menu/sushis/clasicos/tres-quesos-min.png": "4476ece252a73f52f40f47f7307f18a05e9d4d71",
     "https://jalcocerzamora.github.io/app-manhattan-client/assets/images/menu/sushis/clasicos/tres-quesos.png": "4476ece252a73f52f40f47f7307f18a05e9d4d71",
     "https://jalcocerzamora.github.io/app-manhattan-client/favicon.ico": "22f6a4a3bcaafafb0254e0f2fa4ceb89e505e8b2",
-    "https://jalcocerzamora.github.io/app-manhattan-client/index.html": "a7efa20395850c9149df67e202fbf3f829e8b6c5",
+    "https://jalcocerzamora.github.io/app-manhattan-client/index.html": "142e126cb02562cf416ee0fcb0f7cd6fbd3598aa",
     "https://jalcocerzamora.github.io/app-manhattan-client/main-es2015.6badd06af0c80b9deb78.js": "f87842c74f8e9a2e6bf54f5a274049ec78033d63",
     "https://jalcocerzamora.github.io/app-manhattan-client/main-es5.6badd06af0c80b9deb78.js": "ccf2dede46344a3178a9bc0ebda0fc6bcdd9acc3",
     "https://jalcocerzamora.github.io/app-manhattan-client/manifest.webmanifest": "4baaf1481380074e97e7bcbba0ddd1f14c3d4f8b",
