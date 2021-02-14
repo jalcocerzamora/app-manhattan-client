@@ -15,12 +15,12 @@ export const environment = {
   TOKEN_API: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoyLCJ1c2VybmFtZSI6Im1hbmhhdHRhbiIsImVtYWlsIjoiamFsY29jZXJ6YW1vcmFAZ21haWwuY29tIn0sImlhdCI6MTYwNjcwMDk3OX0.NYyJyrC0riLa7fEBrnh1wBidFQxeZ01CsljEbyPDheY',
 
   // HEROKU
-  // SOCKET_ENDPOINT: 'https://app-manhattan-api.herokuapp.com:3456/',
-  // BACKEND_ENDPOINT: 'https://app-manhattan-api.herokuapp.com/api/',
+  SOCKET_ENDPOINT: 'https://app-manhattan-api.herokuapp.com:3456/',
+  BACKEND_ENDPOINT: 'https://app-manhattan-api.herokuapp.com/api/',
 
   // AZURE
-  SOCKET_ENDPOINT: 'https://api-manhattan.azurewebsites.net/:3456/',
-  BACKEND_ENDPOINT: 'https://api-manhattan.azurewebsites.net/v1/',
+  // SOCKET_ENDPOINT: 'https://api-manhattan.azurewebsites.net/:3456/',
+  // BACKEND_ENDPOINT: 'https://api-manhattan.azurewebsites.net/v1/',
 
   // SOCKET_ENDPOINT: 'https://localhost:3456/',
   // BACKEND_ENDPOINT: 'https://localhost:3456/api/',
