@@ -12,7 +12,7 @@ export const environment = {
 
   // HEROKU
   SOCKET_ENDPOINT: 'https://app-manhattan-api.herokuapp.com:3456/',
-  BACKEND_ENDPOINT: 'https://app-manhattan-api.herokuapp.com/api/',
+  BACKEND_ENDPOINT: 'https://app-manhattan-api.herokuapp.com/v1/',
 
   // AZURE
   // SOCKET_ENDPOINT: 'https://api-manhattan.azurewebsites.net:3456/',

@@ -4,7 +4,7 @@ import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http
 import { BehaviorSubject, Observable, throwError, of } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
 
-import * as crypto from 'crypto-js';
+import aes from 'crypto-js/aes';
 
 import { environment } from 'projects/environments/environment';
 import { Login } from 'projects/core/models/db/index';
@@ -56,7 +56,7 @@ export class AuthenticationService {
       return obs2;
     }
     const confirmPassword = this.router.url.includes('login') ? password : environment.BACKEND_PASSWORD;
-    password = crypto.AES.encrypt(confirmPassword, environment.PRIVATE_CRYPTO).toString();
+    password = aes.encrypt(confirmPassword, environment.PRIVATE_CRYPTO).toString();
 
     return this.http.post<Login>(API_URL.concat('authenticate'), { username, password }, options)
       .do(req => this.setSession(req), catchError(this.handleError1));
