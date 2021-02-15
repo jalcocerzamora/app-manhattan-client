@@ -1,6 +1,6 @@
 {
   "configVersion": 1,
-  "timestamp": 1613366581203,
+  "timestamp": 1613367077049,
   "index": "https://jalcocerzamora.github.io/app-manhattan-client/index.html",
   "assetGroups": [
     {
@@ -13,8 +13,8 @@
       "urls": [
         "https://jalcocerzamora.github.io/app-manhattan-client/favicon.ico",
         "https://jalcocerzamora.github.io/app-manhattan-client/index.html",
-        "https://jalcocerzamora.github.io/app-manhattan-client/main-es2015.6bbad7532378f6f51ccc.js",
-        "https://jalcocerzamora.github.io/app-manhattan-client/main-es5.6bbad7532378f6f51ccc.js",
+        "https://jalcocerzamora.github.io/app-manhattan-client/main-es2015.cab32a72587efbbe2b8d.js",
+        "https://jalcocerzamora.github.io/app-manhattan-client/main-es5.cab32a72587efbbe2b8d.js",
         "https://jalcocerzamora.github.io/app-manhattan-client/manifest.webmanifest",
         "https://jalcocerzamora.github.io/app-manhattan-client/polyfills-es2015.9f728a8a916061c9bec6.js",
         "https://jalcocerzamora.github.io/app-manhattan-client/polyfills-es5.257fdaadfec984ed49c8.js",
@@ -207,9 +207,9 @@
     "https://jalcocerzamora.github.io/app-manhattan-client/assets/images/menu/sushis/clasicos/tres-quesos-min.png": "4476ece252a73f52f40f47f7307f18a05e9d4d71",
     "https://jalcocerzamora.github.io/app-manhattan-client/assets/images/menu/sushis/clasicos/tres-quesos.png": "4476ece252a73f52f40f47f7307f18a05e9d4d71",
     "https://jalcocerzamora.github.io/app-manhattan-client/favicon.ico": "22f6a4a3bcaafafb0254e0f2fa4ceb89e505e8b2",
-    "https://jalcocerzamora.github.io/app-manhattan-client/index.html": "9994b558a6cd34e22bd3f290734fb03d485fef93",
-    "https://jalcocerzamora.github.io/app-manhattan-client/main-es2015.6bbad7532378f6f51ccc.js": "b080a04622567f7d87f826ef44f7c5514e04e503",
-    "https://jalcocerzamora.github.io/app-manhattan-client/main-es5.6bbad7532378f6f51ccc.js": "992d3272f053aca4cb3bb6055642725d639d38dd",
+    "https://jalcocerzamora.github.io/app-manhattan-client/index.html": "89670dbc99e23d6ebd027b101d1f330194ba6ee1",
+    "https://jalcocerzamora.github.io/app-manhattan-client/main-es2015.cab32a72587efbbe2b8d.js": "c014cf1b63e57ca5f7dab234570cc4dbf392ba59",
+    "https://jalcocerzamora.github.io/app-manhattan-client/main-es5.cab32a72587efbbe2b8d.js": "b3e5ba613eafdb56d3afaba3d767e668159754ab",
     "https://jalcocerzamora.github.io/app-manhattan-client/manifest.webmanifest": "4baaf1481380074e97e7bcbba0ddd1f14c3d4f8b",
     "https://jalcocerzamora.github.io/app-manhattan-client/polyfills-es2015.9f728a8a916061c9bec6.js": "56eef06ba39ddf6401c28d5a7b1ce4912c29e876",
     "https://jalcocerzamora.github.io/app-manhattan-client/polyfills-es5.257fdaadfec984ed49c8.js": "907295bb677b50522ad59433e24e3937796d5461",
