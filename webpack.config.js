@@ -33,9 +33,9 @@ module.exports = {
         }
     },
     plugins: [
-        new MiniCssExtractPlugin({
-            filename: './node_modules/leaflet/dist/leaflet.css',
-        }),
+        // new MiniCssExtractPlugin({
+        //     filename: './node_modules/leaflet/dist/leaflet.css',
+        // }),
         // new CopyPlugin({
         //     patterns: [
         //       { from: "assets", to: "assets" },
