@@ -52,9 +52,13 @@ export class DeliveryContact implements IDeliveryContact {
   Email: string;
   Country?: string;
 
-  constructor(){
-    // this. = 0;
-    // this.Items = new Array<ShopCartItem<T>>();
+  constructor() { // firstname: string, lastname: string, cellPhone: number, email: string, country: string
+    // do stuff
+    // this.FirstName = firstname;
+    // this.LastName = lastname;
+    // this.CellPhone = cellPhone;
+    // this.Email = email;
+    // this.Country = country;
   }
 }
 
@@ -74,7 +78,9 @@ export class DeliveryMethod implements IDeliveryMethod {
   Latitude: number;
   Longitude: number;
 
-  constructor() {}
+  constructor() {
+    // do stuff
+  }
 
   public readonly toString = (): string => {
     return `${this.PlaceName}`;
@@ -90,7 +96,9 @@ export class DeliveryTime implements IDeliveryTime {
   Date: Date;
   Schedule: Date;
 
-  constructor() {}
+  constructor() {
+    // do stuff
+  }
 
   get ScheduleFormat() {
     const date = new Date(Date.parse(`${this.Date} ${this.Schedule}`));
@@ -142,5 +150,7 @@ export class DeliveryPaymentMethod implements IDeliveryPaymentMethod {
   CardCvc: string;
   PostalCode: number;
 
-  constructor() {}
+  constructor() {
+    // do stuff
+  }
 }
