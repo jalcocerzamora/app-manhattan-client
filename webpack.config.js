@@ -27,7 +27,8 @@ module.exports = {
         alias: {
             'chart.js': 'chart.js',
             'mapbox-gl': 'mapbox-gl',
-            'marker-shadow.png': path.resolve(__dirname, '/app-manhattan-client/projects/store/src/assets/images/leaftlet/marker-shadow.png'),
+            // 'leaflet-locate-control': path.resolve(__dirname, 'node_modules/leaflet.locatecontrol/src/L.Control.Locate.js'),
+            // 'marker-shadow.png': path.resolve(__dirname, '/app-manhattan-client/projects/store/src/assets/images/leaftlet/marker-shadow.png'),
             // 'node_modules/leaflet/dist/leaflet.css': path.resolve(__dirname, '/node_modules/leaflet/dist/leaflet.css')
             // 'leaflet': path.resolve(__dirname, '/node_modules/leaflet/dist/leaflet.css')
         }
