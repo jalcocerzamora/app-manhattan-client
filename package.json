@@ -20,7 +20,7 @@
     "stats:webpack": "webpack-bundle-analyzer ./dist/store/stats.json",
     "deploy": "gh-pages -d dist",
     "deploy:store:repo-basic": "ng deploy store",
-    "deploy:gh-build": "ng deploy store --build-target=test --repo=https://github.com/jalcocerzamora/app-manhattan-client.git --name=alco_1993@hotmail.com --email=alco_1993@hotmail.com",
+    "deploy:gh-build": "ng deploy store --repo=https://github.com/jalcocerzamora/app-manhattan-client.git --name=alco_1993@hotmail.com --email=alco_1993@hotmail.com",
     "deploy:gh-npx": "npx angular-cli-ghpages --dir=dist/store/",
     "test": "ng test",
     "lint": "ng lint",
@@ -35,9 +35,7 @@
   "browserslist": [
     "> 1%",
     "last 2 versions",
-    "Edge 16",
-    "not ie <= 10",
-    "not ie_mob <= 10"
+    "Edge 16"
   ],
   "dependencies": {
     "@angular/animations": "~11.1.2",
@@ -62,6 +60,7 @@
     "@ngx-translate/core": "^13.0.0",
     "@ngx-translate/http-loader": "^6.0.0",
     "@popperjs/core": "^2.4.4",
+    "@runette/ngx-leaflet-locate": "^2.0.0",
     "@stripe/stripe-js": "^1.8.0",
     "@tailwindcss/forms": "^0.2.1",
     "angular-chart.js": "^1.1.1",
