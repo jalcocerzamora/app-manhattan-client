@@ -60,7 +60,7 @@
 </ng-template>
 
 <ng-template #Body>
-  <div class="w-full mx-auto flex flex-col space-y-2 mt-12 mb-32 lg:text-sm">
+  <div class="w-full mx-auto flex flex-col space-y-2 mt-12 mb-32 pr-4 lg:text-sm">
 
     <div class="w-full flex flex-row space-x-4">
       <div class="w-1/2">
@@ -68,78 +68,44 @@
       </div>
 
       <div class="w-1/2">
-        <table class="w-full table-auto">
+        <table aria-label="tb-summary-order" aria-describedby="tb-summary-order" class="table-auto">
+          <caption></caption>
           <thead class="">
             <tr class="text-gray-700 border border-gray-400">
-              <th class="bg-gray-200 w-1/12 text-center border-t border-gray-300 rounded-tl-sm p-2" style="background-color: #f3f2f3;">Qty</th>
-              <th class="bg-gray-200 w-10/12 text-left border-t border-gray-300 p-2" style="background-color: #f3f2f3;">Item</th>
-              <th class="bg-gray-200 w-1/12 text-center border-t border-gray-300 rounded-tr-sm p-2" style="background-color: #f3f2f3;">Price</th>
+              <th scope="col" class="bg-gray-200 w-1/12 text-center border-t border-gray-300 rounded-tl-sm p-2" style="background-color: #f3f2f3;">Qty</th>
+              <th scope="col" class="bg-gray-200 w-10/12 text-left border-t border-gray-300 p-2" style="background-color: #f3f2f3;">Item</th>
+              <th scope="col" class="bg-gray-200 w-1/12 text-center border-t border-gray-300 rounded-tr-sm p-2" style="background-color: #f3f2f3;">Price</th>
             </tr>
           </thead>
           <tbody class="bg-white products border border-gray-400 overflow-y-auto">
             <ng-container *ngFor="let item of shopcart.Items;"><!-- trackBy:item.i -->
               <tr class="product_item">
-                <td colspan="3" class="py-1 pl-2 pr-5">
-                  <table class="w-full">
-                    <thead>
-                      <tr class="product_detail font-semibold">
-                        <td class="w-1/12 text-center" [innerText]="item.Quantity + 'pz'"></td>
-                        <td class="w-10/12 text-left" [innerText]="item.Data.name"></td>
-                        <td class="w-1/12 text-center" [innerText]="(item.Price * item.Quantity) | currency"></td>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <!-- <tr class="product_summary">
-                        <td colspan="3" class="w-1/12 text-left">
-                          <ul class="leading-none pl-5">
-                            <li><small>Size: Small</small></li>
-                            <li><small>Crust: Crispy</small></li>
-                            <li><small>Extra Toppings: Mozzarrela (+0.70)</small></li>
-                            <li><small>Extra Toppings: Olives (+0.70)</small></li>
-                          </ul>
-                        </td>
-                      </tr> -->
-                    </tbody>
-                  </table>
-                </td>
-                <button (click)="onClickRemove(item.Id)" value="ij">
-                  <fa-icon icon="trash" size="xs"></fa-icon>
-                </button>
+                <th scope="row" class="product_detail py-1 pl-2 pr-5" [innerText]="item.Quantity + 'pz'"></th>
+                <td class="py-1 pl-2 pr-5" [innerText]="item.Data.name"></td>
+                <td class="py-1 pl-2 pr-5 text-right" [innerText]="(item.Price * item.Quantity) | currency"></td>
+                <!-- <button (click)="onClickRemove(item.Id)" value="ij"><fa-icon icon="trash" size="xs"></fa-icon></button> -->
                 <!-- <fa-icon icon="trash" size="xs" [spin]="isSyncAnimated" (click)="isSyncAnimated=!isSyncAnimated"></fa-icon>[pulse]="true" -->
               </tr>
             </ng-container>
           </tbody>
           <tfoot class="invoice bg-white border border-gray-400">
             <tr>
-              <td colspan="3" class="py-1 px-2">
-                <table class="w-full">
-                  <tbody>
-                    <tr class="">
-                      <td class="text-left"><small>Sub-Total</small></td>
-                      <td class="text-right"><small [innerText]="shopcart.getTotal | currency">$0 MXN</small></td>
-                    </tr>
-                    <!-- <tr class="">
-                      <td class="text-left"><small>Sales Tax (7%):</small></td>
-                      <td class="text-right"><small>$5.23 MXN</small></td>
-                    </tr> -->
-                  </tbody>
-                </table>
-              </td>
+              <td colspan="2" class="py-1 px-2"><small>Sub-Total</small></td>
+              <td class="py-1 px-2 text-right"><small [innerText]="shopcart.getTotal | currency">$0 MXN</small></td>              
             </tr>
+            <!--
+            <tr>
+              <td colspan="2" class="py-1 px-2"><small>Sales Tax (7%):</small></td>
+              <td class="py-1 px-2 text-right"><small>$5.23 MXN</small></td>              
+            </tr>
+            -->
             <tr class="font-semibold">
-              <td colspan="3" class="py-1 px-2">
-                <table class="w-full">
-                  <tbody>
-                    <tr class="product_summary">
-                      <td class="text-left">Total</td>
-                      <td class="text-right" [innerText]="shopcart.getTotal | currency">$0 MXN</td>
-                    </tr>
-                  </tbody>
-                </table>
-              </td>
+              <td colspan="1" class="py-1 px-2">Total:</td>
+              <td colspan="2" class="py-1 px-2 text-right" [innerText]="shopcart.getTotal | currency">$0 MXN</td>
             </tr>
           </tfoot>
         </table>
+        <div id="tb-summary-order"></div>
       </div>
     </div>
 

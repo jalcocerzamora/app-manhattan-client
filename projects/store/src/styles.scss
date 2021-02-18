@@ -17,6 +17,9 @@
 /** "tailwindcss/utilities" */
 @import "tailwindcss/utilities";
 
+/** "leaflet-locate-control" */
+@import "../../../node_modules/leaflet.locatecontrol/dist/L.Control.Locate.css"; //"leaflet.locatecontrol/dist/L.Control.Locate.css";
+
 // Animate the size, outside
 .pulse {
   animation: pulse 1s infinite;

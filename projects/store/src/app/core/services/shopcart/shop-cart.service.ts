@@ -21,18 +21,12 @@ export class ShopCartService<T> {
   }
 
   public get GetShopCart(): ShopCart<T> {
-    // console.log('ShopCartService.GetShopCart', this.ShopCart, this.ShopCart.getTotal());
     return this.ShopCart;
   }
 
   public get GetItems(): Array<ShopCartItem<T>> {
     let result = null;
-    if ( this.GetShopCart.Items.length > 1){
-      // this.ShopCart.Items.sort((first, second) => { return first.Item - second.Item; });
-      result = this.GetShopCart.Items;
-    } else {
-      result = this.GetShopCart.Items;
-    }
+    result = this.GetShopCart.Items;
     return result;
   }
 

@@ -12,6 +12,7 @@ import { faTimes, faPlus, faMinus, faCircle, faEdit } from '@fortawesome/free-so
 
 // Maps
 import { LeafletModule } from '@asymmetrik/ngx-leaflet';
+import { NgxLeafletLocateModule } from '@runette/ngx-leaflet-locate';
 
 // Translation
 import { TranslateService, TranslateLoader, TranslateModule } from '@ngx-translate/core';
@@ -64,6 +65,7 @@ import { NgxStripeModule } from 'ngx-stripe';
     TranslateModule.forRoot({ defaultLanguage: environment.language, loader: { provide: TranslateLoader, useFactory: HttpLoaderFactory, deps: [HttpClient, PlatformLocation] } }),
     NgxStripeModule.forRoot('pk_test_51HXya7EBr7ET6lVJzagRfQLbyPHuUUA2fiubhV68rK5BGiVpjgkNwvWf0aqTiAzV7i0afuyhZ51qaf9wKwU9DuNv004qz4ckgX'),
     LeafletModule,
+    NgxLeafletLocateModule,
   ],
   exports: [
     NotFoundComponent,

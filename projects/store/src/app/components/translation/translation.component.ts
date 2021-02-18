@@ -18,6 +18,7 @@ export class TranslationComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    // do stuff
   }
 
   public changeLanguage(lang) {

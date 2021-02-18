@@ -70,7 +70,13 @@
                         [leafletOptions]="leafletOptions"
                         [leafletLayers]="leafletLayers"
                         (leafletMapReady)="onLeafletMapReady($event)"
-                        class="h-40 mb-5"></div>
+                        class="h-40 mb-5">
+                    </div>
+                    <leaflet-locate-control 
+                        [map]="mapLeflet"
+                        [options]="locateOptions"
+                        (location$)="onNewLocation($event)">
+                    </leaflet-locate-control>
                     <button [translate]="'SHOPCART.FORMS.btnSave'" [disabled]="!formOrdering.valid" type="submit"
                         class="btn-default">Guardar</button>
                 </form>
@@ -222,6 +228,7 @@
 
                     <div class="payment-info sepa_debit">
                         <fieldset>
+                            <legend></legend>
                             <label>
                                 <span>IBAN</span>
                                 <div id="iban-element" class="field"></div>
@@ -235,6 +242,7 @@
                     </div>
                     <div class="payment-info ideal">
                         <fieldset>
+                            <legend></legend>
                             <label>
                                 <span>iDEAL Bank</span>
                                 <div id="ideal-bank-element" class="field"></div>
@@ -253,6 +261,7 @@
                     </div>
                     <div class="payment-info au_becs_debit">
                         <fieldset>
+                            <legend></legend>
                             <label>
                                 <span>Bank Account</span>
                                 <div id="becs-bank-element" class="field"></div>
@@ -285,6 +294,7 @@
                     <div #ibanErrors class="element-errors"></div>
 
                     <legend class="flex-row text-xs text-gray-700 hidden">
+                        <legend></legend>
                         <div class="">
                             Payment succeeds <br>
                             Payment requires authentication <br>

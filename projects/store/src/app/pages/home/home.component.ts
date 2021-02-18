@@ -7,10 +7,16 @@ import { Component, OnInit, AfterViewInit } from '@angular/core';
 })
 export class HomeComponent implements OnInit, AfterViewInit  {
 
-  constructor() { }
+  constructor() {
+    // do stuff
+  }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    // do stuff
+  }
 
-  ngAfterViewInit(): void {}
+  ngAfterViewInit(): void {
+    // do stuff
+  }
 
 }

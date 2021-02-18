@@ -49,6 +49,7 @@ export class ShopcartComponent implements OnInit, AfterViewInit {
     private tagScriptService: ScriptService,
     private tagStyleService: StyleService,
   ) {
+    // do stuff
     // console.log('ShopcartComponent.constructor');
     // console.log('Loading External Scripts');
     // this.tagScriptService.load('mapbox-gl');
@@ -62,6 +63,7 @@ export class ShopcartComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
+    // do stuff
   }
 
   getProducts(): Observable<Array<ISubproductsWithCategory>> {

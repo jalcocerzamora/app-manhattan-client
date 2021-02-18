@@ -17,7 +17,10 @@ import { TranslateService } from '@ngx-translate/core';
 // import '@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css';
 
 //
-import { Map, circle, latLng, polygon, tileLayer, marker, Marker, Layer } from 'leaflet';
+import { Map, Layer, Control, Marker, circle, latLng, tileLayer, marker, point, control, polygon, polyline, MapOptions, LatLngTuple } from 'leaflet';
+import { LeafletControlLayersConfig, LeafletDirective, LeafletLayerDirective } from '@asymmetrik/ngx-leaflet';
+import { NgxLeafletLocateComponent } from '@runette/ngx-leaflet-locate';
+// import { * } from 'leaflet.locatecontrol';
 
 //
 import {
@@ -31,7 +34,6 @@ import { ValidationService } from 'projects/core/directives/formly/validation/va
 import { PaymentGatewayService } from '../../core/services/payment-gateway.service';
 import { StripeService, StripeCardComponent } from 'ngx-stripe';
 import { StripeCardElementChangeEvent, StripeCardElementOptions, StripeElementsOptions } from '@stripe/stripe-js';
-import { LeafletControlLayersConfig, LeafletDirective } from '@asymmetrik/ngx-leaflet';
 
 // Before the component
 declare var Stripe: any;
@@ -55,6 +57,9 @@ export class PaymentGatewayComponent implements OnInit, OnDestroy {
 
   public CurrentStep: StepsPaymentGateway = StepsPaymentGateway.None;
 
+  //#region FORM STEPS
+  @ViewChild('cardErrors') cardErrors: ElementRef<HTMLDivElement>;
+
   public contactComplete = false;
   public formContact: FormGroup = new FormGroup({});
   public modelContact: DeliveryContact = null;
@@ -73,11 +78,17 @@ export class PaymentGatewayComponent implements OnInit, OnDestroy {
   public optionsTime: FormlyFormOptions = {};
   public fieldsTime: FormlyFieldConfig[] = [];
 
-  @ViewChild(LeafletDirective) LeafletMap!: LeafletDirective;
+  public paymentComplete = false;
+  public formPayment = new FormGroup({});
+  public modelPayment: DeliveryPaymentMethod = null;
+  public optionsPayment: FormlyFormOptions = {};
+  public fieldsPayment: FormlyFieldConfig[] = [];
+  //#endregion
+
+  //#region LEAFLET MAP
+  @ViewChild(LeafletDirective, { static: false }) LeafletMap!: LeafletDirective;
   public leafletOptions = {
-    layers: [
-      tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 18, attribution: '...' })
-    ],
+    layers: [tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 18, attribution: '&copy; OpenStreetMap contributors' })],
     zoom: DEFAULT_MAP_ZOOM,
     center: latLng(DEFAULT_MAP_CENTER.latitude, DEFAULT_MAP_CENTER.longitude),
     trackResize: true,
@@ -86,26 +97,46 @@ export class PaymentGatewayComponent implements OnInit, OnDestroy {
       -86.7405402017646, 21.2130333805118, // Northeast coordinates
     ],
   };
-
   public leafletLayerControls: LeafletControlLayersConfig = null;
-  //  {
-  //   baseLayers: {
-  //     // 'Open Street Map': tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 18, attribution: '...' }),
-  //     // 'Open Cycle Map': tileLayer('https://{s}.tile.opencyclemap.org/cycle/{z}/{x}/{y}.png', { maxZoom: 18, attribution: '...' })
-  //   },
-  //   overlays: {
-  //     // 'Big Circle': circle([ 46.95, -122 ], { radius: 5000 }),
-  //     // 'Big Square': polygon([[ 46.8, -121.55 ], [ 46.9, -121.55 ], [ 46.9, -121.7 ], [ 46.8, -121.7 ]])
-  //   }
-  // };
-
+  // { baseLayers: { 'Open Street Map': tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 18, attribution: '...' }), 'Open Cycle Map': tileLayer('https://{s}.tile.opencyclemap.org/cycle/{z}/{x}/{y}.png', { maxZoom: 18, attribution: '...' } ) } };
+  // { overlays: { 'Big Circle': circle([ 46.95, -122 ], { radius: 5000 }), 'Big Square': polygon([[ 46.8, -121.55 ], [ 46.9, -121.55 ], [ 46.9, -121.7 ], [ 46.8, -121.7 ]]) } };
   public leafletLayers: Layer[] = [
     // circle([ 46.95, -122 ], { radius: 5000 }),
     // polygon([[ 46.8, -121.85 ], [ 46.92, -121.92 ], [ 46.87, -121.8 ]]),
-    marker([ 21.155369999999998, -83.847211 ])
+    // marker([ 21.155369999999998, -83.847211 ])
   ];
+  //#endregion
 
-  // STRIPE ELEMENTS
+  //#region LEAFLET CONTROL
+  @ViewChild(NgxLeafletLocateComponent, { static: false }) locateComponent: NgxLeafletLocateComponent;
+  public mapLeflet: Map = null;
+  // Path from paradise to summit - most points omitted from this example for brevity
+  route = polyline([
+    [46.78465227596462, -121.74141269177198],
+    [46.80047278292477, -121.73470708541572],
+    [46.815471360459924, -121.72521826811135],
+    [46.8360239546746, -121.7323131300509],
+    [46.844306448474526, -121.73327445052564],
+    [46.84979408048093, -121.74325201660395],
+    [46.853193528950214, -121.74823296256363],
+    [46.85322881676257, -121.74843915738165],
+    [46.85119913890958, -121.7519719619304],
+    [46.85103829018772, -121.7542376741767],
+    [46.85101557523012, -121.75431755371392],
+    [46.85140013694763, -121.75727385096252],
+    [46.8525277543813, -121.75995212048292],
+    [46.85290292836726, -121.76049157977104],
+    [46.8528160918504, -121.76042997278273]]);
+  public locateOptions = {
+    flyTo: false,
+    keepCurrentZoomLevel: true,
+    locateOptions: { maxZoom: 10, enableHighAccuracy: true },
+    // icon: 'fa fa-map-marker',
+    clickBehavior: { inView: 'stop', outOfView: 'setView', inViewNotFollowing: 'setView' }
+  };
+  //#endregion
+
+  //#region STRIPE ELEMENTS
   @ViewChild(StripeCardComponent) card: StripeCardComponent;
   public elementsOptions: StripeElementsOptions = { locale: 'es' };
   public cardOptions: StripeCardElementOptions = {
@@ -126,16 +157,10 @@ export class PaymentGatewayComponent implements OnInit, OnDestroy {
       }
     }
   };
-  @ViewChild('cardErrors') cardErrors: ElementRef<HTMLDivElement>;
+  //#endregion
 
-  public paymentComplete = false;
-  public formPayment = new FormGroup({});
-  public modelPayment: DeliveryPaymentMethod = null;
-  public optionsPayment: FormlyFormOptions = {};
-  public fieldsPayment: FormlyFieldConfig[] = [];
-
+  //#region MAPBOX VARIABLES
   public map: any; // Map;
-
   private subscriptionMapBoxResult$: Subscription;
   private subscriptionMapBoxResult: Observable<any>;
   private getMapBoxResult(lng: number, lat: number, token: string = this.MAPBOX_ACCESS_TOKEN): Observable<any> {
@@ -144,6 +169,7 @@ export class PaymentGatewayComponent implements OnInit, OnDestroy {
 
     return this.http.get(apiCoordtoAddressEncoded, { responseType: 'json' }).pipe(catchError(this.handleError));
   }
+  //#endregion
 
   constructor(
     public translate: TranslateService,
@@ -182,7 +208,7 @@ export class PaymentGatewayComponent implements OnInit, OnDestroy {
           },
           {
             key: 'CellPhone', type: 'tel', defaultValue: '9191309422', className: 'flex-1 lg:flex-initial mb-5 mr-1',
-            templateOptions: { placeholder: 'SHOPCART.FORMS.Step1.lblCellPhone', inputClass: 'form-control-sm', addonLeft: { icon: 'mobile-alt', },  required: true, translate: true, },
+            templateOptions: { placeholder: 'SHOPCART.FORMS.Step1.lblCellPhone', inputClass: 'form-control-sm', addonLeft: { icon: 'mobile-alt', }, required: true, translate: true, },
             validation: { show: true, messages: { pattern: (error, field: FormlyFieldConfig) => this.translate.stream('FORM.VALIDATION.TEL', { value: field.formControl.value }), }, },
           },
           {
@@ -337,7 +363,7 @@ export class PaymentGatewayComponent implements OnInit, OnDestroy {
                   } else {
                     this.paymentGatewayService.setCardStripe = null;
                     this.formPayment.controls.Brand.reset();
-                    validBrand = (value === PaymentMethodEnum.Cash || this.modelPayment.hasOwnProperty('Brand') ? true : false );
+                    validBrand = (value === PaymentMethodEnum.Cash || this.modelPayment.hasOwnProperty('Brand') ? true : false);
                   }
                   const fullStatus = (this.formContact.valid && this.formOrdering.valid && this.formTime.valid && this.formPayment.valid && validBrand);
                   this.stepCompleteRequest.emit(fullStatus);
@@ -396,11 +422,11 @@ export class PaymentGatewayComponent implements OnInit, OnDestroy {
       this.onSubmitContact();
       this.onSubmitOrdering();
       this.onSubmitTime();
-    }, 1000);
+    }, 3000);
   }
 
   ngOnDestroy(): void {
-    if (this.subscriptionMapBoxResult$) { this.subscriptionMapBoxResult$.unsubscribe(); }
+    // if (this.subscriptionMapBoxResult$) { this.subscriptionMapBoxResult$.unsubscribe(); }
     // throw new Error('Method not implemented.');
   }
 
@@ -474,33 +500,46 @@ export class PaymentGatewayComponent implements OnInit, OnDestroy {
     // $submitButton.disabled = false;
   }
 
-  // tslint:disable-next-line: no-shadowed-variable
-  onLeafletMapReady(map: Map) {
+  //#region LEFTLET METHOD
+  onLeafletMapReady(mapLeaflet: Map) {
+    this.mapLeflet = mapLeaflet;
     const $component = this;
     console.groupCollapsed('onLeafletMapReady');
     console.groupEnd();
-    map.locate({ setView: true, maxZoom: DEFAULT_MAP_ZOOM + 10 });
-    map.on('locationfound', (e) => {
+    mapLeaflet.fitBounds(this.route.getBounds(), {
+      padding: point(24, 24),
+      maxZoom: 12,
+      animate: true
+    });
+    mapLeaflet.locate({ setView: true, maxZoom: DEFAULT_MAP_ZOOM + 10 });
+    mapLeaflet.on('locationfound', (e) => {
       console.groupCollapsed('onLeafletMapReady.locationfound');
       const radius = e.accuracy;
       this.leafletLayers.push(marker(e.latlng).bindPopup('You are within ' + radius + ' meters <from this point').openPopup());
-      this.leafletLayers.push(circle(e.latlng, radius));
+      //   this.leafletLayers.push(circle(e.latlng, radius));
       const deliveryMethod: IDeliveryMethod = { Latitude: e.latlng.lat, Longitude: e.latlng.lng, PlaceName: 'Testing', PostCode: 1 };
       $component.formOrdering.setValue(deliveryMethod);
-      // $component.formOrdering.updateValueAndValidity({ emitEvent: true, onlySelf: true });
+      $component.formOrdering.updateValueAndValidity({ emitEvent: true, onlySelf: true });
       $component.orderingComplete = true;
       console.log('e', e);
       console.log('LeafletMap', [this.LeafletMap, marker(e.latlng)]);
       console.groupEnd();
     });
-    map.on('locationerror', (e) => {
+    mapLeaflet.on('locationerror', (e) => {
       console.groupCollapsed('onLeafletMapReady.locationerror');
-      alert(e.message);
+      alert(e);
       console.groupEnd();
     });
   }
 
-  GenerateMapLeaflet(){
+  onNewLocation(e: Location) {
+    console.groupCollapsed('onNewLocation');
+    console.log({e});
+    console.groupEnd();
+  }
+
+  // tslint:disable-next-line: no-shadowed-variable
+  GenerateMapLeaflet() {
     // var map = L.map('map').setView([51.505, -0.09], 13);
 
     // L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -511,6 +550,7 @@ export class PaymentGatewayComponent implements OnInit, OnDestroy {
     //   .bindPopup('A pretty CSS3 popup.<br> Easily customizable.')
     //   .openPopup();
   }
+  //#endregion
 
   // const elements = stripe.elements();
   // const data = {

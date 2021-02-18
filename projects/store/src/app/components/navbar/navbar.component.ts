@@ -13,9 +13,12 @@ export class NavbarComponent implements OnInit, AfterViewInit {
   constructor(
     private elementRef: ElementRef,
     private translate: TranslateService
-  ) { }
+  ) {
+    // do stuff
+  }
 
   ngOnInit(): void {
+    // do stuff
   }
 
   ngAfterViewInit(): void {

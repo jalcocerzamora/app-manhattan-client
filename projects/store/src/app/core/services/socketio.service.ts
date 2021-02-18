@@ -6,11 +6,14 @@ import { environment } from 'projects/environments/environment';
   providedIn: 'root'
 })
 export class SocketioService {
-  socket;
+  // socket;
 
-  constructor() {   }
+  constructor() {
+    // do stuff
+  }
 
   setupSocketConnection(){
+    // do stuff
     // this.socket = io(environment.SOCKET_ENDPOINT);
     // this.socket = io(environment.SOCKET_ENDPOINT, {
     //   query: {

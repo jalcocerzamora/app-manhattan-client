@@ -17,7 +17,7 @@ const API_ENDPOINT: string = environment.BACKEND_ENDPOINT;
   providedIn: 'root'
 })
 export class PlacedOrderService {
-  private ROUTE: string = 'placed-order';
+  private ROUTE = 'placed-order';
   private HTTP_OPTIONS = { headers: new HttpHeaders( { 'Content-Type': 'application/json', } ) };
 
   constructor(
