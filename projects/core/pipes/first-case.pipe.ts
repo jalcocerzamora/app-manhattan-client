@@ -5,7 +5,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 })
 export class FirstCasePipe implements PipeTransform {
 
-  transform(value: string, ...args: unknown[]): unknown {
+  transform(value: string, ...args: any[]): any {
     const result = (value !== undefined && value !== null ? value.charAt(0).toUpperCase() + value.slice(1).toLowerCase() : '');
     return result;
   }
