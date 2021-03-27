@@ -57,7 +57,7 @@ $backgroundImage: "https://source.unsplash.com/-1GEAA8q3wk/1200x600";
     @apply fixed;
     @apply inset-0;
     @apply my-5;
-    @apply mx-20;
+    @apply mx-4;
     @apply rounded-lg;
 
     @media (min-width: 640px) { 
@@ -66,8 +66,8 @@ $backgroundImage: "https://source.unsplash.com/-1GEAA8q3wk/1200x600";
 
     @media (min-width: 1024px) {
       @apply w-2/3; // my-10 mx-32;
-      @apply mx-auto;
       @apply my-10;
+      @apply mx-20;
     }
 
     @media (min-width: 1280px) {

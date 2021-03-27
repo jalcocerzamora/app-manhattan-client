@@ -9,12 +9,12 @@ import { ICategory, ISubproduct } from 'projects/core/models/db';
     <div class="flex flex-col">
 
       <div class="flex flex-row">
-        <h3 class="scroll-start w-full text-sm lg:text-xl font-bold uppercase mt-8 mb-2" [innerText]="Category.title"></h3>
+        <h3 class="scroll-start w-full text-sm md:text-xl font-bold uppercase mt-8 mb-2" [innerText]="Category.title"></h3>
       </div>
 
-      <div class="cat_item_row flex space-x-5">
+      <div class="cat_item_row flex flex-col md:flex-row md:space-x-5">
 
-        <div class="flex flex-col divide-y divide-gray-300 w-1/2">
+        <div class="w-full flex flex-col divide-y divide-gray-300 md:w-1/2">
           <ng-container *ngIf="Products">
             <ng-container *ngFor="let Product of getHalft('Left'); index as Index; first as isFirst; last as isLast; trackBy: trackByMethod;">
               <app-product-item [addClass]="getClass(isFirst, isLast)" [Category]="Category" [Product]="Product"
@@ -23,7 +23,7 @@ import { ICategory, ISubproduct } from 'projects/core/models/db';
           </ng-container>
         </div>
 
-        <div class="flex flex-col divide-y divide-gray-300 w-1/2">
+        <div class="w-full flex flex-col divide-y divide-gray-300 md:w-1/2">
           <ng-container *ngIf="Products">
             <ng-container *ngFor="let Product of getHalft('Right'); index as Index; first as isFirst; last as isLast; trackBy: trackByMethod;">
               <app-product-item [addClass]="getClass(isFirst, isLast)" [Category]="Category" [Product]="Product"

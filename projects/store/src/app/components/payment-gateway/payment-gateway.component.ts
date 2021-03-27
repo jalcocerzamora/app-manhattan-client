@@ -60,6 +60,24 @@ const DEBUG = true;
   // providers: [ { provide: 'container', useValue: 'mapboxGL'  } ]
 })
 export class PaymentGatewayComponent implements OnInit, OnDestroy, AfterViewInit {
+
+  constructor(
+    public translate: TranslateService,
+    private http: HttpClient,
+    private datePipe: DatePipe,
+
+    private stripeService: StripeService,
+    private mapboxglService: MapBoxGLService,
+    private paymentGatewayService: PaymentGatewayService
+  ) {
+    // translate.addLangs(['en', 'fr']);
+    // translate.setDefaultLang('en');
+
+    // const browserLang = translate.getBrowserLang();
+
+    // translate.use(browserLang.match(/en|fr/) ? browserLang : 'en');
+    // this.model.lang = translate.currentLang;
+  }
   @Output() stepCompleteRequest = new EventEmitter<boolean>();
 
   public DateCurrent: number = Date.now();
@@ -189,29 +207,18 @@ export class PaymentGatewayComponent implements OnInit, OnDestroy, AfterViewInit
   ];
   private subscriptionMapBoxResult$: Subscription;
   private subscriptionMapBoxResult: Observable<any>;
+  //#endregion
+
+  public modelOrderinWithMapBox = {
+    ...this.modelOrdering,
+    mapboxHighAccuracy: this.mapboxHighAccuracy,
+    mapboxShowUserLocate: this.mapboxShowUserLocate,
+    mapboxTrackUserLocate: this.mapboxTrackUserLocate,
+  };
   private getMapBoxResult(lng: number, lat: number, token: string = this.MAPBOX_ACCESS_TOKEN): Observable<any> {
     const apiCoordtoAddress = `https://api.mapbox.com/geocoding/v5/mapbox.places/${lng},${lat}.json?access_token=${token}`;
     const apiCoordtoAddressEncoded = encodeURI(apiCoordtoAddress);
     return this.http.get(apiCoordtoAddressEncoded, { responseType: 'json' }).pipe(catchError(this.handleError));
-  }
-  //#endregion
-
-  constructor(
-    public translate: TranslateService,
-    private http: HttpClient,
-    private datePipe: DatePipe,
-
-    private stripeService: StripeService,
-    private mapboxglService: MapBoxGLService,
-    private paymentGatewayService: PaymentGatewayService
-  ) {
-    // translate.addLangs(['en', 'fr']);
-    // translate.setDefaultLang('en');
-
-    // const browserLang = translate.getBrowserLang();
-
-    // translate.use(browserLang.match(/en|fr/) ? browserLang : 'en');
-    // this.model.lang = translate.currentLang;
   }
 
   ngOnInit(): void {
@@ -220,26 +227,26 @@ export class PaymentGatewayComponent implements OnInit, OnDestroy, AfterViewInit
     this.modelContact = new DeliveryContact();
     this.fieldsContact = [
       {
-        fieldGroupClassName: 'content-start flex flex-wrap justify-between',
+        fieldGroupClassName: 'flex flex-wrap content-start',
         fieldGroup: [
           {
-            key: 'firstname', type: 'input', defaultValue: 'Jonatan', className: 'flex-grow mb-5 mr-1',
-            templateOptions: { placeholder: 'SHOPCART.FORMS.Step1.lblFisrtName', inputClass: 'form-control-sm', required: true, translate: true, },
+            key: 'firstname', type: 'input', defaultValue: 'Jonatan', className: 'w-1/2 mb-5',
+            templateOptions: { placeholder: 'SHOPCART.FORMS.Step1.lblFisrtName', inputClass: 'form-control-sm', required: true, translate: true, attributes: { autocomplete: 'new_firstname' } },
             validation: { show: true, },
           },
           {
-            key: 'lastname', type: 'input', defaultValue: 'Alcocer Zamora', className: 'flex-grow mb-5',
-            templateOptions: { placeholder: 'SHOPCART.FORMS.Step1.lblLastName', inputClass: 'form-control-sm', required: true, translate: true, },
+            key: 'lastname', type: 'input', defaultValue: 'Alcocer Zamora', className: 'w-1/2 mb-5',
+            templateOptions: { placeholder: 'SHOPCART.FORMS.Step1.lblLastName', inputClass: 'form-control-sm', required: true, translate: true, attributes: { autocomplete: 'new_firstname' } },
             validation: { show: true, },
           },
           {
-            key: 'cellphone', type: 'tel', defaultValue: '9191309422', className: 'flex-initial md:flex-1 lg:flex-initial mb-5 mr-1',
-            templateOptions: { placeholder: 'SHOPCART.FORMS.Step1.lblCellPhone', inputClass: 'form-control-sm', addonLeft: { icon: 'mobile-alt', }, required: true, translate: true, },
+            key: 'cellphone', type: 'tel', defaultValue: '9191309422', className: 'w-2/3 mb-5 relative',
+            templateOptions: { placeholder: 'SHOPCART.FORMS.Step1.lblCellPhone', inputClass: 'form-control-sm', addonLeft: { icon: 'mobile-alt', }, required: true, translate: true, attributes: { autocomplete: 'new_firstname' } },
             validation: { show: true, messages: { pattern: (error, field: FormlyFieldConfig) => this.translate.stream('FORM.VALIDATION.TEL', { value: field.formControl.value }), }, },
           },
           {
-            key: 'country', type: 'input', className: 'flex-initial lg:flex-grow-0 mb-5',
-            templateOptions: { placeholder: 'SHOPCART.FORMS.Step1.lblCountry', inputDatalist: 'countries', inputClass: 'form-control-sm', addonLeft: { icon: 'globe', }, required: false, translate: true, },
+            key: 'country', type: 'input', className: 'w-1/3 mb-5 relative',
+            templateOptions: { placeholder: 'SHOPCART.FORMS.Step1.lblCountry', inputDatalist: 'countries', inputClass: 'form-control-sm', addonLeft: { icon: 'globe', }, required: false, translate: true, attributes: { autocomplete: 'new_firstname' } },
             hooks: {
               onInit: (field: FormlyFieldConfig) => {
                 const query = (search: string, token: string = this.MAPBOX_ACCESS_TOKEN): Observable<any> => {
@@ -284,8 +291,8 @@ export class PaymentGatewayComponent implements OnInit, OnDestroy, AfterViewInit
             },
           },
           {
-            key: 'email', type: 'email', defaultValue: 'jalcocerzamora@gmail.com', className: 'flex-grow lg:flex-grow mb-5',
-            templateOptions: { placeholder: 'SHOPCART.FORMS.Step1.lblEmail', inputClass: 'form-control-sm', addonLeft: { icon: 'envelope', }, required: true, translate: true, },
+            key: 'email', type: 'email', defaultValue: 'jalcocerzamora@gmail.com', className: 'w-full mb-5 relative',
+            templateOptions: { placeholder: 'SHOPCART.FORMS.Step1.lblEmail', inputClass: 'form-control-sm', addonLeft: { icon: 'envelope', }, required: true, translate: true, attributes: { autocomplete: 'new_firstname' } },
             validation: { show: true, messages: { pattern: (error, field: FormlyFieldConfig) => this.translate.stream('FORM.VALIDATION.EMAIL', { value: field.formControl.value }), }, },
             validators: Validators.compose([Validators.required, ValidationService.emailValidator]),
           },
