@@ -12,7 +12,7 @@
     "start:dashboard": "ng serve dashboard --port=4201",
     "build:dashboard": "ng build dashboard --prod",
     "build:prod": "NODE_ENV=production ng build --prod",
-    "heroku-postbuild": "ng build --prod",
+    "heroku-postbuild": "ng build store --prod --base-href=https://app-manhattan-client.herokuapp.com/",
     "postinstall": "ng build --aot --prod",
     "build:store:prod:repo": "ng build store --prod --base-href=https://jalcocerzamora.github.io/app-manhattan-client/",
     "build:gh-prod-aot": "ng build --prod --base-href=https://jalcocerzamora.github.io/app-manhattan-client/ --aot --build-optimizer && gzipper --verbose ./dist",
