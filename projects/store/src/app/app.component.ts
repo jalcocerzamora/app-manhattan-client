@@ -32,12 +32,15 @@ export class AppComponent implements OnInit {
     // console.log('AppComponent.ngOnInit');
     this.router.events.pipe(
         filter(event => event instanceof NavigationEnd),
-      ).subscribe(() => {
-        const rt = this.getChild(this.activatedRoute);
-        rt.data.subscribe(data => {
-          // console.log(data);
-          this.titleService.setTitle(data.title);
-        });
+      // tslint:disable-next-line: deprecation
+      ).subscribe({
+        next: () => {
+          const rt = this.getChild(this.activatedRoute);
+          rt.data.subscribe(data => { this.titleService.setTitle(data.title); });
+        },
+        error: (err) => {
+          console.log(err);
+        }
       });
   }
 

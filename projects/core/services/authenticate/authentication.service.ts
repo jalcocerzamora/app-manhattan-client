@@ -30,7 +30,9 @@ export class AuthenticationService {
     private location: Location,
   ) {
     const usr = localStorage.getItem('Token') || localStorage.getItem('currentLogin') || environment.TOKEN_API;
-    this.currentLoginSubject = new BehaviorSubject<Login>(JSON.parse(usr));
+    let USR_PARSE = null;
+    try { USR_PARSE = JSON.parse(usr); } catch (e) { USR_PARSE = null; }
+    this.currentLoginSubject = new BehaviorSubject<Login>(USR_PARSE);
     this.currentLogin = this.currentLoginSubject.asObservable();
   }
 
