@@ -18,12 +18,12 @@ const routes: Routes = [
   },
   {
     path: 'menu', component: MenuComponent,
-    canActivate: [AuthGuard],
+    // canActivate: [AuthGuard],
     data: {
       title: 'Menú | Restaurante Manhattan',
       meta: '',
-      auth: 'VIEW_ONLY',
-      expectedRole: 'admin'
+    //   auth: 'VIEW_ONLY',
+    //   expectedRole: 'admin'
     }
   },
   {
