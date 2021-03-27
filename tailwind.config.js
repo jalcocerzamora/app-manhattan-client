@@ -3,12 +3,12 @@ const colors = require('tailwindcss/colors')
 
 module.exports = {
   important: false,
-  // purge: {
-  //   enabled: true,
-  //   content: './projects/**/*.html'
-  // },
   // purge: ['./src/**/*.html', './src/**/*.ts'],
-  purge: true,
+  // purge: true,
+  purge: {
+    enabled: true,
+    content: './projects/**/*.html'
+  },
   theme: {
     fontFamily: {
       display: ['Poppins', 'system-ui', 'sans-serif'],
