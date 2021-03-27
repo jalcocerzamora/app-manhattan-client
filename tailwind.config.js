@@ -5,10 +5,10 @@ module.exports = {
   important: false,
   // purge: ['./src/**/*.html', './src/**/*.ts'],
   // purge: true,
-  purge: {
-    enabled: true,
-    content: './projects/**/*.html'
-  },
+  // purge: {
+  //   enabled: true,
+  //   content: './projects/**/*.html'
+  // },
   theme: {
     fontFamily: {
       display: ['Poppins', 'system-ui', 'sans-serif'],
