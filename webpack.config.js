@@ -62,13 +62,14 @@ module.exports = {
                         options: {
                             // plugins: () => [postcssPresetEnv({ stage: 0 })],
                             // importLoaders: 1,
+                            // plugins: () => [require('autoprefixer')],
                             postcssOptions: {
                                 ident: 'postcss',
                                 syntax: 'postcss-scss',
                                 plugins: [
+                                    require('autoprefixer'),
                                     require('postcss-import'),
                                     require('tailwindcss'),
-                                    require('autoprefixer'),
                                 ],
                             },
                         },
