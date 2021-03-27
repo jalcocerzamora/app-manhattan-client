@@ -2,6 +2,13 @@
   "compileOnSave": false,
   "compilerOptions": {
     "baseUrl": "./",
+    "paths": {
+      "@env/*": ["projects/environments/*"],
+      "@core/*": ["projects/core/*"],
+      "@store/*": ["projects/store/src/*"],
+      "@backoffice/*": ["projects/backoffice/*"],
+      "@dashboard/*": ["projects/dashboard/*"]
+    },
     "outDir": "./dist/out-tsc",
     "sourceMap": true,
     "declaration": false,

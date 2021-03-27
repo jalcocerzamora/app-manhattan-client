@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { AuthGroup } from './authenticate/authorization.types';
+import { AuthGroup } from './authorization.types';
 
 @Injectable({ providedIn: 'root' })
 export class AuthorizationService {

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpEvent, HttpResponse, HttpRequest, HttpHandler, HttpInterceptor } from '@angular/common/http';
-import { RequestCacheService } from 'projects/core/services/requestCache.service';
+import { RequestCacheService } from '@core/services/helpers/requestCache.service';
 
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/internal/operators/tap';

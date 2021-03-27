@@ -25,8 +25,8 @@ module.exports = {
         'node_modules',
         ],
         alias: {
-            'chart.js': 'chart.js',
-            'mapbox-gl': 'mapbox-gl',
+            // 'chart.js': 'chart.js',
+            // 'mapbox-gl': 'mapbox-gl',
             // 'leaflet-locate-control': path.resolve(__dirname, 'node_modules/leaflet.locatecontrol/src/L.Control.Locate.js'),
             // 'marker-shadow.png': path.resolve(__dirname, '/app-manhattan-client/projects/store/src/assets/images/leaftlet/marker-shadow.png'),
             // 'node_modules/leaflet/dist/leaflet.css': path.resolve(__dirname, '/node_modules/leaflet/dist/leaflet.css')
@@ -34,9 +34,10 @@ module.exports = {
         }
     },
     plugins: [
-        // new MiniCssExtractPlugin({
+        new MiniCssExtractPlugin({
         //     filename: './node_modules/leaflet/dist/leaflet.css',
-        // }),
+            filename: './node_modules/mapbox-gl/dist/mapbox-gl.css',
+        }),
         // new CopyPlugin({
         //     patterns: [
         //       { from: "assets", to: "assets" },

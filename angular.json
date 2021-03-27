@@ -31,7 +31,10 @@
               "rxjs/add/observable/of",
               "rxjs/add/operator/do",
               "rxjs/add/operator/share",
-              "rxjs/add/operator/map"
+              "rxjs/add/operator/map",
+              "rxjs/internal/operators/catchError",
+              "rxjs/internal/observable/throwError",
+              "@mapbox/mapbox-gl-geocoder"
             ],
             "extraWebpackConfig": "webpack.config.js",
             "outputPath": "dist/store",

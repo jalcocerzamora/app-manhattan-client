@@ -24,6 +24,7 @@ export interface ISubproductsWithCategory {
 
 export class Subproduct implements ISubproduct {
   id?: number;
+  // tslint:disable-next-line: variable-name
   product_id: number;
   image: string;
   name: string;

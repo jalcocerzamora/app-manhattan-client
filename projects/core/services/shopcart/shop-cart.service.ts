@@ -1,3 +1,6 @@
+import {
+  Customer,
+} from '@core/models/db';
 import { Injectable } from '@angular/core';
 
 import { ShopCart, ShopCartItem } from 'projects/core/models/shopcart';
@@ -7,6 +10,10 @@ import { ShopCart, ShopCartItem } from 'projects/core/models/shopcart';
 })
 export class ShopCartService<T> {
   private ShopCart: ShopCart<T> = new ShopCart<T>(null);
+  private DeliveryCustomer: Customer = new Customer();
+  private DeliveryTime = new Customer();
+  private Customer = new Customer();
+  private Delivery: Customer = new Customer();
 
   public get GetCount(): number {
     return this.ShopCart.Count;

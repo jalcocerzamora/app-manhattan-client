@@ -2,34 +2,46 @@ import { NgModule, CUSTOM_ELEMENTS_SCHEMA, LOCALE_ID } from '@angular/core';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { CommonModule, PlatformLocation } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { Title } from '@angular/platform-browser';
 
 import { environment } from 'projects/environments/environment';
 
-import { FormlyModule, FORMLY_CONFIG } from '@ngx-formly/core';
-import { FormlyConfig } from 'projects/core/directives/formly/formly.config';
-
-// Translation
-import { TranslateService, TranslateLoader, TranslateModule } from '@ngx-translate/core';
-import { HttpLoaderFactory, registerTranslateExtension } from 'projects/core/helpers/translate.extension';
-
 import { AppRoutingModule } from '../app-routing.module';
 
+//#region Formly
+import { FormlyModule, FORMLY_CONFIG } from '@ngx-formly/core';
+import { FormlyConfig } from 'projects/core/directives/formly/formly.config';
+//#endregion
+
+//#region Translation
+import { TranslateService, TranslateLoader, TranslateModule } from '@ngx-translate/core';
+import { HttpLoaderFactory, registerTranslateExtension } from 'projects/core/helpers/translate.extension';
+//#endregion
+
+//#region FontAwesome
 import { FontAwesomeModule, FaIconLibrary, FaConfig } from '@fortawesome/angular-fontawesome';
 import { faSpinner,
   faBook, faInfoCircle, faShoppingCart,
   faUser, faTruck, faClock, faCreditCard, faPencilAlt, faTimes, faTrash,
   faPlus, faMinus, faCircle, faSave } from '@fortawesome/free-solid-svg-icons';
+//#endregion
 
-import { ComponentsModule } from '../components/components.module';
+//#region MyModules
+import { CoreModule } from '@core/core.module';
+import { ComponentsModule } from '@store/app/components/components.module';
+//#endregion
 
-import { HomeComponent, MenuComponent } from './';
-import { ShopcartComponent } from './shopcart/shopcart.component';
-import { DirectivesModule } from 'projects/core/directives/directives.module';
-import { PipesModule } from 'projects/core/pipes/pipes.module';
-import { PlacingYourOrderComponent } from './placing-your-order/placing-your-order.component';
-import { Title } from '@angular/platform-browser';
+//#region MyComponents
+import { HomeComponent, MenuComponent, ShopcartComponent, PlacingYourOrderComponent } from './';
+//#endregion
 
-import { CoreModule } from '../core/core.module';
+//#region MyDirectives
+import { DirectivesModule } from '@core/directives/directives.module';
+//#endregion
+
+//#region MyPipes
+import { PipesModule } from '@core/pipes/pipes.module';
+//#endregion
 
 import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 

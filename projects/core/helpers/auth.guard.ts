@@ -4,7 +4,7 @@ import { Router, CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot } from
 import { Projects } from 'projects/core/models/projects.enum';
 
 import { AuthenticationService } from 'projects/core/services/authenticate/authentication.service';
-import { AuthorizationService } from '../services/authorization.service';
+import { AuthorizationService } from '../services/authenticate/authorization.service';
 import { AuthGroup } from '../services/authenticate/authorization.types';
 
 class UserToken { }

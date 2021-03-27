@@ -2,7 +2,7 @@ import { DOCUMENT } from '@angular/common';
 import { Component, Inject, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
-import { ScriptService } from 'projects/store/src/app/core/services/script.service';
+import { ScriptService } from '@core/services/helpers/script.service';
 
 import { MasterComponent } from '../pages.module';
 

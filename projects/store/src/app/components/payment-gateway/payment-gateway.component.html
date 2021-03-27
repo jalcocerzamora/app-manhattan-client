@@ -1,13 +1,14 @@
 <!-- <div class="bg-white w-full flex flex-col divide-y divide-gray-300 border border-gray-300 rounded-sm"> -->
 <div class="divide-y divide-gray-300 ">
-    <!--start: Contact -->
+    <!-- #region Contact -->
     <div class="pg-step-contact">
         <div class="pg-header">
             <div class="w-1/12 text-gray-500">
-                <fa-icon icon="user"></fa-icon>
+                <fa-icon icon="user" [title]="modelContact | json"></fa-icon>
             </div>
             <div class="w-10/12 space-y-2">
                 <p class="font-semibold uppercase" [translate]="'SHOPCART.STEPS.txtStep1'"></p>
+                <!-- 'info' | 'info-circle' | 'info-square' |  -->
             </div>
             <div class="w-1/12 text-gray-500">
                 <button [ngClass]="{'text-white bg-gray-600': !getCurrentStep(1)}" (click)="onClickChangeStep(1)"
@@ -19,16 +20,15 @@
         <div class="pg-body w-full">
             <div [hidden]="!(contactComplete && getCurrentStep(1))" class="pg-data-confirmed w-10/12 mx-auto">
                 <p class="leading-none">
-                    <small [innerText]="modelContact.FirstName + ' ' + modelContact.LastName"></small><br>
-                    <small [innerText]="modelContact.Email"></small><br>
-                    <small [innerText]="modelContact.CellPhone"></small>
+                    <small [innerText]="modelContact.firstname + ' ' + modelContact.lastname"></small><br>
+                    <small [innerText]="modelContact.email"></small><br>
+                    <small [innerText]="modelContact.cellphone"></small>
                 </p>
             </div>
 
             <div [hidden]="!(CurrentStep == 1)" class="pg-data-rectify w-full pt-1">
-                <form [formGroup]="formContact" (ngSubmit)="onSubmitContact()" autocomplete="off" novalidate>
-                    <formly-form [form]="formContact" [fields]="fieldsContact" [options]="optionsContact"
-                        [model]="modelContact"></formly-form>
+                <form [formGroup]="formContact" (ngSubmit)="onSubmitContact()" autocomplete="off" novalidate> 
+                    <formly-form [form]="formContact" [fields]="fieldsContact" [options]="optionsContact" [model]="modelContact"></formly-form>
                     <button [translate]="'SHOPCART.FORMS.btnSave'" [disabled]="!formContact.valid" type="submit"
                         class="btn-default">Guardar</button>
                 </form>
@@ -37,12 +37,13 @@
         </div>
         <!-- {{ formContact.valid }} -->
     </div>
+    <!-- #endregion -->
 
-    <!-- start: Ordering Method-->
+    <!-- #region Ordering Method-->
     <div class="pg-step-ordering-method">
         <div class="pg-header">
             <div class="w-1/12 text-gray-500">
-                <fa-icon icon="truck"></fa-icon>
+                <fa-icon icon="truck" [title]="modelOrdering | json"></fa-icon>
             </div>
             <div class="w-10/12 space-y-2">
                 <p class="font-semibold uppercase" [translate]="'SHOPCART.STEPS.txtStep2'"></p>
@@ -60,23 +61,64 @@
                     <small [innerText]="modelOrdering.PlaceName"></small>
                 </p>
             </div>
+            <small [innerText]="mapboxHighAccuracy"></small> |
+            <small [innerText]="mapboxTrackUserLocate"></small> |
+            <small [innerText]="mapboxShowUserLocate"></small>
             <div [hidden]="!(CurrentStep == 2)" class="pg-data-rectify w-full pt-1">
                 <form novalidate autocomplete="off" [formGroup]="formOrdering" (ngSubmit)="onSubmitOrdering()">
-                    <formly-form [form]="formOrdering" [fields]="fieldsOrdering" [options]="optionsOrdering"
-                        [model]="modelOrdering"></formly-form>
-                    <!-- <div id="map" class="mb-5"></div> -->
+                    <formly-form [form]="formOrdering" [fields]="fieldsOrdering" [options]="optionsOrdering" [model]="modelOrdering"></formly-form>
+                    <mgl-map #mapbox
+                        [style]="'mapbox://styles/mapbox/streets-v9'"
+                        [locale]="'es'"
+                        [maxZoom]="15" 
+                        [minZoom]="10" 
+                        [zoom]="[12]" 
+                        [center]="mapboxCenter" 
+                        [maxBounds]="mapboxBounds"
+                        (mapLoad)="mapboxOnLoad($event)"
+                        (sourceData)="mapbboxSourceData($event)"
+                        (sourceDataLoading)="mapbboxSourceDataLoading($event)"
+                        (move)="mapboxOnMove($event)"
+                        (moveEnd)="mapboxOnMoveEnd($event)"
+                        (mapMouseDown)="mapbixOnMouseDown($event)"
+                        (mapDragStart)="mapboxOnDragStart($event)"
+                        (mapDragEnd)="mapbixOnMouseEnd($event)">
+                        <mgl-control #geocoder mglGeocoder
+                            placeholder="Busca lugares en Cancún..."
+                            countries="MX"
+                            position="top-left"
+                            types="place,address,postcode"
+                            language="es"
+                            [limit]="2"
+                            [bbox]="mapboxBounds"
+                            [marker]="false"
+                            (geocoderResult)="mapboxOnGeocoderResult($event)"
+                            (geocoderResults)="mapboxOnGeocoderResults($event)"
+                            (geocoderError)="mapboxOnGeocoderError($event)"></mgl-control>
+                        <!-- 
+                            [lngLat]="[-66.324462890625, -16.024695711685304]" 
+                        -->
+                        <mgl-marker #marker
+                            [lngLat]="mapboxMarkerCenter"
+                            (markerDrag)="markerDragEnd($event)">
+                        <!-- 
+                            <div (click)="alert('Foo')" class="marker">Hello</div> 
+                        -->
+                          </mgl-marker>
+                        <mgl-control #geolocate mglGeolocate 
+                            [positionOptions]="{ enableHighAccuracy: mapboxHighAccuracy }"
+                            [fitBoundsOptions]="{ padding: mapboxBounds }"
+                            [trackUserLocation]="mapboxTrackUserLocate"
+                            [showUserLocation]="mapboxShowUserLocate"
+                            (geolocate)="mapboxOnGeolocate($event)"></mgl-control>
+                        <mgl-control mglNavigation position="top-left"></mgl-control>
+                    </mgl-map>
+                    <!-- <div id="mapBoxGL" class="mb-5"></div> -->
                     <!-- [leafletLayersControl]="leafletLayerControls" -->
-                    <div leaflet 
-                        [leafletOptions]="leafletOptions"
-                        [leafletLayers]="leafletLayers"
-                        (leafletMapReady)="onLeafletMapReady($event)"
-                        class="h-40 mb-5">
-                    </div>
-                    <leaflet-locate-control 
-                        [map]="mapLeflet"
-                        [options]="locateOptions"
-                        (location$)="onNewLocation($event)">
-                    </leaflet-locate-control>
+                    <!--
+                        <div leaflet [leafletOptions]="leafletOptions" [leafletLayers]="leafletLayers" (leafletMapReady)="onLeafletMapReady($event)" class="h-40 mb-5"></div>
+                        <leaflet-locate-control [map]="mapLeflet" [options]="locateOptions" (location$)="onNewLocation($event)"></leaflet-locate-control> 
+                    -->
                     <button [translate]="'SHOPCART.FORMS.btnSave'" [disabled]="!formOrdering.valid" type="submit"
                         class="btn-default">Guardar</button>
                 </form>
@@ -84,12 +126,13 @@
         </div>
         <!-- {{ formOrdering.valid }} -->
     </div>
+    <!-- #endregion -->
 
-    <!-- start: Clock -->
+    <!-- #region Clock -->
     <div class="pg-step-time">
         <div class="pg-header">
             <div class="w-1/12 text-gray-500">
-                <fa-icon icon="clock"></fa-icon>
+                <fa-icon icon="clock" [title]="modelTime | json"></fa-icon>
             </div>
             <div class="w-10/12 space-y-2">
                 <p class="font-semibold uppercase" [translate]="'SHOPCART.STEPS.txtStep3'"></p>
@@ -120,30 +163,27 @@
             </div>
             <div [hidden]="!(CurrentStep == 3)" class="pg-data-rectify w-full pt-1">
                 <form novalidate autocomplete="off" [formGroup]="formTime" (ngSubmit)="onSubmitTime()">
-                    <formly-form [form]="formTime" [fields]="fieldsTime" [options]="optionsTime" 
-                        [model]="modelTime">
-                    </formly-form>
-                    <button [translate]="'SHOPCART.FORMS.btnSave'" [disabled]="!formTime.valid" type="submit"
-                        class="btn-default">Guardar</button>
+                    <formly-form [form]="formTime" [fields]="fieldsTime" [options]="optionsTime" [model]="modelTime"></formly-form>
+                    <button [translate]="'SHOPCART.FORMS.btnSave'" [disabled]="!formTime.valid" type="submit" class="btn-default">Guardar</button>
                 </form>
             </div>
         </div>
         <!-- {{ formTime.valid }} -->
         <!-- {{ modelTime | json }} -->
     </div>
+    <!-- #endregion -->
 
-    <!-- start: Payment Method -->
+    <!-- #region Payment Method -->
     <div class="pg-step-payment">
         <div class="pg-header">
             <div class="w-1/12 text-gray-500">
-                <fa-icon icon="credit-card"></fa-icon>
+                <fa-icon icon="credit-card" [title]="modelPayment | json"></fa-icon>
             </div>
             <div class="w-10/12 space-y-2">
                 <p class="font-semibold uppercase" [translate]="'SHOPCART.STEPS.txtStep4'"></p>
             </div>
             <div class="w-1/12 text-gray-500">
-                <button [ngClass]="{'text-white bg-gray-600': !getCurrentStep(4)}" (click)="onClickChangeStep(4)"
-                    class="btn-option-step">
+                <button [ngClass]="{'text-white bg-gray-600': !getCurrentStep(4)}" (click)="onClickChangeStep(4)" class="btn-option-step">
                     <fa-icon [icon]="(getCurrentStep(4) ? 'pencil-alt' : 'edit')"></fa-icon>
                 </button>
             </div>
@@ -158,8 +198,7 @@
             <div [hidden]="!(CurrentStep == 4)" class="pg-data-rectify w-full pt-1">
                 <form novalidate id="payment-form" autocomplete="off" [formGroup]="formPayment"
                     (ngSubmit)="onSubmitPayment()">
-                    <formly-form [form]="formPayment" [fields]="fieldsPayment" [options]="optionsPayment"
-                        [model]="modelPayment">
+                    <formly-form [form]="formPayment" [fields]="fieldsPayment" [options]="optionsPayment" [model]="modelPayment">
                         <!-- <span>Card</span> -->
                     </formly-form>
 
@@ -223,7 +262,8 @@
 
                     <div class="payment-info card" [ngClass]="{'visible': modelPayment.Method == 1}">
                         <!-- <input formControlName="amount" /> -->
-                        <ngx-stripe-card [options]="cardOptions" [elementsOptions]="elementsOptions" (change)="onChangeStripe($event)"></ngx-stripe-card>
+                        <ngx-stripe-card [options]="cardOptions" [elementsOptions]="elementsOptions"
+                            (change)="onChangeStripe($event)"></ngx-stripe-card>
                     </div>
 
                     <div class="payment-info sepa_debit">
@@ -309,7 +349,7 @@
                     </legend>
                 </form>
             </div>
-            {{ modelPayment | json }}
         </div>
     </div>
+    <!-- #endregion -->
 </div>

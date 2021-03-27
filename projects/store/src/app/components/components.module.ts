@@ -4,6 +4,8 @@ import { CommonModule, DatePipe, PlatformLocation } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 
+import { environment } from '@env/environment';
+
 import { FormlyModule, FORMLY_CONFIG } from '@ngx-formly/core';
 import { FormlyConfig } from 'projects/core/directives/formly/formly.config';
 
@@ -11,14 +13,16 @@ import { FaIconLibrary, FaConfig, FontAwesomeModule } from '@fortawesome/angular
 import { faTimes, faPlus, faMinus, faCircle, faEdit } from '@fortawesome/free-solid-svg-icons';
 
 // Maps
-import { LeafletModule } from '@asymmetrik/ngx-leaflet';
-import { NgxLeafletLocateModule } from '@runette/ngx-leaflet-locate';
+import { NgxMapboxGLModule } from 'ngx-mapbox-gl';
+import { MapBoxGLComponent } from './map-box-gl/map-box-gl.component';
+import { GeolocateControlDirective } from 'ngx-mapbox-gl/lib/control/geolocate-control.directive';
+
+// import { LeafletModule } from '@asymmetrik/ngx-leaflet';
+// import { NgxLeafletLocateModule } from '@runette/ngx-leaflet-locate';
 
 // Translation
 import { TranslateService, TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { HttpLoaderFactory, registerTranslateExtension } from 'projects/core/helpers/translate.extension';
-
-import { environment } from 'projects/environments/environment';
 
 import { AppRoutingModule } from './../app-routing.module';
 
@@ -53,6 +57,9 @@ import { NgxStripeModule } from 'ngx-stripe';
     ProductItemComponent,
 
     PaymentGatewayComponent,
+
+    MapBoxGLComponent,
+    // GeolocateControlDirective,
   ],
   imports: [
     CommonModule, AppRoutingModule, HttpClientModule,
@@ -64,8 +71,12 @@ import { NgxStripeModule } from 'ngx-stripe';
     FormlyModule.forRoot(FormlyConfig),
     TranslateModule.forRoot({ defaultLanguage: environment.language, loader: { provide: TranslateLoader, useFactory: HttpLoaderFactory, deps: [HttpClient, PlatformLocation] } }),
     NgxStripeModule.forRoot('pk_test_51HXya7EBr7ET6lVJzagRfQLbyPHuUUA2fiubhV68rK5BGiVpjgkNwvWf0aqTiAzV7i0afuyhZ51qaf9wKwU9DuNv004qz4ckgX'),
-    LeafletModule,
-    NgxLeafletLocateModule,
+    NgxMapboxGLModule.withConfig({
+      accessToken: environment.MAPBOX.ACCESS_TOKEN, // Optional, can also be set per map (accessToken input of mgl-map)
+      // geocoderAccessToken: 'TOKEN' // Optional, specify if different from the map access token, can also be set per mgl-geocoder (accessToken input of mgl-geocoder)
+    })
+    // LeafletModule,
+    // NgxLeafletLocateModule,
   ],
   exports: [
     NotFoundComponent,

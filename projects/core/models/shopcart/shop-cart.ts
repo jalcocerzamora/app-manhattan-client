@@ -1,5 +1,11 @@
+import {
+  Customer, ICustomer,
+} from './../db';
+
 import { DatePipe } from '@angular/common';
 import { ShopCartItem, IShopCartItem } from './shop-cart-item';
+
+//#region SHOPCART
 export interface IShopCart<T> {
   ReserveId?: number;
   ClientId?: number;
@@ -8,9 +14,9 @@ export interface IShopCart<T> {
   Total: number;
   Subtotal?: number;
 
-  getTotal(): number;
+  getTotal: number;
 }
-export class ShopCart<T> { // implements IShopCart<T> {
+export class ShopCart<T> implements IShopCart<T> {
   ReserveId?: number = null;
   ClientId?: number = null;
   Count: number = 0;
@@ -37,33 +43,37 @@ export class ShopCart<T> { // implements IShopCart<T> {
     );
   }
 }
+//#endregion
 
+//#region CONTACT
 export interface IDeliveryContact {
-  FirstName: string;
-  LastName: string;
-  CellPhone: number;
-  Country?: string;
-  Email: string;
+  firstname: string;
+  lastname: string;
+  cellphone: number;
+  country?: string;
+  email: string;
 }
-export class DeliveryContact implements IDeliveryContact {
-  FirstName: string;
-  LastName: string;
-  CellPhone: number;
-  Email: string;
-  Country?: string;
 
-  constructor() { // firstname: string, lastname: string, cellPhone: number, email: string, country: string
+// export class DeliveryContact implements IDeliveryContact {
+export class DeliveryContact extends Customer {
+  // firstname: string;
+  // lastname: string;
+  // cellphone: number;
+  // email: string;
+  // country?: string;
+
+  // constructor() { // firstname: string, lastname: string, cellPhone: number, email: string, country: string
     // do stuff
     // this.FirstName = firstname;
     // this.LastName = lastname;
     // this.CellPhone = cellPhone;
     // this.Email = email;
     // this.Country = country;
-  }
+  // }
 }
+//#endregion
 
-
-
+//#region METHOD
 export interface IDeliveryMethod {
   PlaceName: string;
   PostCode: number;
@@ -72,6 +82,8 @@ export interface IDeliveryMethod {
 
   toString(): string;
 }
+
+// export class DeliveryMethod implements IDeliveryMethod {
 export class DeliveryMethod implements IDeliveryMethod {
   PlaceName: string;
   PostCode: number;
@@ -86,7 +98,9 @@ export class DeliveryMethod implements IDeliveryMethod {
     return `${this.PlaceName}`;
   }
 }
+//#endregion
 
+//#region TIME
 export interface IDeliveryTime {
   Date: Date;
   Schedule: Date;
@@ -106,7 +120,9 @@ export class DeliveryTime implements IDeliveryTime {
     return date;
   }
 }
+//#endregion
 
+//#region PAYMENT
 export enum PaymentMethodEnum {
   Cash              = 0,
   Card              = 1,
@@ -154,3 +170,4 @@ export class DeliveryPaymentMethod implements IDeliveryPaymentMethod {
     // do stuff
   }
 }
+//#endregion

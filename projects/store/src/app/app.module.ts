@@ -10,6 +10,7 @@ import { environment } from 'projects/environments/environment';
 import { AppRoutingModule } from './app-routing.module';
 
 //#region MY IMPORTS
+import { NgxMapboxGLModule } from 'ngx-mapbox-gl';
   //#region FORMLY
 import { FORMLY_CONFIG, } from '@ngx-formly/core';
   //#endregion
@@ -25,7 +26,7 @@ import { FORMLY_CONFIG, } from '@ngx-formly/core';
 // import localeEsMxExtra from '@angular/common/locales/extra/es-MX';
 // registerLocaleData(localeEsMx, localeEsMxExtra);
 import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
-import { HttpLoaderFactory, registerTranslateExtension } from 'projects/core/helpers/translate.extension';
+import { HttpLoaderFactory, registerTranslateExtension } from '@core/helpers/translate.extension';
 import '@angular/common/locales/global/es';
 import '@angular/common/locales/global/en';
   //#endregion
@@ -37,22 +38,22 @@ import { ComponentsModule } from './components/components.module';
   //#endregion
 
   //#region INTERCEPTOR
-import { JwtInterceptor, ErrorInterceptor, CacheInterceptor } from 'projects/core/helpers';
+import { JwtInterceptor, ErrorInterceptor, CacheInterceptor } from '@core/helpers';
   //#endregion
 
   //#region SERVICES
-import { AuthenticationService } from 'projects/core/services/authenticate/authentication.service';
-import { RequestCacheService } from 'projects/core/services/requestCache.service';
+import { AuthenticationService } from '@core/services/authenticate/authentication.service';
+import { RequestCacheService } from '@core/services/helpers/requestCache.service';
   //#endregion
 
   //#region MODULES
-import { DirectivesModule } from 'projects/core/directives/directives.module';
-import { PipesModule } from 'projects/core/pipes/pipes.module';
+import { DirectivesModule } from '@core/directives/directives.module';
+import { PipesModule } from '@core/pipes/pipes.module';
   //#endregion
 
   //#region LEAFLET
-import { LeafletModule } from '@asymmetrik/ngx-leaflet';
-import { NgxLeafletLocateModule } from '@runette/ngx-leaflet-locate';
+// import { LeafletModule } from '@asymmetrik/ngx-leaflet';
+// import { NgxLeafletLocateModule } from '@runette/ngx-leaflet-locate';
   //#endregion
 //#endregion
 
@@ -75,9 +76,12 @@ import { NgxLeafletLocateModule } from '@runette/ngx-leaflet-locate';
     PagesModule,
 
     TranslateModule.forRoot({ defaultLanguage: environment.language, loader: { provide: TranslateLoader, useFactory: HttpLoaderFactory, deps: [HttpClient, PlatformLocation] } }),
-
-    LeafletModule,
-    NgxLeafletLocateModule,
+    NgxMapboxGLModule.withConfig({
+      accessToken: environment.MAPBOX.ACCESS_TOKEN, // Optional, can also be set per map (accessToken input of mgl-map)
+      // geocoderAccessToken: 'TOKEN' // Optional, specify if different from the map access token, can also be set per mgl-geocoder (accessToken input of mgl-geocoder)
+    })
+    // LeafletModule,
+    // NgxLeafletLocateModule,
   ],
   providers: [
     Title,

@@ -2,10 +2,10 @@ import { Component, ElementRef, OnInit, Renderer2, ViewChild } from '@angular/co
 // import { Socket } from 'ngx-socket-io';
 import { map } from 'rxjs/operators';
 import { Subproduct } from 'projects/core/models/db';
-import { SubproductService } from 'projects/store/src/app/core/services/db/subproduct.service';
-import { PaymentGatewayService } from 'projects/store/src/app/core/services/payment-gateway.service';
-import { ScriptService } from 'projects/store/src/app/core/services/script.service';
-import { ShopCartService } from 'projects/store/src/app/core/services/shopcart/shop-cart.service';
+import { SubproductService } from '@core/services/db/subproduct.service';
+import { PaymentGatewayService } from '@core/services/payment/payment-gateway.service';
+import { ScriptService } from '@core/services/helpers/script.service';
+import { ShopCartService } from '@core/services/shopcart/shop-cart.service';
 
 @Component({
   templateUrl: './placing-your-order.component.html',

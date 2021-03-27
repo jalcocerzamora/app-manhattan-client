@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectionStrategy, OnDestroy, Output, EventEmitter, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, OnDestroy, Output, EventEmitter, ViewChild, ElementRef, Type, AfterViewInit } from '@angular/core';
 import { FormGroup, Validators } from '@angular/forms';
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
@@ -6,21 +6,26 @@ import { Observable, Subscription, throwError } from 'rxjs';
 import { catchError, map, startWith, tap } from 'rxjs/operators';
 
 import { environment } from 'projects/environments/environment';
-
 import { TranslateService } from '@ngx-translate/core';
 
-// MAPS
+// #region MAPS
+  //#region MAPBOX GL
+import * as mapboxgl from 'mapbox-gl';
+import MapboxGeocoder from '@mapbox/mapbox-gl-geocoder';
+import { MapBoxGLService } from '@core/services/helpers/mapboxgl.service';
+import { Map, Marker, GeolocateControl, NavigationControl, MapboxEvent, EventData, LngLatLike, LngLat } from 'mapbox-gl';
+import '@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css';
+import { ControlComponent, MapComponent, Position } from 'ngx-mapbox-gl';
+  //#endregion
 
-// import MapboxGeocoder from '@mapbox/mapbox-gl-geocoder';
-// import * as mapboxgl from 'mapbox-gl';
-// import { Map, Marker, GeolocateControl, NavigationControl } from 'mapbox-gl';
-// import '@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css';
-
-//
-import { Map, Layer, Control, Marker, circle, latLng, tileLayer, marker, point, control, polygon, polyline, MapOptions, LatLngTuple } from 'leaflet';
-import { LeafletControlLayersConfig, LeafletDirective, LeafletLayerDirective } from '@asymmetrik/ngx-leaflet';
-import { NgxLeafletLocateComponent } from '@runette/ngx-leaflet-locate';
+  //#region LEAFLET
+// import { Map, Layer, Control, Marker, circle, latLng, tileLayer, marker, point, control, polygon, polyline, MapOptions,
+// LatLngTuple } from 'leaflet';
+// import { LeafletControlLayersConfig, LeafletDirective, LeafletLayerDirective } from '@asymmetrik/ngx-leaflet';
+// import { NgxLeafletLocateComponent } from '@runette/ngx-leaflet-locate';
 // import { * } from 'leaflet.locatecontrol';
+  //#endregion
+//#endregion
 
 //
 import {
@@ -31,9 +36,12 @@ import { DatePipe } from '@angular/common';
 
 import { ValidationService } from 'projects/core/directives/formly/validation/validation.service';
 
-import { PaymentGatewayService } from '../../core/services/payment-gateway.service';
+import { PaymentGatewayService } from '../../../../../core/services/payment/payment-gateway.service';
 import { StripeService, StripeCardComponent } from 'ngx-stripe';
 import { StripeCardElementChangeEvent, StripeCardElementOptions, StripeElementsOptions } from '@stripe/stripe-js';
+import { GeolocateControlDirective } from 'ngx-mapbox-gl/lib/control/geolocate-control.directive';
+import { GeocoderControlDirective } from 'ngx-mapbox-gl/lib/control/geocoder-control.directive';
+import { MarkerComponent } from 'ngx-mapbox-gl/lib/marker/marker.component';
 
 // Before the component
 declare var Stripe: any;
@@ -42,13 +50,16 @@ const DEFAULT_MAP_ZOOM = 12;
 
 export enum StepsPaymentGateway { None = 0, Contact = 1, Ordering = 2, Time = 3, Payment = 4 }
 
+const DEBUG = true;
+
 @Component({
   selector: 'app-payment-gateway',
   templateUrl: './payment-gateway.component.html',
   styleUrls: ['./payment-gateway.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  // providers: [ { provide: 'container', useValue: 'mapboxGL'  } ]
 })
-export class PaymentGatewayComponent implements OnInit, OnDestroy {
+export class PaymentGatewayComponent implements OnInit, OnDestroy, AfterViewInit {
   @Output() stepCompleteRequest = new EventEmitter<boolean>();
 
   public DateCurrent: number = Date.now();
@@ -86,54 +97,54 @@ export class PaymentGatewayComponent implements OnInit, OnDestroy {
   //#endregion
 
   //#region LEAFLET MAP
-  @ViewChild(LeafletDirective, { static: false }) LeafletMap!: LeafletDirective;
-  public leafletOptions = {
-    layers: [tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 18, attribution: '&copy; OpenStreetMap contributors' })],
-    zoom: DEFAULT_MAP_ZOOM,
-    center: latLng(DEFAULT_MAP_CENTER.latitude, DEFAULT_MAP_CENTER.longitude),
-    trackResize: true,
-    maxBounds: [
-      -86.9712121848562, 21.0297633301856, // Southwest coordinates
-      -86.7405402017646, 21.2130333805118, // Northeast coordinates
-    ],
-  };
-  public leafletLayerControls: LeafletControlLayersConfig = null;
+  // @ViewChild(LeafletDirective, { static: false }) LeafletMap!: LeafletDirective;
+  // public leafletOptions = {
+  //   layers: [tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 18, attribution: '&copy; OpenStreetMap contributors' })],
+  //   zoom: DEFAULT_MAP_ZOOM,
+  //   center: latLng(DEFAULT_MAP_CENTER.latitude, DEFAULT_MAP_CENTER.longitude),
+  //   trackResize: true,
+  //   maxBounds: [
+  //     -86.9712121848562, 21.0297633301856, // Southwest coordinates
+  //     -86.7405402017646, 21.2130333805118, // Northeast coordinates
+  //   ],
+  // };
+  // public leafletLayerControls: LeafletControlLayersConfig = null;
   // { baseLayers: { 'Open Street Map': tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 18, attribution: '...' }), 'Open Cycle Map': tileLayer('https://{s}.tile.opencyclemap.org/cycle/{z}/{x}/{y}.png', { maxZoom: 18, attribution: '...' } ) } };
   // { overlays: { 'Big Circle': circle([ 46.95, -122 ], { radius: 5000 }), 'Big Square': polygon([[ 46.8, -121.55 ], [ 46.9, -121.55 ], [ 46.9, -121.7 ], [ 46.8, -121.7 ]]) } };
-  public leafletLayers: Layer[] = [
+  // public leafletLayers: Layer[] = [
     // circle([ 46.95, -122 ], { radius: 5000 }),
     // polygon([[ 46.8, -121.85 ], [ 46.92, -121.92 ], [ 46.87, -121.8 ]]),
     // marker([ 21.155369999999998, -83.847211 ])
-  ];
+  // ];
   //#endregion
 
   //#region LEAFLET CONTROL
-  @ViewChild(NgxLeafletLocateComponent, { static: false }) locateComponent: NgxLeafletLocateComponent;
-  public mapLeflet: Map = null;
+  // @ViewChild(NgxLeafletLocateComponent, { static: false }) LeafletMapLocate: NgxLeafletLocateComponent;
+  // public mapLeflet: Map = null;
   // Path from paradise to summit - most points omitted from this example for brevity
-  route = polyline([
-    [46.78465227596462, -121.74141269177198],
-    [46.80047278292477, -121.73470708541572],
-    [46.815471360459924, -121.72521826811135],
-    [46.8360239546746, -121.7323131300509],
-    [46.844306448474526, -121.73327445052564],
-    [46.84979408048093, -121.74325201660395],
-    [46.853193528950214, -121.74823296256363],
-    [46.85322881676257, -121.74843915738165],
-    [46.85119913890958, -121.7519719619304],
-    [46.85103829018772, -121.7542376741767],
-    [46.85101557523012, -121.75431755371392],
-    [46.85140013694763, -121.75727385096252],
-    [46.8525277543813, -121.75995212048292],
-    [46.85290292836726, -121.76049157977104],
-    [46.8528160918504, -121.76042997278273]]);
-  public locateOptions = {
-    flyTo: false,
-    keepCurrentZoomLevel: true,
-    locateOptions: { maxZoom: 10, enableHighAccuracy: true },
-    // icon: 'fa fa-map-marker',
-    clickBehavior: { inView: 'stop', outOfView: 'setView', inViewNotFollowing: 'setView' }
-  };
+  // route = polyline([
+  //   [46.78465227596462, -121.74141269177198],
+  //   [46.80047278292477, -121.73470708541572],
+  //   [46.815471360459924, -121.72521826811135],
+  //   [46.8360239546746, -121.7323131300509],
+  //   [46.844306448474526, -121.73327445052564],
+  //   [46.84979408048093, -121.74325201660395],
+  //   [46.853193528950214, -121.74823296256363],
+  //   [46.85322881676257, -121.74843915738165],
+  //   [46.85119913890958, -121.7519719619304],
+  //   [46.85103829018772, -121.7542376741767],
+  //   [46.85101557523012, -121.75431755371392],
+  //   [46.85140013694763, -121.75727385096252],
+  //   [46.8525277543813, -121.75995212048292],
+  //   [46.85290292836726, -121.76049157977104],
+  //   [46.8528160918504, -121.76042997278273]]);
+  // public locateOptions = {
+  //   flyTo: false,
+  //   keepCurrentZoomLevel: true,
+  //   locateOptions: { maxZoom: 10, enableHighAccuracy: true },
+    // // icon: 'fa fa-map-marker',
+    // clickBehavior: { inView: 'stop', outOfView: 'setView', inViewNotFollowing: 'setView' }
+  // };
   //#endregion
 
   //#region STRIPE ELEMENTS
@@ -160,13 +171,27 @@ export class PaymentGatewayComponent implements OnInit, OnDestroy {
   //#endregion
 
   //#region MAPBOX VARIABLES
-  public map: any; // Map;
+  @ViewChild('mapbox') mapboxMap!: MapComponent;
+  @ViewChild('marker') mapboxMarker!: MarkerComponent;
+  @ViewChild('geolocate') mapboxGeolocate!: ControlComponent<GeolocateControl>;
+  @ViewChild('geocoder') mapboxGeocoder!: ControlComponent<MapboxGeocoder>; // GeocoderControlDirective MapboxGeocoder
+  mapbox = (mapboxgl as typeof mapboxgl);
+  private mapboxLocations: boolean = false;
+  public mapboxHighAccuracy: boolean = false;
+  public mapboxShowUserLocate: boolean = true;
+  public mapboxTrackUserLocate: boolean = true;
+  public mapboxGL: mapboxgl.Map; // Map;
+  public mapboxMarkerCenter: LngLatLike = [0 , 0];
+  public mapboxCenter = [-86.8475, 21.16056];
+  public mapboxBounds: [
+    -86.9712121848562, 21.0297633301856, // Southwest coordinates
+    -86.7405402017646, 21.2130333805118, // Northeast coordinates
+  ];
   private subscriptionMapBoxResult$: Subscription;
   private subscriptionMapBoxResult: Observable<any>;
   private getMapBoxResult(lng: number, lat: number, token: string = this.MAPBOX_ACCESS_TOKEN): Observable<any> {
     const apiCoordtoAddress = `https://api.mapbox.com/geocoding/v5/mapbox.places/${lng},${lat}.json?access_token=${token}`;
     const apiCoordtoAddressEncoded = encodeURI(apiCoordtoAddress);
-
     return this.http.get(apiCoordtoAddressEncoded, { responseType: 'json' }).pipe(catchError(this.handleError));
   }
   //#endregion
@@ -177,6 +202,7 @@ export class PaymentGatewayComponent implements OnInit, OnDestroy {
     private datePipe: DatePipe,
 
     private stripeService: StripeService,
+    private mapboxglService: MapBoxGLService,
     private paymentGatewayService: PaymentGatewayService
   ) {
     // translate.addLangs(['en', 'fr']);
@@ -197,22 +223,22 @@ export class PaymentGatewayComponent implements OnInit, OnDestroy {
         fieldGroupClassName: 'content-start flex flex-wrap justify-between',
         fieldGroup: [
           {
-            key: 'FirstName', type: 'input', defaultValue: 'Jonatan', className: 'flex-grow mb-5 mr-1',
+            key: 'firstname', type: 'input', defaultValue: 'Jonatan', className: 'flex-grow mb-5 mr-1',
             templateOptions: { placeholder: 'SHOPCART.FORMS.Step1.lblFisrtName', inputClass: 'form-control-sm', required: true, translate: true, },
             validation: { show: true, },
           },
           {
-            key: 'LastName', type: 'input', defaultValue: 'Alcocer Zamora', className: 'flex-grow mb-5',
+            key: 'lastname', type: 'input', defaultValue: 'Alcocer Zamora', className: 'flex-grow mb-5',
             templateOptions: { placeholder: 'SHOPCART.FORMS.Step1.lblLastName', inputClass: 'form-control-sm', required: true, translate: true, },
             validation: { show: true, },
           },
           {
-            key: 'CellPhone', type: 'tel', defaultValue: '9191309422', className: 'flex-1 lg:flex-initial mb-5 mr-1',
+            key: 'cellphone', type: 'tel', defaultValue: '9191309422', className: 'flex-initial md:flex-1 lg:flex-initial mb-5 mr-1',
             templateOptions: { placeholder: 'SHOPCART.FORMS.Step1.lblCellPhone', inputClass: 'form-control-sm', addonLeft: { icon: 'mobile-alt', }, required: true, translate: true, },
             validation: { show: true, messages: { pattern: (error, field: FormlyFieldConfig) => this.translate.stream('FORM.VALIDATION.TEL', { value: field.formControl.value }), }, },
           },
           {
-            key: 'Country', type: 'input', className: 'flex-initial lg:flex-grow-0 mb-5',
+            key: 'country', type: 'input', className: 'flex-initial lg:flex-grow-0 mb-5',
             templateOptions: { placeholder: 'SHOPCART.FORMS.Step1.lblCountry', inputDatalist: 'countries', inputClass: 'form-control-sm', addonLeft: { icon: 'globe', }, required: false, translate: true, },
             hooks: {
               onInit: (field: FormlyFieldConfig) => {
@@ -222,10 +248,12 @@ export class PaymentGatewayComponent implements OnInit, OnDestroy {
                   return this.http.get(apiUrlEncoded, { responseType: 'json' }).pipe(catchError(this.handleError));
                 };
 
-                const fieldControl = field.form.get('Country');
+                const fieldControl = field.form.get('country');
 
-                fieldControl.valueChanges.subscribe(
-                  value => {
+                // tslint:disable-next-line: deprecation
+                fieldControl.valueChanges.subscribe({
+                  next: (value) => {
+                    console.groupCollapsed('hooks.onInit.next');
                     const dataListControl: HTMLDataListElement = document.querySelector(`[id="${field.templateOptions.inputDatalist}"]`);
                     if (value && !dataListControl.querySelector(`option[value*="${value}"]`)) {
                       query(value).toPromise().then((response) => {
@@ -240,8 +268,14 @@ export class PaymentGatewayComponent implements OnInit, OnDestroy {
                         }
                       });
                     }
+                    console.groupEnd();
+                  },
+                  error: (err) => {
+                    console.groupCollapsed('hooks.onInit.error');
+                    console.log(err);
+                    console.groupEnd();
                   }
-                );
+                });
 
                 // const geocoder = new MapboxGeocoder( { accessToken: environment.MAPBOX.ACCESS_TOKEN, types: 'country,region,place,postcode,locality,neighborhood' });
                 // geocoder.addTo(`#${field.id}`);
@@ -250,12 +284,10 @@ export class PaymentGatewayComponent implements OnInit, OnDestroy {
             },
           },
           {
-            key: 'Email', type: 'email', defaultValue: 'jalcocerzamora@gmail.com', className: 'flex-grow lg:flex-grow mb-5',
+            key: 'email', type: 'email', defaultValue: 'jalcocerzamora@gmail.com', className: 'flex-grow lg:flex-grow mb-5',
             templateOptions: { placeholder: 'SHOPCART.FORMS.Step1.lblEmail', inputClass: 'form-control-sm', addonLeft: { icon: 'envelope', }, required: true, translate: true, },
             validation: { show: true, messages: { pattern: (error, field: FormlyFieldConfig) => this.translate.stream('FORM.VALIDATION.EMAIL', { value: field.formControl.value }), }, },
-            validators: {
-              validation: Validators.compose([Validators.required, ValidationService.emailValidator])
-            }
+            validators: Validators.compose([Validators.required, ValidationService.emailValidator]),
           },
         ]
       },
@@ -416,6 +448,7 @@ export class PaymentGatewayComponent implements OnInit, OnDestroy {
     ];
 
     // this.GenerateMapBox();
+    // this.mapboxglService.buildMap();
     // this.GenerateMapLeaflet();
 
     setTimeout(() => {
@@ -426,10 +459,16 @@ export class PaymentGatewayComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    // if (this.subscriptionMapBoxResult$) { this.subscriptionMapBoxResult$.unsubscribe(); }
     // throw new Error('Method not implemented.');
+    if (this.subscriptionMapBoxResult$) { this.subscriptionMapBoxResult$.unsubscribe(); }
+    // this.mapLeflet.stopLocate();
   }
 
+  ngAfterViewInit() {
+    // console.log(this.mapboxGeolacateDirective);
+  }
+
+  //#region Submits Forms
   onSubmitContact() {
     // this.submitted = true;
 
@@ -499,44 +538,46 @@ export class PaymentGatewayComponent implements OnInit, OnDestroy {
     // Re-enable the Pay button.
     // $submitButton.disabled = false;
   }
+  //#endregion
 
   //#region LEFTLET METHOD
-  onLeafletMapReady(mapLeaflet: Map) {
-    this.mapLeflet = mapLeaflet;
-    const $component = this;
-    console.groupCollapsed('onLeafletMapReady');
-    console.groupEnd();
-    mapLeaflet.fitBounds(this.route.getBounds(), {
-      padding: point(24, 24),
-      maxZoom: 12,
-      animate: true
-    });
-    mapLeaflet.locate({ setView: true, maxZoom: DEFAULT_MAP_ZOOM + 10 });
-    mapLeaflet.on('locationfound', (e) => {
-      console.groupCollapsed('onLeafletMapReady.locationfound');
-      const radius = e.accuracy;
-      this.leafletLayers.push(marker(e.latlng).bindPopup('You are within ' + radius + ' meters <from this point').openPopup());
-      //   this.leafletLayers.push(circle(e.latlng, radius));
-      const deliveryMethod: IDeliveryMethod = { Latitude: e.latlng.lat, Longitude: e.latlng.lng, PlaceName: 'Testing', PostCode: 1 };
-      $component.formOrdering.setValue(deliveryMethod);
-      $component.formOrdering.updateValueAndValidity({ emitEvent: true, onlySelf: true });
-      $component.orderingComplete = true;
-      console.log('e', e);
-      console.log('LeafletMap', [this.LeafletMap, marker(e.latlng)]);
-      console.groupEnd();
-    });
-    mapLeaflet.on('locationerror', (e) => {
-      console.groupCollapsed('onLeafletMapReady.locationerror');
-      alert(e);
-      console.groupEnd();
-    });
-  }
+  // onLeafletMapReady(mapLeaflet: Map) {
+  //   this.mapLeflet = mapLeaflet;
+  //   const $component = this;
+  //   console.groupCollapsed('onLeafletMapReady');
+  //   console.groupEnd();
+  //   mapLeaflet.fitBounds(this.route.getBounds(), {
+  //     padding: point(24, 24),
+  //     maxZoom: 12,
+  //     animate: true
+  //   });
 
-  onNewLocation(e: Location) {
-    console.groupCollapsed('onNewLocation');
-    console.log({e});
-    console.groupEnd();
-  }
+  //   mapLeaflet.locate({ watch: true, setView: true, maxZoom: DEFAULT_MAP_ZOOM + 10, enableHighAccuracy: true });
+  //   mapLeaflet.on('locationfound', (e) => {
+  //     console.groupCollapsed('onLeafletMapReady.locationfound');
+  //     const radius = e.accuracy;
+  //     // this.leafletLayers.push(marker(e.latlng).bindPopup('You are within ' + radius + ' meters <from this point').openPopup());
+  //     //   this.leafletLayers.push(circle(e.latlng, radius));
+  //     const deliveryMethod: IDeliveryMethod = { Latitude: e.latlng.lat, Longitude: e.latlng.lng, PlaceName: 'Testing', PostCode: 1 };
+  //     $component.formOrdering.setValue(deliveryMethod);
+  //     $component.formOrdering.updateValueAndValidity({ emitEvent: true, onlySelf: true });
+  //     $component.orderingComplete = true;
+  //     console.log('e', e);
+  //     console.log('LeafletMap', [this.LeafletMap, marker(e.latlng)]);
+  //     console.groupEnd();
+  //   });
+  //   mapLeaflet.on('locationerror', (e) => {
+  //     console.groupCollapsed('onLeafletMapReady.locationerror');
+  //     console.log(e);
+  //     console.groupEnd();
+  //   });
+  // }
+
+  // onNewLocation(e: Location) {
+  //   console.groupCollapsed('onNewLocation');
+  //   console.log({e});
+  //   console.groupEnd();
+  // }
 
   // tslint:disable-next-line: no-shadowed-variable
   GenerateMapLeaflet() {
@@ -557,6 +598,192 @@ export class PaymentGatewayComponent implements OnInit, OnDestroy {
   //   clientSecret: 'sk_test_51HXya7EBr7ET6lVJB1AGb1SPlyWiGYUhv39zLBFRPqyKQk4wTWxHAZWJKfPNwLLYg5BMDsvbFYYxgzzUJAcQA8PD00TJg2bSdT',
   //   publicKey: 'pk_test_51HXya7EBr7ET6lVJzagRfQLbyPHuUUA2fiubhV68rK5BGiVpjgkNwvWf0aqTiAzV7i0afuyhZ51qaf9wKwU9DuNv004qz4ckgX'
   // };
+
+  private setDelivery(deliveryMethod: DeliveryMethod) {
+    // const deliveryMethod: IDeliveryMethod = { Latitude: coordinates.latitude, Longitude: coordinates.longitude, PlaceName: place, PostCode: postcode };
+    this.formOrdering.setValue(deliveryMethod);
+    this.formOrdering.updateValueAndValidity({ emitEvent: true, onlySelf: true });
+    this.orderingComplete = true;
+  }
+
+  private getAddress(lng: number, lat: number) {
+    const longitude = lng;
+    const latitude = lat;
+    // tslint:disable-next-line: deprecation
+    this.subscriptionMapBoxResult$ = this.getMapBoxResult(longitude, lat).subscribe({
+      next: (response: any) => {
+        // console.log('subscriptionMapBoxResult$', response);
+        const features = response.features;
+        const coordinates = { longitude: response.query[0], latitude: response.query[1] };
+
+        const place = features[0].place_name;
+        const address = features.find(i => i.id.includes('address')) ? features.find(i => i.id.includes('address')).text : '';
+        const postcode = features.find(i => i.id.includes('postcode')) ? features.find(i => i.id.includes('postcode')).text : '';
+        const city = features.find(i => i.id.includes('place')) ? features.find(i => i.id.includes('place')).text : '';
+        const state = features.find(i => i.id.includes('region')) ? features.find(i => i.id.includes('region')).text : '';
+        const country = features.find(i => i.id.includes('country')) ? features.find(i => i.id.includes('country')).text : '';
+        const countryCode = features.find(i => i.id.includes('country')) ? features.find(i => i.id.includes('country')).properties.short_code : '';
+
+        // let $geoCoderInput = $("#geocoder .mapboxgl-ctrl-geocoder--input");
+        // $geoCoderInput.val("20814");
+        // $geoCoderInput.keydown();
+
+        // console.log(response, [ place, address, postcode, city, state, country, countryCode ]);
+        const deliveryMethod: IDeliveryMethod = { Latitude: coordinates.latitude, Longitude: coordinates.longitude, PlaceName: place, PostCode: postcode };
+        this.formContact.controls.Country.setValue(country);
+        this.setDelivery(deliveryMethod);
+        // console.log($component.formOrdering.getRawValue());
+      },
+      error: (err) => { console.log('subscriptionMapBoxResult$', err); }
+    });
+  }
+
+  mapboxRefreshResize(){
+    this.mapboxGL.resize();
+  }
+
+  mapboxOnLoad(evt: mapboxgl.Map) {
+    this.mapboxGL = evt;
+    if (DEBUG) { console.groupCollapsed('mapboxOnLoad'); }
+    // if (DEBUG) { console.log(this.mapboxGL.getCenter(), {evt}); }
+    // if (DEBUG) { console.log('mapboxGL', this.mapboxGL); }
+    // if (DEBUG) { console.log('mapboxGeolocate', this.mapboxGeolocate); }
+    // if (DEBUG) { console.log('mapboxGeocoder', this.mapboxGeocoder); }
+    // if (DEBUG) { console.log('mapboxMarker', this.mapboxMarker); }
+    const geolocate = this.mapboxGeolocate.control as GeolocateControl;
+    geolocate.trigger();
+    if (DEBUG) { console.groupEnd(); }
+  }
+
+  mapbixOnMouseDown(evt: EventData) {
+    // if (DEBUG) { console.groupCollapsed('mapbixOnMouseDown'); }
+    // if (DEBUG) { console.log('mapbixOnMouseDown', evt, ); }
+    this.mapboxHighAccuracy = false;
+    this.mapboxShowUserLocate = false;
+    this.mapboxTrackUserLocate = false;
+    const container: HTMLElement = (evt as MapboxEvent).target.getContainer();
+    const buttonGeolocate: HTMLButtonElement = container.querySelector('.mapboxgl-control-container button.mapboxgl-ctrl-geolocate');
+    if (this.mapboxLocations) { buttonGeolocate.click(); }
+    this.mapboxLocations = false;
+    // if (DEBUG) {console.groupEnd(); }
+  }
+
+  mapboxOnDragStart(evt: EventData) {
+    // if (DEBUG) { console.groupCollapsed('mapboxOnDragStart'); }
+    // if (DEBUG) { console.log('mapboxOnDragEnd', evt, ); }
+    // if (DEBUG) {console.groupEnd(); }
+  }
+
+  mapbixOnMouseEnd(evt: EventData) {
+    // if (DEBUG) { console.groupCollapsed('mapbixOnMouseEnd'); }
+    this.mapboxGL.resize();
+    // if (DEBUG) {console.groupEnd(); }
+  }
+
+  mapboxOnMove(evt: EventData) {
+    // if (DEBUG) { console.groupCollapsed('mapboxOnMove'); }
+    const coords: LngLat = this.mapboxGL.getCenter();
+    this.mapboxMarkerCenter = coords;
+    const deliveryMethod: IDeliveryMethod = {
+      Latitude: coords.lat,
+      Longitude: coords.lng,
+      PlaceName: '',
+      PostCode: 0
+    };
+    // this.formContact.controls.Country.setValue(country);
+    this.setDelivery(deliveryMethod);
+    // if (DEBUG) { console.groupEnd(); }
+  }
+
+  mapboxOnMoveEnd(evt: EventData) {
+    // if (DEBUG) { console.groupCollapsed('mapboxOnMoveEnd'); }
+    // this.mapboxGL.resize();
+    // if (DEBUG) { console.groupEnd(); }
+  }
+
+  mapbboxSourceData(evt: EventData) {
+    if (DEBUG) {console.groupCollapsed('mapbboxSourceData'); }
+    if (DEBUG) {console.log('evt', { evt }); }
+    // this.mapboxMap.resize();
+    if (DEBUG) {console.groupEnd(); }
+  }
+
+  mapbboxSourceDataLoading(evt: EventData) {
+    if (DEBUG) {console.groupCollapsed('mapbboxSourceDataLoading'); }
+    if (DEBUG) {console.log('evt', { evt }); }
+    // this.mapboxMap.resize();
+    if (DEBUG) {console.groupEnd(); }
+  }
+
+  mapboxOnGeolocate(evt: Position) {
+    if (DEBUG) {  console.groupCollapsed('mapboxOnGeolocate'); }
+    if (DEBUG) { console.log('evt', {evt}); }
+    if (DEBUG) { console.log('mapboxGL', this.mapboxGL); }
+    this.mapboxLocations = true;
+    this.mapboxHighAccuracy = true;
+    this.mapboxShowUserLocate = true;
+    this.mapboxTrackUserLocate = true;
+    const geocoder = this.mapboxGeocoder.control as MapboxGeocoder;
+    const longitude = evt.coords.longitude;
+    const latitude = evt.coords.latitude;
+    const coords = { coordinates: [-90.32958984375, -0.6344474832838974] };
+    // this.getAddress(longitude, latitude);
+    if (DEBUG) { console.log('geocoder', {geocoder}); }
+    // setTimeout(() => {
+    //   geocoder.setTypes('address');
+    //   geocoder.setLimit(0);
+    //   // geocoder.query(`lng: ${latitude}, lat: ${longitude}`);
+    //   geocoder.query(`${longitude},${latitude}`);
+    //   geocoder.clear(null);
+    // }, 1500);
+    this.mapboxRefreshResize();
+    if (DEBUG) { console.groupEnd(); }
+  }
+
+  mapboxOnGeocoderResults(evt: any) {
+    if (DEBUG) { console.groupCollapsed('mapboxOnGeocoderResults'); }
+    if (DEBUG) { console.log(evt); }
+    if (DEBUG) { console.groupEnd(); }
+  }
+
+  mapboxOnGeocoderResult(evt: any) {
+    if (DEBUG) { console.groupCollapsed('mapboxOnGeocoderResult'); }
+    if (DEBUG) { console.log(evt); }
+    this.mapboxGL.resize();
+    const { result } = evt;
+
+    const coordinates: LngLatLike = { lng: result.center[0], lat: result.center[1] };
+
+    const place = result.place_name;
+    const address = result.context.find(i => i.id.includes('address')) ? result.context.find(i => i.id.includes('address')).text : '';
+    const postcode = result.context.find(i => i.id.includes('postcode')) ? result.context.find(i => i.id.includes('postcode')).text : '';
+    const city = result.context.find(i => i.id.includes('place')) ? result.context.find(i => i.id.includes('place')).text : '';
+    const state = result.context.find(i => i.id.includes('region')) ? result.context.find(i => i.id.includes('region')).text : '';
+    const country = result.context.find(i => i.id.includes('country')) ? result.context.find(i => i.id.includes('country')).text : '';
+    const countryCode = result.context.find(i => i.id.includes('country')) ? result.context.find(i => i.id.includes('country')).short_code : '';
+
+    this.mapboxGL.setCenter(coordinates);
+
+    const deliveryMethod: IDeliveryMethod = { Latitude: coordinates.lat, Longitude: coordinates.lng, PlaceName: place, PostCode: postcode };
+    this.formContact.controls.Country.setValue(country);
+    this.setDelivery(deliveryMethod);
+    if (DEBUG) { console.groupEnd(); }
+  }
+
+  mapboxOnGeocoderError(evt: any) {
+    if (DEBUG) { console.groupCollapsed('mapboxOnGeocoderError'); }
+    if (DEBUG) { console.log(evt); }
+    if (DEBUG) { console.groupEnd(); }
+  }
+
+  markerDragEnd(evt: Marker) {
+    if (DEBUG) {console.groupCollapsed('mapbboxSourceData'); }
+    if (DEBUG) {console.log('evt', { evt }); }
+    // const deliveryMethod: IDeliveryMethod = { Latitude: coordinates.lat, Longitude: coordinates.lng };
+    // this.formContact.controls.Country.setValue(country);
+    // this.setDelivery(deliveryMethod);
+    if (DEBUG) {console.groupEnd(); }
+  }
 
   /*
   GenerateMapBox() {
@@ -759,6 +986,9 @@ export class PaymentGatewayComponent implements OnInit, OnDestroy {
 
   onClickChangeStep(step: StepsPaymentGateway) {
     this.CurrentStep = (this.CurrentStep !== step ? step : 0);
+    if (step === StepsPaymentGateway.Ordering) {
+      setTimeout(() => this.mapboxRefreshResize(), 100);
+    }
   }
 
   handleError(error) {

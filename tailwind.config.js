@@ -8,6 +8,7 @@ module.exports = {
   //   content: './projects/**/*.html'
   // },
   // purge: ['./src/**/*.html', './src/**/*.ts'],
+  purge: true,
   theme: {
     fontFamily: {
       display: ['Poppins', 'system-ui', 'sans-serif'],

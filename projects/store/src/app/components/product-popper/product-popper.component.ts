@@ -6,7 +6,7 @@ import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
 
 import { Subproduct, ISubproduct, ICategory } from 'projects/core/models/db';
 import { ShopCartItem, IShopCartItem } from 'projects/core/models/shopcart';
-import { ShopCartService } from 'projects/store/src/app/core/services/shopcart/shop-cart.service';
+import { ShopCartService } from '@core/services/shopcart/shop-cart.service';
 import { GET_URL_ASSETS } from 'projects/core/helpers/functions';
 
 @Component({

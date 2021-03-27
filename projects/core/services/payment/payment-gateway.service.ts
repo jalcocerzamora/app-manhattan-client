@@ -6,7 +6,7 @@ import { environment } from 'projects/environments/environment';
 import { BehaviorSubject, Observable, of, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { Subproduct } from 'projects/core/models/db';
-import { ShopCartService } from './shopcart/shop-cart.service';
+import { ShopCartService } from '../shopcart/shop-cart.service';
 
 @Injectable({
   providedIn: 'root'

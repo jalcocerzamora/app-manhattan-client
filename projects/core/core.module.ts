@@ -2,9 +2,9 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { HttpClientModule } from '@angular/common/http';
-import { RequestCacheService } from './services/requestCache.service';
-import { DirectivesModule } from './directives/directives.module';
-import { AuthenticationService } from './services';
+
+import { AuthenticationService, RequestCacheService, MapBoxGLService } from '@core/services';
+import { DirectivesModule } from '@core/directives/directives.module';
 // import { HideIfUnauthorizedDirective } from './directives/hide-if-unauthorized.directive';
 // import { DisableIfUnauthorizedDirective } from './directives/disable-if-unauthorized.directive';
 
@@ -20,6 +20,7 @@ import { AuthenticationService } from './services';
     // RequestCacheService
     AuthenticationService,
     RequestCacheService,
+    MapBoxGLService,
   ]
 })
 export class CoreModule { }

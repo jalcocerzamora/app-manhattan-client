@@ -9,7 +9,10 @@ import 'rxjs/add/observable/of';
 import 'rxjs/add/operator/share';
 import 'rxjs/add/operator/map';
 
-import { ISubproductsWithCategory } from 'projects/core/models/db';
+import { ISubproductsWithCategory } from '@core/models/db';
+
+// import { RequestErrorService } from '@core/services/helpers/requestError.service';
+import { HANDLE_ERROR_REQUEST } from '@core/helpers/functions';
 
 const API_ENDPOINT: string = environment.BACKEND_ENDPOINT;
 @Injectable({
@@ -23,26 +26,16 @@ export class SubproductService {
 
   private extractData(res: any): any {
     const body = res;
-    return body.data || { };
-  }
-
-  private handleError(err: HttpErrorResponse): any {
-    if (err.error instanceof ErrorEvent) {
-      console.error('An error occurred:', err.error.message);
-    } else if (typeof(err) === 'object') {
-      console.error(`Backend returned code ${err.status}, body was: ${err.message}`);
-    } else {
-      console.error(err);
-    }
-
-    return throwError('Something bad happened; please try again later.');
+    console.log('extractData.body', body);
+    console.log('extractData.body.data', body.data);
+    return body.data || body || { };
   }
 
   All(): Observable<any> {
       return this.http.get<Array<ISubproductsWithCategory>>(API_ENDPOINT.concat('menu'))
       .pipe(
         map(this.extractData),
-        catchError(this.handleError)
+        catchError(HANDLE_ERROR_REQUEST)
       );
   }
 

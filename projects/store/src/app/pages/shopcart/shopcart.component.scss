@@ -138,9 +138,9 @@ $backgroundImage: "https://source.unsplash.com/-1GEAA8q3wk/1200x600";
             @apply overscroll-contain;
             @apply relative;
             @apply w-full;
-            @apply h-90vh;
+            @apply h-full;
             @apply mx-auto;
-            @apply pb-12;
+            @apply pb-24;
 
             // scroll-snap-type: y proximity;
             // scroll-padding: 2rem;

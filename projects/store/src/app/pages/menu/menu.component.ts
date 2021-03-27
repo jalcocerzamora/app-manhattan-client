@@ -6,8 +6,8 @@ import {
   ISubproductsWithCategory
 } from 'projects/core/models/db';
 
-import { SubproductService } from 'projects/store/src/app/core/services/db/subproduct.service';
-import { ShopCartService } from 'projects/store/src/app/core/services/shopcart/shop-cart.service';
+import { SubproductService } from '@core/services/db/subproduct.service';
+import { ShopCartService } from '@core/services/shopcart/shop-cart.service';
 
 
 @Component({
@@ -50,7 +50,7 @@ export class MenuComponent implements OnInit, AfterViewInit {
 
   loadComponent() {
     this.el.nativeElement.closest('body').classList.add('overflow-hidden');
-    this.getProducts();
+    // this.getProducts();
   }
 
   getProducts(): Observable<Array<ISubproductsWithCategory>> {

@@ -111,3 +111,18 @@
     }
   }
 }
+
+
+.pg-step-ordering-method {
+  form {
+    mgl-map {
+      div.mapboxgl-map {
+        .mapboxgl-control-container {
+          input.mapboxgl-ctrl-geocoder--input {
+            padding-left: 2rem !important;
+          }
+        }
+      }
+    }
+  }
+}
