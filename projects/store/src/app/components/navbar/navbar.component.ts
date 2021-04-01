@@ -11,8 +11,8 @@ export class NavbarComponent implements OnInit, AfterViewInit {
   @ViewChild('navbarToggler') navbarToggler: ElementRef;
 
   constructor(
-    private elementRef: ElementRef,
-    private translate: TranslateService
+    // private elementRef: ElementRef,
+    // private translate: TranslateService
   ) {
     // do stuff
   }

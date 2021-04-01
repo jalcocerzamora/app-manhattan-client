@@ -7,9 +7,16 @@ import { ISubproductsWithCategory } from 'projects/core/models/db';
   selector: 'app-menu-category',
   // templateUrl: './menu-category.component.html',
   template: `
-    <ng-container *ngFor="let Menu of Menus">
-      <app-menu-category-item [Category]="Menu.Category" [Products]="Menu.Products" [Overlay]="Overlay" [ParentContainer]="ParentContainer"></app-menu-category-item>
+    <ng-container *ngIf="Template; else elseTemplate">
+      <ng-container *ngFor="let Menu of Menus">
+        <app-menu-category-item [Template]="Template" [Category]="Menu.Category" [Products]="Menu.Products"></app-menu-category-item>
+      </ng-container>
     </ng-container>
+    <ng-template #elseTemplate>
+      <ng-container *ngFor="let Menu of Menus">
+        <app-menu-category-item  [Category]="Menu.Category" [Products]="Menu.Products" [Overlay]="Overlay" [ParentContainer]="ParentContainer"></app-menu-category-item>
+      </ng-container>
+    </ng-template>
     <ng-content></ng-content>
   `,
   styleUrls: ['./menu-category.component.scss'],
@@ -18,6 +25,8 @@ import { ISubproductsWithCategory } from 'projects/core/models/db';
 export class MenuCategoryComponent implements OnInit {
 
   menus: MenuCategoryItemComponent[] = [];
+
+  @Input() Template: boolean = false;
 
   @Input() Overlay: ElementRef;
   @Input() ParentContainer: ElementRef;

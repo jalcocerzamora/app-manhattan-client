@@ -3,6 +3,7 @@ import { FieldType, FormlyFieldConfig } from '@ngx-formly/core';
 import { addonsExtension } from 'projects/core/helpers/addon.extension';
 import {
     FormlyFieldInputComponent,
+    FormlyFieldFileComponent,
     FormlyFieldQuantityComponent,
     FormlyFieldRadioComponent,
     FormlyWrapperFormFieldComponent,
@@ -24,9 +25,10 @@ export const FormlyConfig = {
         { name: 'required', message: 'This field is required' },
     ],
     types: [
-        { name: 'input',    component: FormlyFieldInputComponent,       wrappers: ['form-field'], },
         { name: 'string',   extends: 'input' },
         // { name: 'number', extends: 'input', defaultOptions: { templateOptions: { type: 'number', }, }, },
+        { name: 'input',    component: FormlyFieldInputComponent,       wrappers: ['form-field'], },
+        { name: 'file',    component: FormlyFieldFileComponent,       wrappers: ['form-field'], },
         { name: 'integer',  extends: 'input', defaultOptions: { templateOptions: { type: 'number', }, }, },
         { name: 'tel',      extends: 'input', defaultOptions: { templateOptions: { type: 'tel', pattern: '[0-9]{3}[0-9]{3}[0-9]{4}' }, }, },
         { name: 'email',    extends: 'input', defaultOptions: { templateOptions: { type: 'email', /*pattern: "/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/"*/ }, }, },

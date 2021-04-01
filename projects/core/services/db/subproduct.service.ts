@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 
 import { environment } from 'projects/environments/environment';
 
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { Observable, throwError } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import 'rxjs/add/observable/of';
 import 'rxjs/add/operator/share';

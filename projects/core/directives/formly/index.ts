@@ -1,6 +1,7 @@
 export {
     FormlyFieldCheckboxComponent,
     FormlyFieldInputComponent,
+    FormlyFieldFileComponent,
     FormlyFieldRadioComponent,
     FormlyFieldSelectComponent,
     FormlyFieldQuantityComponent,
@@ -11,4 +12,9 @@ export {
     FormlyWrapperFormFieldComponent,
     FormlyWrapperFormAddonsComponent,
 } from './wrappers/index';
+
+
+export {
+    FileValueAccessorDirective
+} from './directives/index';
 

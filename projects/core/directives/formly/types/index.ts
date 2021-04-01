@@ -1,4 +1,5 @@
 export { FormlyFieldInputComponent } from './formly-field-input/formly-field-input.component';
+export { FormlyFieldFileComponent } from './formly-field-file/formly-field-file.component';
 export { FormlyFieldCheckboxComponent } from './formly-field-checkbox/formly-field-checkbox.component';
 export { FormlyFieldQuantityComponent } from './formly-field-quantity/formly-field-quantity.component';
 export { FormlyFieldRadioComponent } from './formly-field-radio/formly-field-radio.component';

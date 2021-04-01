@@ -70,7 +70,7 @@ import { NgxStripeModule } from 'ngx-stripe';
     DirectivesModule,
     FormlyModule.forRoot(FormlyConfig),
     TranslateModule.forRoot({ defaultLanguage: environment.language, loader: { provide: TranslateLoader, useFactory: HttpLoaderFactory, deps: [HttpClient, PlatformLocation] } }),
-    NgxStripeModule.forRoot('pk_test_51HXya7EBr7ET6lVJzagRfQLbyPHuUUA2fiubhV68rK5BGiVpjgkNwvWf0aqTiAzV7i0afuyhZ51qaf9wKwU9DuNv004qz4ckgX'),
+    NgxStripeModule.forRoot(environment.STRIPE.PUBLIC_KEY),
     NgxMapboxGLModule.withConfig({
       accessToken: environment.MAPBOX.ACCESS_TOKEN, // Optional, can also be set per map (accessToken input of mgl-map)
       // geocoderAccessToken: 'TOKEN' // Optional, specify if different from the map access token, can also be set per mgl-geocoder (accessToken input of mgl-geocoder)
@@ -94,7 +94,7 @@ import { NgxStripeModule } from 'ngx-stripe';
   ],
   providers: [
     DatePipe,
-    TranslateService,
+    // TranslateService,
     { provide: LOCALE_ID, useValue: environment.locale },
     { provide: DEFAULT_CURRENCY_CODE, useValue: environment.currency },
     { provide: FORMLY_CONFIG, multi: true, useFactory: registerTranslateExtension, deps: [TranslateService] },

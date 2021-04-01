@@ -50,8 +50,8 @@ $backgroundImage: "https://source.unsplash.com/-1GEAA8q3wk/1200x600";
 
     @media (min-width: 1024px) {
       @apply w-2/3; // --modal-margins-lg;
-      @apply mx-auto;
       @apply my-10;
+      @apply mx-auto;
     }
 
     .modal-dialog {

@@ -117,8 +117,12 @@
     mgl-map {
       div.mapboxgl-map {
         .mapboxgl-control-container {
+          .mapboxgl-ctrl-geocoder {
+            min-width: 13rem;
+          }
           input.mapboxgl-ctrl-geocoder--input {
             padding-left: 2rem !important;
+            @apply text-xs;
           }
         }
       }

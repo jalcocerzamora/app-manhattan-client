@@ -5,6 +5,7 @@ import { HttpClientModule } from '@angular/common/http';
 
 import { AuthenticationService, RequestCacheService, MapBoxGLService } from '@core/services';
 import { DirectivesModule } from '@core/directives/directives.module';
+import { SubproductService } from './services/db';
 // import { HideIfUnauthorizedDirective } from './directives/hide-if-unauthorized.directive';
 // import { DisableIfUnauthorizedDirective } from './directives/disable-if-unauthorized.directive';
 
@@ -13,7 +14,6 @@ import { DirectivesModule } from '@core/directives/directives.module';
   imports: [
     CommonModule,
     HttpClientModule,
-
     DirectivesModule,
   ],
   providers: [
@@ -21,6 +21,7 @@ import { DirectivesModule } from '@core/directives/directives.module';
     AuthenticationService,
     RequestCacheService,
     MapBoxGLService,
+    SubproductService
   ]
 })
 export class CoreModule { }

@@ -7,32 +7,55 @@ import { ISubproduct, ICategory } from 'projects/core/models/db';
 import { createPopper, Placement } from '@popperjs/core';
 
 import { ProductPopperComponent } from 'projects/store/src/app/components/product-popper/product-popper.component';
-import { Router } from '@angular/router';
 import { GET_URL_ASSETS } from 'projects/core/helpers/functions';
+import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 
 @Component({
   selector: 'app-product-item',
   // templateUrl: './product-item.component.html',
   template: `
-  <div [ngClass]="addClass" class="menu-category-product w-full h-12 lg:h-20 flex cursor-pointer hover:bg-gray-200">
-      <div class="pointer-events-none flex flex-row justify-center content-center items-center space-x-1 py-1">
-        <div class="product-image w-1/6 self-center">
-          <img [src]="productImage" alt="productAlt" class="w-full h-10 lg:h-16 object-cover object-center">
-        </div>
-        <div class="product-content w-5/6 h-full self-center">
-					<div class="h-full flex flex-row flex-wrap text-xs lg:text-base">
-						<div class="product-header w-full flex flex-row justify-between">
-								<span [innerText]="Product.name" class="float-left font-bold"></span>
-								<span [innerText]="Product.price | currency" class="float-right lg:text-base font-bold"></span>
-						</div>
-						<div class="product-description w-full">
-						  <p [innerText]="Product.description | firstcase" class="relative h-6 lg:h-10 truncate-lines-2 lg:truncate-lines-3 text-2xs lg:text-sm font-thin lg:text-normal text-justify leading-3 hyphens-normal">
-					  </div>
+    <ng-container *ngIf="Template; else elseTemplate">
+      <div [ngClass]="addClass" class="menu-category-product w-full h-12 md:h-20 flex cursor-default">
+        <div class="w-full pointer-events-none flex flex-row justify-center content-center items-center space-x-1 py-1">
+          <div class="product-image w-1/6 self-center">
+            <div class="w-full h-10 md:h-16 object-cover object-center">
+              <div class="charge-data"></div>
+            </div>
+          </div>
+          <div class="product-content w-5/6 h-full self-center">
+            <div class="h-full flex flex-row flex-wrap text-xs md:text-base">
+              <div class="product-header w-full h-4 flex flex-row justify-between md:flex-row">
+                <div class="w-2/4 charge-data"></div>
+                <div class="w-1/4 charge-data"></div>
+              </div>
+              <div class="product-description w-full h-11">
+                <div class="charge-data"></div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-
+    </ng-container>
+    <ng-template #elseTemplate>
+      <div [ngClass]="addClass" class="menu-category-product w-full h-12 md:h-20 flex cursor-pointer hover:bg-gray-200">
+        <div class="pointer-events-none flex flex-row justify-center content-center items-center space-x-1 py-1">
+          <div class="product-image w-1/6 self-center">
+            <img [src]="productImage" alt="productAlt" class="w-full h-10 md:h-16 object-cover object-center">
+          </div>
+          <div class="product-content w-5/6 h-full self-center">
+            <div class="h-full flex flex-row flex-wrap text-xs md:text-base">
+              <div class="product-header w-full flex flex-row justify-between md:flex-row">
+                  <span [innerText]="Product.name" class="float-left font-bold"></span>
+                  <span [innerText]="Product.price | currency" class="float-right md:text-base font-bold"></span>
+              </div>
+              <div class="product-description w-full">
+                <p [innerText]="Product.description | firstcase" class="relative h-6 md:h-10 truncate-lines-2 md:truncate-lines-3 text-2xs lg:text-sm font-thin lg:text-normal text-justify leading-3 hyphens-normal">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </ng-template>
     <ng-template #viewTemplatePopper></ng-template>
   `,
   styleUrls: ['./product-item.component.scss'],
@@ -43,6 +66,8 @@ export class ProductItemComponent implements OnInit, AfterViewInit {
   private popperInstance = null;
   private popoverShow = null;
   private productCurrent = null;
+
+  @Input() Template: boolean = false;
 
   @Input() ParentContainer: ElementRef;
   @Input() PopperPlacement: string;
@@ -57,12 +82,14 @@ export class ProductItemComponent implements OnInit, AfterViewInit {
 
   @HostListener('click', ['$event.target']) onClick(target: HTMLDivElement) {
     // console.log('User Click', target, );
-    target.classList.toggle('z-20');
-    if (target.classList.contains('menu-category-product')) {
-      if (this.popoverShow) {
-        this.destroyComponent();
-      } else {
-        this.createComponent(target);
+    if (!this.Template) {
+      target.classList.toggle('z-20');
+      if (target.classList.contains('menu-category-product')) {
+        if (this.popoverShow) {
+          this.destroyComponent();
+        } else {
+          this.createComponent(target);
+        }
       }
     }
   }
@@ -79,7 +106,7 @@ export class ProductItemComponent implements OnInit, AfterViewInit {
   constructor(
     @Inject(LOCALE_ID) public locale: string,
     @Inject(DEFAULT_CURRENCY_CODE) public currencyCode: string,
-    private router: Router,
+    // private router: Router,
     private resolver: ComponentFactoryResolver,
     private readonly el: ElementRef<HTMLDivElement>,
     private readonly renderer: Renderer2

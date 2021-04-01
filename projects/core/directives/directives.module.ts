@@ -25,6 +25,8 @@ import {
 
   FormlyWrapperFormFieldComponent,
   FormlyWrapperFormAddonsComponent,
+  FormlyFieldFileComponent,
+  FileValueAccessorDirective,
 } from 'projects/core/directives/formly/index';
 import { FormlyConfig } from './formly/formly.config';
 
@@ -32,6 +34,7 @@ import { FormlyConfig } from './formly/formly.config';
 @NgModule({
   declarations: [
     FormlyFieldInputComponent,
+    FormlyFieldFileComponent,
     FormlyFieldTextAreaComponent,
     FormlyFieldCheckboxComponent,
     FormlyFieldRadioComponent,
@@ -40,6 +43,8 @@ import { FormlyConfig } from './formly/formly.config';
 
     FormlyWrapperFormFieldComponent,
     FormlyWrapperFormAddonsComponent,
+
+    FileValueAccessorDirective,
   ],
   imports: [
     CommonModule,

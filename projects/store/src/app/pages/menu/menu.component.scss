@@ -60,18 +60,10 @@ $backgroundImage: "https://source.unsplash.com/-1GEAA8q3wk/1200x600";
     @apply mx-20;
     @apply rounded-lg;
 
-    @media (min-width: 640px) { 
-
-    }
-
     @media (min-width: 1024px) {
-      @apply w-2/3; // my-10 mx-32;
-      @apply mx-auto;
+      @apply w-2/3; // --modal-margins-lg;
       @apply my-10;
-    }
-
-    @media (min-width: 1280px) {
-
+      @apply mx-auto;
     }
 
     .modal-dialog {

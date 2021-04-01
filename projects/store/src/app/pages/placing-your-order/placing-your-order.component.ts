@@ -21,14 +21,11 @@ export class PlacingYourOrderComponent implements OnInit {
   constructor(
     private el: ElementRef,
     private rd: Renderer2,
-
     // private socket: Socket,
-
-    private scriptService: ScriptService,
-    private serviceSubproducts: SubproductService,
-
+    // private scriptService: ScriptService,
+    // private serviceSubproducts: SubproductService,
     public serviceShopCart: ShopCartService<Subproduct>,
-    private paymentGatewayService: PaymentGatewayService
+    // private paymentGatewayService: PaymentGatewayService
   ) {
     this.progressTime = 0;
   }

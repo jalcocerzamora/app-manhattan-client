@@ -60,14 +60,14 @@
 </ng-template>
 
 <ng-template #Body>
-  <div class="w-full mx-auto flex flex-col space-y-2 mt-12 mb-32 pr-4 lg:text-sm">
+  <div class="w-full mx-auto flex flex-col space-y-2 mt-12 mb-32 pr-4 md:text-xs">
 
-    <div class="w-full flex flex-col space-y-4 lg:flex-row lg:space-x-4">
-      <div class="w-full lg:w-1/2">
+    <div class="w-full flex flex-col space-y-4 md:flex-row md:space-y-0 md:space-x-4">
+      <div class="w-full md:w-1/2">
         <app-payment-gateway (stepCompleteRequest)="formPaymentGatewayUpdate($event)"></app-payment-gateway>
       </div>
 
-      <div class="w-full lg:w-1/2">
+      <div class="w-full md:w-1/2">
         <table aria-label="tb-summary-order" aria-describedby="tb-summary-order" class="table-auto">
           <caption></caption>
           <thead class="">
@@ -119,11 +119,11 @@
 </ng-template>
 
 <ng-template #Footer>
-  <div class="flex flex-col justify-center space-y-2 content-center items-center shadow-t-md p-2 lg:flex-row lg:space-x-4 lg:py-4">
-    <div class="w-full text-gray-600 lg:w-1/2">
-      <p class="leading-none"><small class="text-2xs lg:text-xs" [translate]="'SHOPCART.FOOTER.txtLegend'"></small></p>
+  <div class="flex flex-col justify-center space-y-2 content-center items-center shadow-t-md p-2 md:flex-row md:space-x-4 md:py-4">
+    <div class="w-full text-gray-600 md:w-1/2">
+      <p class="leading-none"><small class="text-2xs md:text-xs" [translate]="'SHOPCART.FOOTER.txtLegend'"></small></p>
     </div>
-    <div class="w-full text-white lg:w-1/2">
+    <div class="w-full text-white md:w-1/2">
       <button #btnPaymentOrder (click)="onSubmitOrder($event)" [disabled]="!formPaymentGatewayValid" [ngClass]="{'disabled': !formPaymentGatewayValid}" class="btn-order-now divide-x divide-gray-400 pulsex">
         <div class="w-2/5 flex flex-col space-y-2 justify-start items-start content-start text-left px-5">
           <p class="text-xs">TOTAL</p>
