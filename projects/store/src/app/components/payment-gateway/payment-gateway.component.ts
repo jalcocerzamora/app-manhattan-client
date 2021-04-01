@@ -69,7 +69,19 @@ export class PaymentGatewayComponent implements OnInit, OnDestroy, AfterViewInit
     private stripeService: StripeService,
     private mapboxglService: MapBoxGLService,
     private paymentGatewayService: PaymentGatewayService
+<<<<<<< HEAD
   ) { }
+=======
+  ) {
+    // translate.addLangs(['en', 'fr']);
+    // translate.setDefaultLang('en');
+
+    // const browserLang = translate.getBrowserLang();
+
+    // translate.use(browserLang.match(/en|fr/) ? browserLang : 'en');
+    // this.model.lang = translate.currentLang;
+  }
+>>>>>>> 779d784bc34556a5cad0565cd1163b432852dd0d
   @Output() stepCompleteRequest = new EventEmitter<boolean>();
 
   public DateCurrent: number = Date.now();
