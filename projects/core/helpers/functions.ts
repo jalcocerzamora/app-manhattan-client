@@ -15,7 +15,7 @@ export function GET_URL_ASSETS(pathImage: string = null) {
                 )
                 :
                 (
-                    HREF.concat(environment.PATH_ASSETS_IMAGES_MENU_LOGO)
+                    HOST.concat(environment.PATH_ASSETS_IMAGES_MENU_LOGO)
                 )
             )
             :
