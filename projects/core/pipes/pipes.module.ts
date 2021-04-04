@@ -1,12 +1,12 @@
-import { LOCALE_ID, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
+import { environment } from 'projects/environments/environment';
 import { FirstCasePipe } from './first-case.pipe';
 import { FormlySelectOptionsPipe } from './select-options-pipe';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ISODatePipe } from './iso-date.pipe';
 import { ISOTimePipe } from './time.pipe';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { environment } from 'projects/environments/environment';
+import { LOCALE_ID, NgModule } from '@angular/core';
+
 
 @NgModule({
   declarations: [

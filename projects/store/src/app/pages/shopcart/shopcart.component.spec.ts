@@ -1,6 +1,10 @@
+import { HttpClientModule } from '@angular/common/http';
 import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ShopcartComponent } from './shopcart.component';
+import { PaymentGatewayService } from '@core/services/payment/payment-gateway.service';
+import { NgxStripeModule, StripeService } from 'ngx-stripe';
+import { environment } from '@env/environment';
 
 describe('ShopcartComponent', () => {
   let component: ShopcartComponent;
@@ -8,7 +12,15 @@ describe('ShopcartComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ ShopcartComponent ]
+      declarations: [ ShopcartComponent ],
+      imports: [
+        HttpClientModule,
+        NgxStripeModule.forRoot(environment.STRIPE.PUBLIC_KEY),
+      ],
+      providers: [
+        PaymentGatewayService,
+        StripeService
+      ]
     })
     .compileComponents();
   }));

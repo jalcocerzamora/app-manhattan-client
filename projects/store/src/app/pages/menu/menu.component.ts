@@ -1,14 +1,14 @@
-import { Component, OnInit, ElementRef, ViewChild, AfterViewInit } from '@angular/core';
-import { Observable } from 'rxjs';
-
 import {
-  Subproduct,
-  ISubproductsWithCategory
-} from 'projects/core/models/db';
-
-import { SubproductService } from '@core/services/db/subproduct.service';
+  AfterViewInit,
+  Component,
+  ElementRef,
+  OnInit,
+  ViewChild
+  } from '@angular/core';
+import { ISubproductsWithCategory, Subproduct } from 'projects/core/models/db';
+import { Observable } from 'rxjs';
 import { ShopCartService } from '@core/services/shopcart/shop-cart.service';
-
+import { SubproductService } from '@core/services/db/subproduct/subproduct.service';
 
 @Component({
   selector: 'app-menu',

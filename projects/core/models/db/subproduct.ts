@@ -10,11 +10,11 @@ export interface ISubproduct {
   name: string;
   price: number;
   description: string;
-  default: string;
-  status: string;
-  online: string;
+  default: boolean;
+  status: boolean;
+  online: boolean;
 
-  product: IProduct;
+  product?: IProduct;
 }
 
 export interface ISubproductsWithCategory {
@@ -30,9 +30,9 @@ export class Subproduct implements ISubproduct {
   name: string;
   price: number;
   description: string;
-  default: string;
-  status: string;
-  online: string;
+  default: boolean;
+  status: boolean;
+  online: boolean;
 
   product: Product;
 

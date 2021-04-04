@@ -65,11 +65,10 @@ import { PipesModule } from '@core/pipes/pipes.module';
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    FormsModule, ReactiveFormsModule,
+    FormsModule,
+    ReactiveFormsModule,
     FontAwesomeModule,
-
     // SocketIoModule.forRoot({ url: environment.SOCKET_ENDPOINT, options: {} }),
-
     PipesModule,
     DirectivesModule,
     ComponentsModule,

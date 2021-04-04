@@ -225,23 +225,18 @@ $backgroundImage: "https://source.unsplash.com/-1GEAA8q3wk/1200x600";
               @apply bg-white;
               @apply bg-opacity-75;
               @apply fixed;
-              // @apply top-0;
-              // @apply bottom-0;
               @apply inset-0;
-              @apply mt-10;
-              @apply ml-20;
-              @apply mr-20;
-              // left: 5rem;
-              // right: 5rem;
+              @apply w-auto;
+              margin-top: calc(1.25rem + 2.5rem); // @apply mt-10;
+              @apply mb-5;
+              @apply mx-4;
               // height: calc(90vh - 2.5rem); // apply h-90vh;
               @apply rounded-b-lg;
               z-index: 9;
 
-              @media (min-width: 1024px) {
-                @apply w-2/3; // my-10 mx-32;
-                @apply mx-auto;
-                @apply my-10;
-              }
+              // @media (min-width: 768px) {
+              //   @apply w-2/3;
+              // }
             }
 
             .custom-content-body {

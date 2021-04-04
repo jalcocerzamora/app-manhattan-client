@@ -1,5 +1,6 @@
 // tslint:disable-next-line: max-line-length
 import { Component, OnInit, AfterViewInit, Input, ViewChild, HostListener, ChangeDetectionStrategy, ElementRef, TemplateRef, ViewContainerRef, Renderer2, Optional, ComponentRef, ComponentFactoryResolver, LOCALE_ID, Inject, DEFAULT_CURRENCY_CODE } from '@angular/core';
+import { DeviceDetectorService } from 'ngx-device-detector';
 import '@angular/common/locales/fr-CA';
 
 import { ISubproduct, ICategory } from 'projects/core/models/db';
@@ -37,7 +38,7 @@ import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
       </div>
     </ng-container>
     <ng-template #elseTemplate>
-      <div [ngClass]="addClass" class="menu-category-product w-full h-12 md:h-20 flex cursor-pointer hover:bg-gray-200">
+      <div *ngIf="Product" [ngClass]="addClass" class="menu-category-product w-full h-12 md:h-20 flex cursor-pointer hover:bg-gray-200">
         <div class="pointer-events-none flex flex-row justify-center content-center items-center space-x-1 py-1">
           <div class="product-image w-1/6 self-center">
             <img [src]="productImage" alt="productAlt" class="w-full h-10 md:h-16 object-cover object-center">
@@ -95,7 +96,7 @@ export class ProductItemComponent implements OnInit, AfterViewInit {
   }
 
   get productImage(): string {
-    const productImage = (this.Product.image === null || this.Product.image === undefined ? null : this.Product.image.trim());
+    const productImage = (this.Product === null ? null : (this.Product.image === null || this.Product.image === undefined ? null : this.Product.image.trim()));
     return GET_URL_ASSETS(productImage);
   }
 
@@ -104,6 +105,7 @@ export class ProductItemComponent implements OnInit, AfterViewInit {
   }
 
   constructor(
+    private deviceService: DeviceDetectorService,
     @Inject(LOCALE_ID) public locale: string,
     @Inject(DEFAULT_CURRENCY_CODE) public currencyCode: string,
     // private router: Router,
@@ -166,7 +168,7 @@ export class ProductItemComponent implements OnInit, AfterViewInit {
     this.renderer.setStyle($popper, 'z-index', '9');
 
     this.popperInstance = createPopper($reference, $popper, {
-      placement: this.PopperPlacement as Placement,
+      placement: (this.deviceService.isMobile() ? 'auto' : this.PopperPlacement) as Placement,
       // strategy: 'absolute', // fixed absolute
       onFirstUpdate: (data) => {
         // console.log(data);
@@ -223,4 +225,16 @@ export class ProductItemComponent implements OnInit, AfterViewInit {
     this.renderer.addClass($boundary, 'hidden');
     this.destroyPopper();
   }
+
+  // epicFunction() {
+  //   console.log('hello `Home` component');
+  //   this.deviceInfo = this.deviceService.getDeviceInfo();
+  //   const isMobile = this.deviceService.isMobile();
+  //   const isTablet = this.deviceService.isTablet();
+  //   const isDesktopDevice = this.deviceService.isDesktop();
+  //   console.log(this.deviceInfo);
+  //   console.log(isMobile);  // returns if the device is a mobile device (android / iPhone / windows-phone etc)
+  //   console.log(isTablet);  // returns if the device us a tablet (iPad etc)
+  //   console.log(isDesktopDevice); // returns if the app is running on a Desktop browser.
+  // }
 }

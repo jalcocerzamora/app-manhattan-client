@@ -1,22 +1,29 @@
-import { Component, OnInit, ChangeDetectionStrategy, ViewChild, ElementRef, Renderer2, AfterViewInit } from '@angular/core';
-import { Observable } from 'rxjs';
-
-import { StripeCardComponent } from 'ngx-stripe';
-
-import { ScriptService, StyleService } from '@core/services/helpers';
-
-import { SubproductService } from '@core/services/db/subproduct.service';
-import { ShopCartService } from '@core/services/shopcart/shop-cart.service';
-import { PaymentGatewayService } from '@core/services/payment/payment-gateway.service';
-
 import {
-  ISubproductsWithCategory, Subproduct,
-  ICustomer, Customer
-} from '@core/models/db';
+  AfterViewInit,
+  ChangeDetectionStrategy,
+  Component,
+  ElementRef,
+  OnInit,
+  Renderer2,
+  ViewChild
+  } from '@angular/core';
+import {
+  Customer,
+  ICustomer,
+  ISubproductsWithCategory,
+  Subproduct
+  } from '@core/models/db';
 import { DeliveryTime, ShopCart } from '@core/models/shopcart';
-import { PlacedOrderService } from '@core/services/db/placed-order.service';
-import { PlacedOrder } from '@core/models/db/placed-order';
 import { first } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { PaymentGatewayService } from '@core/services/payment/payment-gateway.service';
+import { PlacedOrder } from '@core/models/db/placed-order';
+import { PlacedOrderService } from '@core/services/db/placed-order.service';
+import { ScriptService, StyleService } from '@core/services/helpers';
+import { ShopCartService } from '@core/services/shopcart/shop-cart.service';
+import { StripeCardComponent } from 'ngx-stripe';
+import { SubproductService } from '@core/services/db/subproduct/subproduct.service';
+
 
 @Component({
   selector: 'app-shopcart',
@@ -47,15 +54,8 @@ export class ShopcartComponent implements OnInit, AfterViewInit {
     public serviceShopCart: ShopCartService<Subproduct>,
     private paymentGatewayService: PaymentGatewayService,
     private placedOrderService: PlacedOrderService,
-
-    private tagScriptService: ScriptService,
-    private tagStyleService: StyleService,
   ) {
-    // do stuff
     // console.log('ShopcartComponent.constructor');
-    // console.log('Loading External Scripts');
-    // this.tagScriptService.load('mapbox-gl');
-    // this.tagStyleService.load('leaflet');
   }
 
   ngOnInit(): void {
@@ -99,7 +99,7 @@ export class ShopcartComponent implements OnInit, AfterViewInit {
           // customer_id: null,
           subtotal: this.shopcart.Subtotal,
           discount: 0,
-          total: this.shopcart.getTotal,
+          total: this.shopcart.Total,
           // comment: null,
         };
 

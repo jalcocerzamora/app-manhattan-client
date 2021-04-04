@@ -1,8 +1,8 @@
-<div class="width-popper lg:max-w-lg block font-normal leading-normal text-sm text-left no-underline break-words z-30">
+<div *ngIf="subproduct !== null"  class="width-popper lg:max-w-lg block font-normal leading-normal text-sm text-left no-underline break-words z-30">
     <form [formGroup]="formAddToCart" (ngSubmit)="onSubmit()" autocomplete="off" novalidate>
         <button (click)="onClose()" class="popper_close absolute top-0 w-8 h-8 text-xs">
             <fa-stack [class]="'pointer-events-none'">
-                <fa-icon [icon]="['fas', 'circle']" stackItemSize="2x" style="color: #faf9fa;"></fa-icon>
+                <fa-icon [icon]="['fas', 'circle']" stackItemSize="2x" [styles]="{ 'font-size': '1em' }" style="color: #faf9fa;"></fa-icon>
                 <fa-icon icon="times" [inverse]="false" stackItemSize="1x"></fa-icon>
             </fa-stack>
         </button>
@@ -21,7 +21,7 @@
                 class="button_addtocart focus:outline-none focus:shadow-none bg-orange-500 w-full flex flex-row justify-center items-center divide-x divide-gray-400 rounded-md font-bold p-2 pulse">
                 <div
                     class="pointer-events-none select-none w-2/5 flex flex-col justify-start items-start content-start text-left px-1">
-                    <p class="text-xs lg:text-sm" [innerText]="modelAddToCart.getTotal | currency"></p>
+                    <p class="text-xs lg:text-sm" [innerText]="modelAddToCart.Total | currency"></p>
                 </div>
                 <div class="pointer-events-none select-none w-3/5">
                     <p class="text-xs lg:text-sm" [translate]="'ADDTOCART.btnSubmit'">Agregar al carrito</p>

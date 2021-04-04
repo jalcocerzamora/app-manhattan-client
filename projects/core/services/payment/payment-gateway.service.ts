@@ -143,14 +143,18 @@ export class PaymentGatewayService {
 
     this.stripeService
       .createToken(this.cardStripe.element, {})
-      .subscribe((result) => {
-        if (result.token) {
-          // Use the token
-          console.log(result.token.id);
-        } else if (result.error) {
-          // Error creating the token
-          console.log(result.error.message);
-        }
+      // tslint:disable-next-line: deprecation
+      .subscribe({
+        next: (result) => {
+          if (result.token) {
+            // Use the token
+            console.log(result.token.id);
+          } else if (result.error) {
+            // Error creating the token
+            console.log(result.error.message);
+          }
+        },
+        error: (err) => { console.log(err); }
       });
 
     // stripe

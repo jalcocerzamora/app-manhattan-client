@@ -1,11 +1,15 @@
-import { Component, AfterViewInit, ElementRef, ViewChild, ChangeDetectionStrategy, OnInit } from '@angular/core';
-import { Router, NavigationEnd, ActivatedRoute } from '@angular/router';
-import { filter } from 'rxjs/operators';
-import { environment } from 'projects/environments/environment';
-
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnInit,
+  } from '@angular/core';
 import { AuthGuard } from 'projects/core/helpers';
-import { AuthenticationService } from 'projects/core/services/authenticate/authentication.service';
+import { environment } from 'projects/environments/environment';
+import { filter } from 'rxjs/operators';
 import { Title } from '@angular/platform-browser';
+// import { AuthenticationService } from 'projects/core/services/authenticate/authentication.service';
+
 
 @Component({
   selector: 'app-root',
@@ -20,7 +24,7 @@ export class AppComponent implements OnInit {
     private router: Router,
     private activatedRoute: ActivatedRoute,
     private titleService: Title,
-    private authenticationService: AuthenticationService
+    // private authenticationService: AuthenticationService
   ) {
     console.log('AppComponent.constructor');
     // this.authenticationService.login(environment.BACKEND_USERNAME, environment.BACKEND_PASSWORD)

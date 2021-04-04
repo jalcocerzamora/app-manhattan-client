@@ -91,7 +91,7 @@
           <tfoot class="invoice bg-white border border-gray-400">
             <tr>
               <td colspan="2" class="py-1 px-2"><small>Sub-Total</small></td>
-              <td class="py-1 px-2 text-right"><small [innerText]="shopcart.getTotal | currency">$0 MXN</small></td>              
+              <td class="py-1 px-2 text-right"><small [innerText]="shopcart.Total | currency">$0 MXN</small></td>              
             </tr>
             <!--
             <tr>
@@ -101,7 +101,7 @@
             -->
             <tr class="font-semibold">
               <td colspan="1" class="py-1 px-2">Total:</td>
-              <td colspan="2" class="py-1 px-2 text-right" [innerText]="shopcart.getTotal | currency">$0 MXN</td>
+              <td colspan="2" class="py-1 px-2 text-right" [innerText]="shopcart.Total | currency">$0 MXN</td>
             </tr>
           </tfoot>
         </table>
@@ -127,7 +127,7 @@
       <button #btnPaymentOrder (click)="onSubmitOrder($event)" [disabled]="!formPaymentGatewayValid" [ngClass]="{'disabled': !formPaymentGatewayValid}" class="btn-order-now divide-x divide-gray-400 pulsex">
         <div class="w-2/5 flex flex-col space-y-2 justify-start items-start content-start text-left px-5">
           <p class="text-xs">TOTAL</p>
-          <p class="text-xs sm:text-sm" [innerText]="shopcart.getTotal | currency">$0 MXN</p>
+          <p class="text-xs sm:text-sm" [innerText]="shopcart.Total | currency">$0 MXN</p>
         </div>
         <div class="w-3/5">
           <p class="sm:text-sm" [translate]="'SHOPCART.FOOTER.btnOrderNow'"></p>

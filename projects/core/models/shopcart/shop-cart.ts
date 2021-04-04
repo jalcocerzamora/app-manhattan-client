@@ -14,7 +14,7 @@ export interface IShopCart<T> {
   Total: number;
   Subtotal?: number;
 
-  getTotal: number;
+  // getTotal: number;
 }
 export class ShopCart<T> implements IShopCart<T> {
   ReserveId?: number = null;
@@ -22,7 +22,16 @@ export class ShopCart<T> implements IShopCart<T> {
   Count: number = 0;
   Items: Array<ShopCartItem<T>> = new Array<ShopCartItem<T>>();
   Subtotal: number = 0;
-  Total: number = 0;
+  // Total: number = 0;
+  get Total(): number {
+    return (this.Items.length > 0 ?
+      this.Items
+        .map(i => { const shopcartItem = new ShopCartItem<T>(i); return shopcartItem.Total; })
+        .reduce((previous, current) => previous + current)
+      :
+      0
+    );
+  }
 
   constructor(model: IShopCart<T> = null) {
     this.ReserveId  = (model && model.ReserveId ? model.ReserveId : null);
@@ -30,17 +39,7 @@ export class ShopCart<T> implements IShopCart<T> {
     this.Count      = (model && model.Count ? model.Count : 0);
     this.Items      = (model && model.Items ? model.Items : new Array<ShopCartItem<T>>());
     this.Subtotal   = (model && model.Subtotal ? model.Subtotal : 0);
-    this.Total      = (model && model.Total ? model.Total : 0);
-  }
-
-  get getTotal(): number {
-    return (this.Items.length > 0 ?
-      this.Items
-        .map(i => { const shopcartItem = new ShopCartItem<T>(i); return shopcartItem.getTotal; })
-        .reduce((previous, current) => previous + current)
-      :
-      0
-    );
+    // this.Total      = (model && model.Total ? model.Total : 0);
   }
 }
 //#endregion

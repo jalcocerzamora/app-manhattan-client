@@ -1,11 +1,17 @@
-import { Component, ElementRef, OnInit, Renderer2, ViewChild } from '@angular/core';
-// import { Socket } from 'ngx-socket-io';
+import {
+  Component,
+  ElementRef,
+  OnInit,
+  Renderer2,
+  ViewChild
+  } from '@angular/core';
 import { map } from 'rxjs/operators';
-import { Subproduct } from 'projects/core/models/db';
-import { SubproductService } from '@core/services/db/subproduct.service';
 import { PaymentGatewayService } from '@core/services/payment/payment-gateway.service';
 import { ScriptService } from '@core/services/helpers/script.service';
 import { ShopCartService } from '@core/services/shopcart/shop-cart.service';
+import { Subproduct } from 'projects/core/models/db';
+import { SubproductService } from '@core/services/db/subproduct/subproduct.service';
+// import { Socket } from 'ngx-socket-io';
 
 @Component({
   templateUrl: './placing-your-order.component.html',

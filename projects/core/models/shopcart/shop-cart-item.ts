@@ -7,8 +7,6 @@ export interface IShopCartItem<T> {
   Instructions?: string;
 
   Data?: T;
-
-   readonly getTotal?: number;
 }
 
 export class ShopCartItem<T> implements IShopCartItem<T> {
@@ -16,7 +14,14 @@ export class ShopCartItem<T> implements IShopCartItem<T> {
   public Id?: number;
   public Price: number = 0;
   public Quantity: number = 1;
-  public Total: number = 0;
+  private total?: number = 0;
+  public get Total(): number {
+    const result = (this.Price && this.Quantity ? this.Price * this.Quantity : 0);
+    return result;
+  }
+  public set Total(value) {
+    this.total = value;
+  }
   public Instructions?: string;
 
   public Data: T;
@@ -26,10 +31,5 @@ export class ShopCartItem<T> implements IShopCartItem<T> {
     this.Price = (model && model.Price ? model.Price : 0);
     this.Quantity = (model && model.Quantity ? model.Quantity : 1);
     this.Data = (model && model.Data ? model.Data : null);
-  }
-
-  public get getTotal() {
-    const result = (this.Price && this.Quantity ? this.Price * this.Quantity : 0);
-    return result;
   }
 }

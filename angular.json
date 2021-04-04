@@ -3,6 +3,10 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
+    "core": {
+      "projectType": "library",
+      "root": "projects/core"
+    },
     "store": {
       "projectType": "application",
       "schematics": {

@@ -15,12 +15,12 @@ import { GET_URL_ASSETS } from 'projects/core/helpers/functions';
   styleUrls: ['./product-popper.component.scss']
 })
 export class ProductPopperComponent implements OnInit {
-  @Input() category: ICategory;
-  @Input() subproduct: ISubproduct;
+  @Input() category: ICategory = null;
+  @Input() subproduct: ISubproduct = null;
 
   @Output() destroyPopper: EventEmitter<any> = new EventEmitter();
 
-  public modelAddToCart: ShopCartItem<Subproduct> = null;
+  public modelAddToCart: ShopCartItem<Subproduct> = new ShopCartItem<Subproduct>();
   public formAddToCart: FormGroup = new FormGroup({});
   public optionsAddToCart: FormlyFormOptions = {};
   public fieldsAddToCart: FormlyFieldConfig[] = [];
@@ -32,10 +32,11 @@ export class ProductPopperComponent implements OnInit {
   submitted = false;
   returnUrl: string;
   error = '';
+  deviceInfo: any;
 
   constructor(
     private viewTemplatePopper: ViewContainerRef,
-    private formBuilder: FormBuilder,
+    // private formBuilder: FormBuilder,
     private serviceShopCart: ShopCartService<Subproduct>,
   ) {
     // console.log('ProductPopperComponent.constructor');
@@ -48,29 +49,35 @@ export class ProductPopperComponent implements OnInit {
 
   ngOnInit(): void {
     // console.log('ProductPopperComponent.constructor', this.subproduct.id, this.subproduct.price, this.subproduct as Subproduct);
-    const foundItem = this.serviceShopCart.FoundItem(this.subproduct.id);
-    const model: IShopCartItem<Subproduct> = {
-      Id: this.subproduct.id,
-      Price: this.subproduct.price,
-      Data: this.subproduct as Subproduct,
-      Quantity: foundItem.Quantity,
-      Instructions: foundItem.Instructions,
-    };
-    this.modelAddToCart = new ShopCartItem<Subproduct>(model as ShopCartItem<Subproduct>);
-    this.fieldsAddToCart = [
-      {
-        key: 'Instructions', type: 'textarea', className: '',
-        templateOptions: { label: 'ADDTOCART.txtInstructions', placeholder: 'Sin pimienta / azucar / sal por favor.', rows: 2, cols: 100, required: false, translate: true, labelClass: 'block tracking-wide text-gray-700 text-xs font-bold mb-2', }
-      },
-      {
-        key: 'Quantity', type: 'number', className: '', defaultValue: 1,
-        templateOptions: { label: 'ADDTOCART.txtQuantity', required: true, readOnly: true, min: 1, max: 10, translate: true, labelClass: 'block tracking-wide text-gray-700 text-xs font-bold mb-2', }
+    let foundItem = null;
+    if (this.subproduct != null) {
+      foundItem = this.serviceShopCart.FoundItem(this.subproduct.id);
+      if (foundItem) {
+        const model: ShopCartItem<Subproduct> = {
+          Id: this.subproduct.id,
+          Price: this.subproduct.price,
+          Data: this.subproduct as Subproduct,
+          Quantity: foundItem.Quantity,
+          Instructions: foundItem.Instructions,
+          Total: 0,
+        };
+        this.modelAddToCart = new ShopCartItem<Subproduct>(model);
+        this.fieldsAddToCart = [
+          {
+            key: 'Instructions', type: 'textarea', className: '',
+            templateOptions: { label: 'ADDTOCART.txtInstructions', placeholder: 'Sin pimienta / azucar / sal por favor.', rows: 2, cols: 100, required: false, translate: true, labelClass: 'block tracking-wide text-gray-700 text-xs font-bold mb-2', }
+          },
+          {
+            key: 'Quantity', type: 'number', className: '', defaultValue: 1,
+            templateOptions: { label: 'ADDTOCART.txtQuantity', required: true, readOnly: true, min: 1, max: 10, translate: true, labelClass: 'block tracking-wide text-gray-700 text-xs font-bold mb-2', }
+          }
+        ];
       }
-    ];
+    }
   }
 
   get productImage(): string {
-    const productImage = (this.subproduct.image === null || this.subproduct.image === undefined ? null : this.subproduct.image.trim());
+    const productImage = (this.subproduct == null || (this.subproduct.image === null || this.subproduct.image === undefined) ? null : this.subproduct.image.trim());
     return GET_URL_ASSETS(productImage);
   }
 

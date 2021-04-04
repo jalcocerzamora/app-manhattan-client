@@ -22,7 +22,7 @@
     "deploy:store:repo-basic": "ng deploy store",
     "deploy:gh-build": "ng deploy store --repo=https://github.com/jalcocerzamora/app-manhattan-client.git --name=alco_1993@hotmail.com --email=alco_1993@hotmail.com",
     "deploy:gh-npx": "npx angular-cli-ghpages --dir=dist/store/",
-    "test": "ng test",
+    "test": "ng test store",
     "lint": "ng lint",
     "e2e": "ng e2e",
     "int:extract": "ng xi18n"
@@ -38,12 +38,11 @@
     "Edge 16"
   ],
   "dependencies": {
-    "@angular/cli": "~11.1.4",
-    "@angular/compiler-cli": "~11.1.2",
-    "typescript": "^4.0.7",
     "@angular/animations": "~11.1.2",
+    "@angular/cli": "~11.1.4",
     "@angular/common": "~11.1.2",
     "@angular/compiler": "~11.1.2",
+    "@angular/compiler-cli": "~11.1.2",
     "@angular/core": "~11.1.2",
     "@angular/forms": "~11.1.2",
     "@angular/localize": "^11.2.0",
@@ -64,13 +63,14 @@
     "@ngx-translate/http-loader": "^6.0.0",
     "@popperjs/core": "^2.4.4",
     "@runette/ngx-leaflet-locate": "^2.0.0",
-    "@stripe/stripe-js": "^1.8.0",
+    "@stripe/stripe-js": "^1.13.2",
     "@tailwindcss/forms": "^0.2.1",
     "angular-chart.js": "^1.1.1",
     "crypto-js": "^4.0.0",
     "express": "^4.17.1",
     "leaflet": "^1.7.1",
     "mapbox-gl": "^2.1.1",
+    "ngx-device-detector": "^2.0.6",
     "ngx-mapbox-gl": "^6.0.4",
     "ngx-socket-io": "^3.2.0",
     "ngx-stripe": "^9.2.0",
@@ -78,6 +78,7 @@
     "rxjs": "~6.6.0",
     "rxjs-compat": "^6.6.2",
     "tslib": "^2.0.0",
+    "typescript": "^4.0.7",
     "zone.js": "~0.10.2"
   },
   "devDependencies": {

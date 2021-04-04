@@ -37,7 +37,9 @@ import { DatePipe } from '@angular/common';
 import { ValidationService } from 'projects/core/directives/formly/validation/validation.service';
 
 import { PaymentGatewayService } from '../../../../../core/services/payment/payment-gateway.service';
-import { StripeService, StripeCardComponent } from 'ngx-stripe';
+import {
+  // StripeService,
+  StripeCardComponent } from 'ngx-stripe';
 import { StripeCardElementChangeEvent, StripeCardElementOptions, StripeElementsOptions } from '@stripe/stripe-js';
 import { GeolocateControlDirective } from 'ngx-mapbox-gl/lib/control/geolocate-control.directive';
 import { GeocoderControlDirective } from 'ngx-mapbox-gl/lib/control/geocoder-control.directive';
@@ -66,11 +68,11 @@ export class PaymentGatewayComponent implements OnInit, OnDestroy, AfterViewInit
     private http: HttpClient,
     private datePipe: DatePipe,
 
-    private stripeService: StripeService,
-    private mapboxglService: MapBoxGLService,
+    // private stripeService: StripeService,
+    // private mapboxglService: MapBoxGLService,
     private paymentGatewayService: PaymentGatewayService
   ) { }
-  
+
   @Output() stepCompleteRequest = new EventEmitter<boolean>();
 
   public DateCurrent: number = Date.now();
@@ -160,7 +162,19 @@ export class PaymentGatewayComponent implements OnInit, OnDestroy, AfterViewInit
   private getMapBoxResult(lng: number, lat: number, token: string = this.MAPBOX_ACCESS_TOKEN): Observable<any> {
     const apiCoordtoAddress = `https://api.mapbox.com/geocoding/v5/mapbox.places/${lng},${lat}.json?access_token=${token}`;
     const apiCoordtoAddressEncoded = encodeURI(apiCoordtoAddress);
-    return this.http.get(apiCoordtoAddressEncoded, { responseType: 'json' }).pipe(catchError(this.handleError));
+    return this.http.get(apiCoordtoAddressEncoded, { responseType: 'json' }).pipe(catchError(err => {
+      console.log('ngOnInit.fieldsContact.country.hooks', err);
+      let errorMessage = '';
+      if (err.error instanceof ErrorEvent) {
+        // Get client-side error
+        errorMessage = err.error.message;
+      } else {
+        // Get server-side error
+        errorMessage = `Error Code: ${err.status}\nMessage: ${err.message}`;
+      }
+      console.log(errorMessage);
+      return throwError(errorMessage);
+    }));
   }
 
   ngOnInit(): void {
@@ -194,37 +208,45 @@ export class PaymentGatewayComponent implements OnInit, OnDestroy, AfterViewInit
                 const query = (search: string, token: string = this.MAPBOX_ACCESS_TOKEN): Observable<any> => {
                   const apiUrl = `https://api.mapbox.com/geocoding/v5/mapbox.places/${search}.json?types=country&access_token=${token}`;
                   const apiUrlEncoded = encodeURI(apiUrl);
-                  return this.http.get(apiUrlEncoded, { responseType: 'json' }).pipe(catchError(this.handleError));
+                  return this.http.get(apiUrlEncoded, { responseType: 'json' }).pipe(catchError(err => {
+                    console.log('ngOnInit.fieldsContact.country.hooks', err);
+                    let errorMessage = '';
+                    if (err.error instanceof ErrorEvent) {
+                      // Get client-side error
+                      errorMessage = err.error.message;
+                    } else {
+                      // Get server-side error
+                      errorMessage = `Error Code: ${err.status}\nMessage: ${err.message}`;
+                    }
+                    console.log(errorMessage);
+                    return throwError(errorMessage);
+                  }));
                 };
 
                 const fieldControl = field.form.get('country');
 
                 // tslint:disable-next-line: deprecation
-                fieldControl.valueChanges.subscribe({
-                  next: (value) => {
-                    console.groupCollapsed('hooks.onInit.next');
-                    const dataListControl: HTMLDataListElement = document.querySelector(`[id="${field.templateOptions.inputDatalist}"]`);
-                    if (value && !dataListControl.querySelector(`option[value*="${value}"]`)) {
-                      query(value).toPromise().then((response) => {
-                        const countries = response.features;
-                        if (countries && countries.length > 0) {
-                          dataListControl.querySelectorAll('option').forEach(i => i.remove());
-                          countries.forEach((country: { place_name: string; }) => {
-                            const option = document.createElement('option');
-                            option.value = country.place_name;
-                            dataListControl.appendChild(option);
-                          });
-                        }
-                      });
-                    }
-                    console.groupEnd();
-                  },
-                  error: (err) => {
-                    console.groupCollapsed('hooks.onInit.error');
-                    console.log(err);
-                    console.groupEnd();
-                  }
-                });
+                // fieldControl.valueChanges.subscribe({
+                //   next: (value) => {
+                //     console.groupCollapsed('hooks.onInit.next');
+                //     const dataListControl: HTMLDataListElement = document.querySelector(`[id="${field.templateOptions.inputDatalist}"]`);
+                //     if (value && !dataListControl.querySelector(`option[value*="${value}"]`)) {
+                //       query(value).toPromise().then((response) => {
+                //         const countries = response.features;
+                //         if (countries && countries.length > 0) {
+                //           dataListControl.querySelectorAll('option').forEach(i => i.remove());
+                //           countries.forEach((country: { place_name: string; }) => {
+                //             const option = document.createElement('option');
+                //             option.value = country.place_name;
+                //             dataListControl.appendChild(option);
+                //           });
+                //         }
+                //       });
+                //     }
+                //     console.groupEnd();
+                //   },
+                //   error: (err) => { console.log('hooks.onInit.error', err); }
+                // });
 
                 // const geocoder = new MapboxGeocoder( { accessToken: environment.MAPBOX.ACCESS_TOKEN, types: 'country,region,place,postcode,locality,neighborhood' });
                 // geocoder.addTo(`#${field.id}`);
@@ -408,8 +430,7 @@ export class PaymentGatewayComponent implements OnInit, OnDestroy, AfterViewInit
   }
 
   ngOnDestroy(): void {
-    // throw new Error('Method not implemented.');
-    if (this.subscriptionMapBoxResult$) { this.subscriptionMapBoxResult$.unsubscribe(); }
+    // if (this.subscriptionMapBoxResult$) { this.subscriptionMapBoxResult$.unsubscribe(); }
     // this.mapLeflet.stopLocate();
   }
 
@@ -559,32 +580,31 @@ export class PaymentGatewayComponent implements OnInit, OnDestroy, AfterViewInit
     const longitude = lng;
     const latitude = lat;
     // tslint:disable-next-line: deprecation
-    this.subscriptionMapBoxResult$ = this.getMapBoxResult(longitude, lat).subscribe({
-      next: (response: any) => {
-        // console.log('subscriptionMapBoxResult$', response);
-        const features = response.features;
-        const coordinates = { longitude: response.query[0], latitude: response.query[1] };
+    // this.subscriptionMapBoxResult$ = this.getMapBoxResult(longitude, lat).subscribe({
+    //   next: (response: any) => {
+    //     const features = response.features;
+    //     const coordinates = { longitude: response.query[0], latitude: response.query[1] };
 
-        const place = features[0].place_name;
-        const address = features.find(i => i.id.includes('address')) ? features.find(i => i.id.includes('address')).text : '';
-        const postcode = features.find(i => i.id.includes('postcode')) ? features.find(i => i.id.includes('postcode')).text : '';
-        const city = features.find(i => i.id.includes('place')) ? features.find(i => i.id.includes('place')).text : '';
-        const state = features.find(i => i.id.includes('region')) ? features.find(i => i.id.includes('region')).text : '';
-        const country = features.find(i => i.id.includes('country')) ? features.find(i => i.id.includes('country')).text : '';
-        const countryCode = features.find(i => i.id.includes('country')) ? features.find(i => i.id.includes('country')).properties.short_code : '';
+    //     const place = features[0].place_name;
+    //     const address = features.find(i => i.id.includes('address')) ? features.find(i => i.id.includes('address')).text : '';
+    //     const postcode = features.find(i => i.id.includes('postcode')) ? features.find(i => i.id.includes('postcode')).text : '';
+    //     const city = features.find(i => i.id.includes('place')) ? features.find(i => i.id.includes('place')).text : '';
+    //     const state = features.find(i => i.id.includes('region')) ? features.find(i => i.id.includes('region')).text : '';
+    //     const country = features.find(i => i.id.includes('country')) ? features.find(i => i.id.includes('country')).text : '';
+    //     const countryCode = features.find(i => i.id.includes('country')) ? features.find(i => i.id.includes('country')).properties.short_code : '';
 
-        // let $geoCoderInput = $("#geocoder .mapboxgl-ctrl-geocoder--input");
-        // $geoCoderInput.val("20814");
-        // $geoCoderInput.keydown();
+    //     // let $geoCoderInput = $("#geocoder .mapboxgl-ctrl-geocoder--input");
+    //     // $geoCoderInput.val("20814");
+    //     // $geoCoderInput.keydown();
 
-        // console.log(response, [ place, address, postcode, city, state, country, countryCode ]);
-        const deliveryMethod: IDeliveryMethod = { Latitude: coordinates.latitude, Longitude: coordinates.longitude, PlaceName: place, PostCode: postcode };
-        this.formContact.controls.Country.setValue(country);
-        this.setDelivery(deliveryMethod);
-        // console.log($component.formOrdering.getRawValue());
-      },
-      error: (err) => { console.log('subscriptionMapBoxResult$', err); }
-    });
+    //     // console.log(response, [ place, address, postcode, city, state, country, countryCode ]);
+    //     const deliveryMethod: IDeliveryMethod = { Latitude: coordinates.latitude, Longitude: coordinates.longitude, PlaceName: place, PostCode: postcode };
+    //     this.formContact.controls.Country.setValue(country);
+    //     this.setDelivery(deliveryMethod);
+    //     // console.log($component.formOrdering.getRawValue());
+    //   },
+    //   error: (err) => { console.log('subscriptionMapBoxResult$', err); }
+    // });
   }
 
   mapboxRefreshResize(){
@@ -938,19 +958,6 @@ export class PaymentGatewayComponent implements OnInit, OnDestroy, AfterViewInit
     if (step === StepsPaymentGateway.Ordering) {
       setTimeout(() => this.mapboxRefreshResize(), 100);
     }
-  }
-
-  handleError(error) {
-    let errorMessage = '';
-    if (error.error instanceof ErrorEvent) {
-      // Get client-side error
-      errorMessage = error.error.message;
-    } else {
-      // Get server-side error
-      errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
-    }
-    console.log(errorMessage);
-    return throwError(errorMessage);
   }
 
 

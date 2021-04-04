@@ -1,24 +1,24 @@
-import { Injectable } from '@angular/core';
-
-import { environment } from 'projects/environments/environment';
-
-import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
+import { environment } from 'projects/environments/environment';
+import { HANDLE_ERROR_REQUEST } from '@core/helpers/functions';
+import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { ISubproductsWithCategory } from '@core/models/db';
+import { Observable } from 'rxjs';
 import 'rxjs/add/observable/of';
 import 'rxjs/add/operator/share';
 import 'rxjs/add/operator/map';
-
-import { ISubproductsWithCategory } from '@core/models/db';
+// import { Http, Response } from '@angular/http';
 
 // import { RequestErrorService } from '@core/services/helpers/requestError.service';
-import { HANDLE_ERROR_REQUEST } from '@core/helpers/functions';
 
 const API_ENDPOINT: string = environment.BACKEND_ENDPOINT;
+
 @Injectable({
   providedIn: 'root'
 })
 export class SubproductService {
+
   constructor(
     private http: HttpClient,
     // private socket: Socket

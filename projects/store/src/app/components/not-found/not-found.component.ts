@@ -10,13 +10,15 @@ export class NotFoundComponent implements OnInit {
   public returnUrl: string = null;
 
   constructor(
-    private router: Router,
+    // private router: Router,
     private route: ActivatedRoute,
   ) { }
 
   ngOnInit(): void {
-    this.route.queryParams.subscribe(params => {
-      this.returnUrl = params.returnUrl;
+    // tslint:disable-next-line: deprecation
+    this.route.queryParams.subscribe({
+      next: (params) => this.returnUrl = params.returnUrl,
+      error: () => {}
     });
     // this.router. url === '/login'
   }

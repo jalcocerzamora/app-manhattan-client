@@ -57,8 +57,11 @@ import { LeafletModule } from '@asymmetrik/ngx-leaflet';
     PlacingYourOrderComponent,
   ],
   imports: [
-    CommonModule, AppRoutingModule, HttpClientModule,
-    FormsModule, ReactiveFormsModule,
+    CommonModule,
+    AppRoutingModule,
+    HttpClientModule,
+    FormsModule,
+    ReactiveFormsModule,
     FontAwesomeModule,
 
     PipesModule,
@@ -108,5 +111,12 @@ export class PagesModule {
     // <fa-icon icon="coffee"></fa-icon>
     // <!-- ['fas', 'coffee'] is an array that indicates the [prefix, iconName] -->
     // <fa-icon [icon]="['fas', 'coffee']"></fa-icon>
+  }
+
+  static forRoot() {
+    return {
+      ngModule: PagesModule,
+      // providers: [ { provide: LOCALE_ID, useValue: environment.locale }, ],
+    };
   }
 }
