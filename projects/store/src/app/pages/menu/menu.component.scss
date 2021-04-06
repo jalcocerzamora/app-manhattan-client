@@ -1,3 +1,4 @@
+// @import '../../../assets/styles/modal.scss';
 $backgroundImage: "https://source.unsplash.com/-1GEAA8q3wk/1200x600";
 
 /* Small (sm) */
@@ -12,33 +13,64 @@ $backgroundImage: "https://source.unsplash.com/-1GEAA8q3wk/1200x600";
 /* Extra Large (xl) */
 // @media (min-width: 1280px) { /* ... */ }
 
-:host {
-  --modal-margins-xs: {
-    @apply my-5 mx-20;
-  }
-  --navbar-height-xs: {
-    @apply h-10;
-  }
-  --overlay-margins-xs: {
-    @apply my-5 mx-20;
-  }
-  --content-margins-xs: {
-    @apply my-5 mx-16;
-  }
 
-  --modal-margins-lg: {
-    @apply my-10 mx-32;
+
+:host {
+  :root {
+    // MOBILE
+    --modal-margins-xs {
+      @apply my-5;
+      @apply mx-4;
+    }
+    --navbar-height-xs {
+      @apply h-10;
+    }
+    --overlay-margins-xs {
+      @apply my-5;
+      @apply mx-20;
+    }
+    --content-margins-xs {
+      @apply my-5;
+      @apply mx-16;
+    }
+  
+    // TABLET
+    --modal-margins-md {
+      @apply my-5;
+      @apply mx-20;
+    }
+    --navbar-height-md {
+      @apply h-10;
+    }
+    --overlay-margins-md {
+      @apply my-5;
+      @apply mx-20;
+    }
+    --content-margins-md {
+      @apply my-5;
+      @apply mx-16;
+    }
+  
+    // DESKTOP
+    // --modal-width-lg {
+    //   @apply w-2/3;
+    // }
+    --modal-margins-lg {
+      @apply my-10;
+      @apply mx-auto;
+    }
+    --navbar-height-lg {
+      @apply h-10;
+    }
+    --overlay-margins-lg {
+      @apply my-10;
+      @apply mx-32;
+    }
+    --content-margins-lg {
+      @apply my-10;
+      @apply mx-24;
+    }
   }
-  --navbar-height-lg: {
-    @apply h-10;
-  }
-  --overlay-margins-lg: {
-    @apply my-10 mx-32;
-  }
-  --content-margins-lg: {
-    @apply my-10 mx-24;
-  }
-}
 
 .main-menu {
   // w-full max-h-screen flex align-middle
@@ -56,14 +88,19 @@ $backgroundImage: "https://source.unsplash.com/-1GEAA8q3wk/1200x600";
     // fixed top-0 bottom-0 left-0 right-0 my-5 mx-20 rounded-lg
     @apply fixed;
     @apply inset-0;
-    @apply my-5;
-    @apply mx-4;
     @apply rounded-lg;
+    @apply my-5; //--modal-margins-xs;
+    @apply mx-4; //--modal-margins-xs;
+
+    @media (min-width: 768px) {
+      @apply my-5; //--modal-margins-md;
+      @apply mx-20; //--modal-margins-md;
+    }
 
     @media (min-width: 1024px) {
-      @apply w-2/3; // --modal-margins-lg;
-      @apply my-10;
-      @apply mx-auto;
+      @apply w-2/3;
+      @apply my-10; //modal-margins-lg;
+      @apply mx-auto; //modal-margins-lg;
     }
 
     .modal-dialog {
@@ -227,16 +264,23 @@ $backgroundImage: "https://source.unsplash.com/-1GEAA8q3wk/1200x600";
               @apply fixed;
               @apply inset-0;
               @apply w-auto;
-              margin-top: calc(1.25rem + 2.5rem); // @apply mt-10;
+              margin-top: calc(1.25rem + 2.5rem);
               @apply mb-5;
               @apply mx-4;
-              // height: calc(90vh - 2.5rem); // apply h-90vh;
               @apply rounded-b-lg;
               z-index: 9;
 
-              // @media (min-width: 768px) {
-              //   @apply w-2/3;
-              // }
+              @media (min-width: 768px) {
+                margin-top: calc(2.5rem + 1.25rem);
+                @apply mb-5;
+                @apply mx-4;
+              }
+
+              @media (min-width: 1024px) {
+                margin-top: calc(2.5rem + 2.5rem);
+                @apply mb-10;
+                @apply mx-4;
+              }
             }
 
             .custom-content-body {
@@ -313,6 +357,8 @@ $backgroundImage: "https://source.unsplash.com/-1GEAA8q3wk/1200x600";
     }
   }
 }
+}
+
 
 // <svg id="svgelem" width="300" height="200" xmlns="http://www.w3.org/2000/svg">
 //     <rect x="50" y="20" rx="30" ry="30" width="150" height="150"

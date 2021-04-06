@@ -68,23 +68,23 @@
       </div>
 
       <div class="w-full md:w-1/2">
-        <table aria-label="tb-summary-order" aria-describedby="tb-summary-order" class="table-auto">
+        <table aria-label="tb-summary-order" aria-describedby="tb-summary-order" class="table-auto flex flex-col">
           <caption></caption>
-          <thead class="">
-            <tr class="text-gray-700 border border-gray-400">
-              <th scope="col" class="bg-gray-200 w-1/12 text-center border-t border-gray-300 rounded-tl-sm p-2" style="background-color: #f3f2f3;">Qty</th>
-              <th scope="col" class="bg-gray-200 w-10/12 text-left border-t border-gray-300 p-2" style="background-color: #f3f2f3;">Item</th>
-              <th scope="col" class="bg-gray-200 w-1/12 text-center border-t border-gray-300 rounded-tr-sm p-2" style="background-color: #f3f2f3;">Price</th>
+          <thead class="flex flex-row items-start bg-gray-100 border rounded-t-md border-gray-400">
+            <tr class="text-gray-700 w-full flex flex-row justify-start">
+              <th scope="col" class="text-center rounded-tl-sm p-2">Qty</th>
+              <th scope="col" class="text-left p-2 flex-1">Item</th>
+              <th scope="col" class="w-24 text-center rounded-tr-sm p-2">Price</th>
             </tr>
           </thead>
-          <tbody class="bg-white products border border-gray-400 overflow-y-auto">
+          <tbody class="bg-white products border border-gray-400 overflow-y-auto flex flex-col items-start">
             <ng-container *ngFor="let item of shopcart.Items;"><!-- trackBy:item.i -->
-              <tr class="product_item">
+              <tr class="product_item w-full relative flex flex-row justify-start">
                 <th scope="row" class="product_detail py-1 pl-2 pr-5" [innerText]="item.Quantity + 'pz'"></th>
-                <td class="py-1 pl-2 pr-5" [innerText]="item.Data.name"></td>
+                <td class="py-1 pl-2 pr-5 flex-1" [innerText]="item.Data.name"></td>
                 <td class="py-1 pl-2 pr-5 text-right" [innerText]="(item.Price * item.Quantity) | currency"></td>
                 <!-- <button (click)="onClickRemove(item.Id)" value="ij"><fa-icon icon="trash" size="xs"></fa-icon></button> -->
-                <!-- <fa-icon icon="trash" size="xs" [spin]="isSyncAnimated" (click)="isSyncAnimated=!isSyncAnimated"></fa-icon>[pulse]="true" -->
+                <fa-icon icon="trash" size="xs" (click)="onClickRemove(item.Id)" [styles]="{'cursor': 'pointer', 'position': 'absolute', 'right': '4px', 'height': '100%', 'padding': '2px 0'}" [spin]="false" [pulse]="false"></fa-icon>
               </tr>
             </ng-container>
           </tbody>

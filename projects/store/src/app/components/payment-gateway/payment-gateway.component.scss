@@ -5,7 +5,7 @@
   @apply flex-col;
   @apply border;
   @apply border-gray-300;
-  @apply rounded-sm;
+  @apply rounded-md;
 
   [class*="pg-step-"] {
     @apply w-full;

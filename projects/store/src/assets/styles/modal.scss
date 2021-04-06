@@ -1,0 +1,87 @@
+@mixin modal-margins-xs {
+    @apply my-5;
+    @apply mx-4;
+}
+%modal-margins-xs {
+    @include modal-margins-xs;
+}
+
+// @mixin navbar-height-xs {
+//     @apply h-10;
+// }
+// %navbar-height-xs {
+//     @include navbar-height-xs;
+// }
+
+// @mixin overlay-margins-xs {
+//     @apply my-5;
+//     @apply mx-20;
+// }
+// %overlay-margins-xs {
+//     @include overlay-margins-xs;
+// }
+
+// @mixin content-margins-xs {
+//     @apply my-5;
+//     @apply mx-16;
+// }
+// %content-margins-xs {
+//     @include content-margins-xs;
+// }
+
+  // TABLET
+  // @mixin modal-margins-md {
+  //   @apply my-5;
+  //   @apply mx-20;
+  // }
+  // @mixin navbar-height-md {
+  //   @apply h-10;
+  // }
+  // @mixin overlay-margins-md {
+  //   @apply my-5;
+  //   @apply mx-20;
+  // }
+  // @mixin content-margins-md {
+  //   @apply my-5;
+  //   @apply mx-16;
+  // }
+
+  // DESKTOP
+// @mixin modal-width-lg {
+//     @apply w-2/3;
+// }
+
+// %modal-width-lg {
+//     @include modal-width-lg;
+// }
+
+@mixin modal-margins-lg {
+    @apply my-10;
+    @apply mx-auto;
+}
+%modal-margins-lg {
+    @include modal-margins-lg;
+}
+
+// @mixin navbar-height-lg {
+//     @apply h-10;
+// }
+// %navbar-height-lg {
+//     @include navbar-height-lg;
+// }
+
+// @mixin overlay-margins-lg {
+//     @apply my-10;
+//     @apply mx-32;
+// }
+// %overlay-margins-lg {
+//     @include overlay-margins-lg;
+// }
+
+// @mixin content-margins-lg {
+//     @apply my-10;
+//     @apply mx-24;
+// }
+// %content-margins-lg {
+//     @include content-margins-lg;
+// }

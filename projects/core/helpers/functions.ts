@@ -11,7 +11,7 @@ export function GET_URL_ASSETS(pathImage: string = null) {
             (
                 pathURL !== null ?
                 (
-                    HOST.concat(environment.PATH_ASSETS_IMAGES_MENU).concat(pathURL)
+                    (HOST.includes('github')) ? HREF.concat(environment.PATH_ASSETS_IMAGES_MENU).concat(pathURL) :  HOST.concat(environment.PATH_ASSETS_IMAGES_MENU).concat(pathURL)
                 )
                 :
                 (
