@@ -92,10 +92,10 @@ $backgroundImage: "https://source.unsplash.com/-1GEAA8q3wk/1200x600";
     @apply my-5; //--modal-margins-xs;
     @apply mx-4; //--modal-margins-xs;
 
-    @media (min-width: 768px) {
-      @apply my-5; //--modal-margins-md;
-      @apply mx-20; //--modal-margins-md;
-    }
+    // @media (min-width: 768px) {
+    //   @apply my-5; //--modal-margins-md;
+    //   @apply mx-20; //--modal-margins-md;
+    // }
 
     @media (min-width: 1024px) {
       @apply w-2/3;
