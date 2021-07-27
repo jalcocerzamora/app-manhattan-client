@@ -16,7 +16,7 @@ import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
   // templateUrl: './product-item.component.html',
   template: `
     <ng-container *ngIf="Template; else elseTemplate">
-      <div [ngClass]="addClass" class="menu-category-product w-full h-12 md:h-20 flex cursor-default">
+      <div [ngClass]="addClass" class="menu-category-product w-full h-12 md:h-20 cursor-default">
         <div class="w-full pointer-events-none flex flex-row justify-center content-center items-center space-x-1 py-1">
           <div class="product-image w-1/6 self-center">
             <div class="w-full h-10 md:h-16 object-cover object-center">
@@ -38,7 +38,7 @@ import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
       </div>
     </ng-container>
     <ng-template #elseTemplate>
-      <div *ngIf="Product" [ngClass]="addClass" class="menu-category-product w-full h-12 md:h-20 flex cursor-pointer hover:bg-gray-200">
+      <div *ngIf="Product" [ngClass]="addClass" class="menu-category-product w-full h-12 md:h-20 cursor-pointer hover:bg-gray-200">
         <div class="pointer-events-none flex flex-row justify-center content-center items-center space-x-1 py-1">
           <div class="product-image w-1/6 self-center">
             <img [src]="productImage" alt="productAlt" class="w-full h-10 md:h-16 object-cover object-center">
