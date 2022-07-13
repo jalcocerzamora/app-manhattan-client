@@ -1,40 +1,31 @@
-import { AppRoutingModule } from './../app-routing.module';
+import { CUSTOM_ELEMENTS_SCHEMA, DEFAULT_CURRENCY_CODE, LOCALE_ID, NgModule } from '@angular/core';
 import { CommonModule, DatePipe, PlatformLocation } from '@angular/common';
-import {
-  CUSTOM_ELEMENTS_SCHEMA,
-  DEFAULT_CURRENCY_CODE,
-  LOCALE_ID,
-  NgModule
-  } from '@angular/core';
-import { DirectivesModule } from 'projects/core/directives/directives.module';
-import { environment } from '@env/environment';
-import {
-  faCircle,
-  faEdit,
-  faMinus,
-  faPlus,
-  faTimes
-  } from '@fortawesome/free-solid-svg-icons';
-import { FaConfig, FaIconLibrary, FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { FirstCasePipe } from '@core/pipes/first-case.pipe';
-import { FORMLY_CONFIG, FormlyModule } from '@ngx-formly/core';
-import { FormlyConfig } from 'projects/core/directives/formly/formly.config';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HeaderComponent } from './header/header.component';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+
+import { environment } from '@env/environment';
+
+import { faCircle, faEdit, faMinus, faPlus, faTimes } from '@fortawesome/free-solid-svg-icons';
+import { FaConfig, FaIconLibrary, FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+
+import { FirstCasePipe } from '@core/pipes/first-case.pipe';
+
+import { AppRoutingModule } from './../app-routing.module';
+import { DirectivesModule } from 'projects/core/directives/directives.module';
+import { FormlyConfig } from 'projects/core/directives/formly/formly.config';
+
+import { PipesModule } from 'projects/core/pipes/pipes.module';
+
+import { FORMLY_CONFIG, FormlyModule } from '@ngx-formly/core';
+
+import { HeaderComponent } from './header/header.component';
 import { MenuCategoryComponent } from './menu-category/menu-category.component';
 import { MenuCategoryItemComponent } from './menu-category-item/menu-category-item.component';
 import { NavbarComponent } from './navbar/navbar.component';
-import { NgxStripeModule } from 'ngx-stripe';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { PaymentGatewayComponent } from './payment-gateway/payment-gateway.component';
-import { PipesModule } from 'projects/core/pipes/pipes.module';
 import { ProductItemComponent } from './product-item/product-item.component';
 import { ProductPopperComponent } from './product-popper/product-popper.component';
-
-
-
-
 
 // Maps
 import { MapBoxGLComponent } from './map-box-gl/map-box-gl.component';
@@ -46,6 +37,12 @@ import { GeolocateControlDirective } from 'ngx-mapbox-gl/lib/control/geolocate-c
 // Translation
 import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
 import { HttpLoaderFactory, registerTranslateExtension } from 'projects/core/helpers/translate.extension';
+
+// Fcebook Pixel
+import { PixelModule } from 'ngx-pixel';
+
+// Stripe
+import { NgxStripeModule } from 'ngx-stripe';
 
 // Import the library
 
@@ -77,6 +74,7 @@ import { HttpLoaderFactory, registerTranslateExtension } from 'projects/core/hel
       accessToken: environment.MAPBOX.ACCESS_TOKEN, // Optional, can also be set per map (accessToken input of mgl-map)
       // geocoderAccessToken: 'TOKEN' // Optional, specify if different from the map access token, can also be set per mgl-geocoder (accessToken input of mgl-geocoder)
     }),
+    PixelModule.forRoot({ enabled: environment.PIXEL.FACEBOOK.ENABLED, pixelId: environment.PIXEL.FACEBOOK.ID }),
     // LeafletModule,
     // NgxLeafletLocateModule,
     DirectivesModule,

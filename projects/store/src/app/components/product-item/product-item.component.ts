@@ -1,4 +1,3 @@
-// tslint:disable-next-line: max-line-length
 import { Component, OnInit, AfterViewInit, Input, ViewChild, HostListener, ChangeDetectionStrategy, ElementRef, TemplateRef, ViewContainerRef, Renderer2, Optional, ComponentRef, ComponentFactoryResolver, LOCALE_ID, Inject, DEFAULT_CURRENCY_CODE } from '@angular/core';
 import { DeviceDetectorService } from 'ngx-device-detector';
 import '@angular/common/locales/fr-CA';
@@ -10,6 +9,7 @@ import { createPopper, Placement } from '@popperjs/core';
 import { ProductPopperComponent } from 'projects/store/src/app/components/product-popper/product-popper.component';
 import { GET_URL_ASSETS } from 'projects/core/helpers/functions';
 import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
+import { PixelService } from 'ngx-pixel';
 
 @Component({
   selector: 'app-product-item',
@@ -90,6 +90,15 @@ export class ProductItemComponent implements OnInit, AfterViewInit {
           this.destroyComponent();
         } else {
           this.createComponent(target);
+          this.pixel.track('ViewContent', {
+            // contents,
+            content_ids: [ this.Product.id ],       // Item SKUs
+            content_category: this.Category.title,  // Category of the product.
+            content_name: this.Product.name,        // Name of the product
+            content_type: 'product',                // product or product_group
+            value: this.Product.price,              // Value of all items
+            currency: 'MXN'                         // Currency of the value
+          });
         }
       }
     }
@@ -111,7 +120,8 @@ export class ProductItemComponent implements OnInit, AfterViewInit {
     // private router: Router,
     private resolver: ComponentFactoryResolver,
     private readonly el: ElementRef<HTMLDivElement>,
-    private readonly renderer: Renderer2
+    private readonly renderer: Renderer2,
+    private pixel: PixelService
   ) {
     // console.log('ProductItemComponent.constructor', this.Overlay);
   }
