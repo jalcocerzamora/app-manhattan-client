@@ -37,6 +37,13 @@ export const environment = {
 
   MAPBOX: {
     ACCESS_TOKEN: 'pk.eyJ1IjoiamFsY29jZXJ6IiwiYSI6ImNrZnhqcWZsbzAwMnEycnBqOHRoYzMyOG0ifQ._n_2a1STgpk1kDVdRPJxgw'
+  },
+
+  PIXEL: {
+    FACEBOOK: {
+      ENABLED: true,
+      ID: '837207020631388'
+    }
   }
 };
 
