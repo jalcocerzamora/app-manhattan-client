@@ -197,6 +197,7 @@
                     (ngSubmit)="onSubmitPayment()">
                     <formly-form [form]="formPayment" [fields]="fieldsPayment" [options]="optionsPayment" [model]="modelPayment">
                         <!-- <span>Card</span> -->
+                        <button [translate]="'SHOPCART.FORMS.btnSave'" [disabled]="!formPayment.valid" type="submit" class="btn-default">Guardar</button>
                     </formly-form>
 
                     <nav id="payment-methods" class="visiblex">
