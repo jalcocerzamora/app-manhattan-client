@@ -1,0 +1,74 @@
+{
+    "workbench.iconTheme": "vscode-icons",
+    "javascript.updateImportsOnFileMove.enabled": "always",
+    "[html]": {
+        "editor.defaultFormatter": "vscode.html-language-features"
+    },
+    "[typescript]": {
+        "editor.defaultFormatter": "vscode.typescript-language-features"
+    },
+    "typescript.updateImportsOnFileMove.enabled": "always",
+    "tailwindCSS.emmetCompletions": true,
+    "extensions.ignoreRecommendations": false,
+    "[javascript]": {
+        "editor.defaultFormatter": "vscode.typescript-language-features"
+    },
+    "[json]": {
+        "editor.defaultFormatter": "vscode.json-language-features"
+    },
+    "[jsonc]": {
+        "editor.defaultFormatter": "vscode.json-language-features"
+    },
+    "editor.suggestSelection": "first",
+    "vsintellicode.modify.editor.suggestSelection": "automaticallyOverrodeDefaultValue",
+    "gitlens.advanced.messages": {
+        "suppressFileNotUnderSourceControlWarning": true
+    },
+    "terminal.integrated.shell.windows": "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+    "html.format.templating": false,
+    "auto-rename-tag.activationOnLanguage": [
+        "html","xml"
+    ],
+    "auto-close-tag.disableOnLanguage": [
+        "html","xml"
+    ],
+    "nativescript.analytics.enabled": true,
+    "githubIssues.queries": [
+        {
+            "label": "My Issues",
+            "query": "default"
+        },
+        {
+            "label": "Created Issues",
+            "query": "author:${user} state:open repo:${owner}/${repository} sort:created-desc"
+        }
+    ],
+    "gitlens.views.remotes.branches.layout": "list",
+    "angular.experimental-ivy": true,
+    "eslint.codeAction.disableRuleComment": {
+    },
+    "mssql.connections": [
+        {
+            "server": "{{put-server-name-here}}",
+            "database": "{{put-database-name-here}}",
+            "user": "{{put-username-here}}",
+            "password": ""
+        }
+    ],
+    "typescript.tsserver.experimental.enableProjectDiagnostics": true,
+    "js/ts.implicitProjectConfig.experimentalDecorators": true,
+    "terminal.integrated.tabs.enabled": true,
+    "security.workspace.trust.untrustedFiles": "open",
+    "explorer.confirmDragAndDrop": false,
+    "[typescriptreact]": {
+        "editor.defaultFormatter": "vscode.typescript-language-features"
+    },
+    "[scss]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "dotnet.help.firstView": "gettingStarted",
+    "terminal.integrated.automationProfile.linux": {},
+    "files.autoSave": "afterDelay",
+    "terminal.integrated.automationProfile.osx": {},
+    "editor.codeActionsOnSave": {}
+}
