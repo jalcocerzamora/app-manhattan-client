@@ -151,14 +151,12 @@
             "es": {
               "outputPath": "src/assets/i18n",
               "outFile": "messages.es.xlf",
-              "i18nFormat": "xlf",
-              "i18nLocale": "es"
+              "format": "xlf"
             },
             "en": {
               "outputPath": "src/assets/i18n",
               "outFile": "messages.en.xlf",
-              "i18nFormat": "xlf",
-              "i18nLocale": "en"
+              "format": "xlf"
             }
           }
         },
@@ -244,7 +242,6 @@
             "main": "projects/admin/src/main.ts",
             "polyfills": "projects/admin/src/polyfills.ts",
             "tsConfig": "projects/admin/tsconfig.app.json",
-            "aot": true,
             "assets": [
               "projects/admin/src/favicon.ico",
               "projects/admin/src/assets"
@@ -252,7 +249,13 @@
             "styles": [
               "projects/admin/src/styles.scss"
             ],
-            "scripts": []
+            "scripts": [],
+            "vendorChunk": true,
+            "extractLicenses": false,
+            "buildOptimizer": false,
+            "sourceMap": true,
+            "optimization": false,
+            "namedChunks": true
           },
           "configurations": {
             "production": {
@@ -282,7 +285,8 @@
                 }
               ]
             }
-          }
+          },
+          "defaultConfiguration": ""
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
@@ -520,7 +524,6 @@
             "main": "projects/backoffice/src/main.ts",
             "polyfills": "projects/backoffice/src/polyfills.ts",
             "tsConfig": "projects/backoffice/tsconfig.app.json",
-            "aot": true,
             "assets": [
               "projects/backoffice/src/favicon.ico",
               "projects/backoffice/src/assets"
@@ -528,7 +531,13 @@
             "styles": [
               "projects/backoffice/src/styles.scss"
             ],
-            "scripts": []
+            "scripts": [],
+            "vendorChunk": true,
+            "extractLicenses": false,
+            "buildOptimizer": false,
+            "sourceMap": true,
+            "optimization": false,
+            "namedChunks": true
           },
           "configurations": {
             "production": {
@@ -544,7 +553,6 @@
               "namedChunks": false,
               "extractLicenses": true,
               "vendorChunk": false,
-              "buildOptimizer": false,
               "budgets": [
                 {
                   "type": "initial",
@@ -558,7 +566,8 @@
                 }
               ]
             }
-          }
+          },
+          "defaultConfiguration": ""
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
