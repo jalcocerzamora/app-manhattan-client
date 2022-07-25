@@ -46,51 +46,46 @@ import { PipesModule } from '@core/pipes/pipes.module';
 import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 
 @NgModule({
-  declarations: [
-    // LoginComponent, RegisterComponent, VerifyEmailComponent, ForgotPasswordComponent,
-    // NotFoundComponent, NavbarComponent, HeaderComponent,
-    // ControlErrorComponent, ControlErrorsDirective, ControlErrorContainerDirective, FormSubmitDirective, FormCompetenceComponent,
-
-    HomeComponent,
-    MenuComponent,
-    ShopcartComponent,
-    PlacingYourOrderComponent,
-  ],
-  imports: [
-    CommonModule,
-    AppRoutingModule,
-    HttpClientModule,
-    FormsModule,
-    ReactiveFormsModule,
-    FontAwesomeModule,
-
-    PipesModule,
-    CoreModule,
-    DirectivesModule,
-    ComponentsModule,
-    FormlyModule.forRoot(FormlyConfig),
-    TranslateModule.forRoot({ defaultLanguage: environment.language, loader: { provide: TranslateLoader, useFactory: HttpLoaderFactory, deps: [HttpClient, PlatformLocation] } }),
-    LeafletModule,
-  ],
-  exports: [
-    HomeComponent,
-    MenuComponent,
-    ShopcartComponent,
-    PlacingYourOrderComponent
-  ],
-  providers: [
-    Title,
-    HttpClient,
-    // SubproductService,
-    { provide: LOCALE_ID, useValue: environment.locale },
-    { provide: FORMLY_CONFIG, multi: true, useFactory: registerTranslateExtension, deps: [ TranslateService ] },
-  ],
-  schemas: [
-    CUSTOM_ELEMENTS_SCHEMA
-  ],
-  entryComponents: [
-    // ControlErrorComponent
-  ],
+    declarations: [
+        // LoginComponent, RegisterComponent, VerifyEmailComponent, ForgotPasswordComponent,
+        // NotFoundComponent, NavbarComponent, HeaderComponent,
+        // ControlErrorComponent, ControlErrorsDirective, ControlErrorContainerDirective, FormSubmitDirective, FormCompetenceComponent,
+        HomeComponent,
+        MenuComponent,
+        ShopcartComponent,
+        PlacingYourOrderComponent,
+    ],
+    imports: [
+        CommonModule,
+        AppRoutingModule,
+        HttpClientModule,
+        FormsModule,
+        ReactiveFormsModule,
+        FontAwesomeModule,
+        PipesModule,
+        CoreModule,
+        DirectivesModule,
+        ComponentsModule,
+        FormlyModule.forRoot(FormlyConfig),
+        TranslateModule.forRoot({ defaultLanguage: environment.language, loader: { provide: TranslateLoader, useFactory: HttpLoaderFactory, deps: [HttpClient, PlatformLocation] } }),
+        LeafletModule,
+    ],
+    exports: [
+        HomeComponent,
+        MenuComponent,
+        ShopcartComponent,
+        PlacingYourOrderComponent
+    ],
+    providers: [
+        Title,
+        HttpClient,
+        // SubproductService,
+        { provide: LOCALE_ID, useValue: environment.locale },
+        { provide: FORMLY_CONFIG, multi: true, useFactory: registerTranslateExtension, deps: [TranslateService] },
+    ],
+    schemas: [
+        CUSTOM_ELEMENTS_SCHEMA
+    ]
 })
 export class PagesModule {
   constructor(
