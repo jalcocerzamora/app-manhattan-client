@@ -6,7 +6,7 @@ import { environment } from '@env/environment';
 
 import { HANDLE_ERROR_REQUEST } from '@core/helpers/functions';
 
-import { Observable, Subscription } from 'rxjs';
+import { Observable, Subscription, EMPTY, observable } from 'rxjs';
 import { catchError } from 'rxjs/internal/operators/catchError';
 
 import * as mapboxgl from 'mapbox-gl';
@@ -18,7 +18,7 @@ import { RequestErrorService } from './requestError.service';
 })
 export class MapBoxGLService {
     mapbox = (mapboxgl as typeof mapboxgl);
-    map: mapboxgl.Map;
+    map: mapboxgl.Map = new mapboxgl.Map();
     style = `mapbox://styles/mapbox/streets-v11`;
 
     // Coordinates of the location where we want to center the map
@@ -38,6 +38,8 @@ export class MapBoxGLService {
     ) {
         // We assign the token from the environment variables
         this.mapbox.accessToken = environment.MAPBOX.ACCESS_TOKEN;
+        this.subscriptionMapBoxResult$ = Subscription.EMPTY;
+        this.subscriptionMapBoxResult = EMPTY;
     }
 
     getMapBoxResult(lng: number, lat: number): Observable<any> {
@@ -100,12 +102,12 @@ export class MapBoxGLService {
                             latitude: response.query[1]
                         };
                         const place = features[0].place_name;
-                        const address = features.find(i => i.id.includes('address')) ? features.find(i => i.id.includes('address')).text : '';
-                        const postcode = features.find(i => i.id.includes('postcode')) ? features.find(i => i.id.includes('postcode')).text : '';
-                        const city = features.find(i => i.id.includes('place')) ? features.find(i => i.id.includes('place')).text : '';
-                        const state = features.find(i => i.id.includes('region')) ? features.find(i => i.id.includes('region')).text : '';
-                        const country = features.find(i => i.id.includes('country')) ? features.find(i => i.id.includes('country')).text : '';
-                        const countryCode = features.find(i => i.id.includes('country')) ? features.find(i => i.id.includes('country')).properties.short_code : '';
+                        const address = features.find((i: any) => i.id.includes('address')) ? features.find((i: any) => i.id.includes('address')).text : '';
+                        const postcode = features.find((i: any) => i.id.includes('postcode')) ? features.find((i: any) => i.id.includes('postcode')).text : '';
+                        const city = features.find((i: any) => i.id.includes('place')) ? features.find((i: any) => i.id.includes('place')).text : '';
+                        const state = features.find((i: any) => i.id.includes('region')) ? features.find((i: any) => i.id.includes('region')).text : '';
+                        const country = features.find((i: any) => i.id.includes('country')) ? features.find((i: any) => i.id.includes('country')).text : '';
+                        const countryCode = features.find((i: any) => i.id.includes('country')) ? features.find((i: any) => i.id.includes('country')).properties.short_code : '';
 
                         // let $geoCoderInput = $("#geocoder .mapboxgl-ctrl-geocoder--input");
                         // $geoCoderInput.val("20814");
@@ -206,14 +208,14 @@ export class MapBoxGLService {
         this.map.touchZoomRotate.disableRotation();
     }
 
-    coordinatesGeocoder = (query) => {
+    coordinatesGeocoder = (query: string) => {
         // console.log('coordinatesGeocoder', query);
         // match anything which looks like a decimal degrees coordinate pair
         const matches = query.match(/^[ ]*(?:Lat: )?(-?\d+\.?\d*)[, ]+(?:Lng: )?(-?\d+\.?\d*)[ ]*$/i);
         if (!matches) { return null; }
 
         // tslint:disable-next-line: no-shadowed-variable
-        function coordinateFeature(lng, lat) {
+        function coordinateFeature(lng: number, lat: number) {
             return {
                 center: [lng, lat],
                 geometry: {

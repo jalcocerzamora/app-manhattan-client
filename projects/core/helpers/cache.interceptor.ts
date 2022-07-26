@@ -7,7 +7,7 @@ import { tap } from 'rxjs/internal/operators/tap';
 import 'rxjs/add/observable/of';
 import 'rxjs/add/operator/do';
 
-const TTL = 15;
+const TTL: any = 15;
 
 @Injectable()
 export class CacheInterceptor implements HttpInterceptor {

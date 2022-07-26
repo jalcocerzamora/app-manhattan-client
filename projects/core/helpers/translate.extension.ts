@@ -55,7 +55,7 @@ function trimLastSlashFromUrl(baseUrl: string) {
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(httpClient: HttpClient, s: PlatformLocation) {
   const baseHref = trimLastSlashFromUrl(s.getBaseHrefFromDOM());
-  const prefix = baseHref.concat('/assets/i18n/');
+  const prefix = baseHref?.concat('/assets/i18n/');
   // console.log('HttpLoaderFactory.', baseHref, prefix);
   return new TranslateHttpLoader(httpClient, prefix, '.json');
 }

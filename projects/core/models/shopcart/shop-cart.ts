@@ -1,9 +1,8 @@
-import {
-  Customer, ICustomer,
-} from './../db';
+import { Customer, ICustomer } from './../db';
 
 import { DatePipe } from '@angular/common';
 import { ShopCartItem, IShopCartItem } from './shop-cart-item';
+import { AbstractControl, FormControl, FormGroup } from '@angular/forms';
 
 //#region SHOPCART
 export interface IShopCart<T> {
@@ -17,12 +16,12 @@ export interface IShopCart<T> {
   // getTotal: number;
 }
 export class ShopCart<T> implements IShopCart<T> {
-  ReserveId?: number = null;
-  ClientId?: number = null;
+  ReserveId?: number = undefined;
+  ClientId?: number = undefined;
   Count: number = 0;
   Items: Array<ShopCartItem<T>> = new Array<ShopCartItem<T>>();
   Subtotal: number = 0;
-  // Total: number = 0;
+
   get Total(): number {
     return (this.Items.length > 0 ?
       this.Items
@@ -33,13 +32,12 @@ export class ShopCart<T> implements IShopCart<T> {
     );
   }
 
-  constructor(model: IShopCart<T> = null) {
-    this.ReserveId  = (model && model.ReserveId ? model.ReserveId : null);
-    this.ClientId   = (model && model.ClientId ? model.ClientId : null);
-    this.Count      = (model && model.Count ? model.Count : 0);
-    this.Items      = (model && model.Items ? model.Items : new Array<ShopCartItem<T>>());
-    this.Subtotal   = (model && model.Subtotal ? model.Subtotal : 0);
-    // this.Total      = (model && model.Total ? model.Total : 0);
+  constructor(model: IShopCart<T>) {
+    this.ReserveId  = model.ReserveId ? model.ReserveId : 0;
+    this.ClientId   = model.ClientId ? model.ClientId : 0;
+    this.Count      = model.Count;
+    this.Items      = model.Items;
+    this.Subtotal   = model.Subtotal ? model.Subtotal : 0;
   }
 }
 //#endregion
@@ -89,8 +87,11 @@ export class DeliveryMethod implements IDeliveryMethod {
   Latitude: number;
   Longitude: number;
 
-  constructor() {
-    // do stuff
+  constructor(_placeName: string, _postCode: number, _latitude: number, _longitude: number) {
+    this.PlaceName = _placeName;
+    this.PostCode = _postCode;
+    this.Latitude = _latitude;
+    this.Longitude = _longitude;
   }
 
   public readonly toString = (): string => {
@@ -109,8 +110,9 @@ export class DeliveryTime implements IDeliveryTime {
   Date: Date;
   Schedule: Date;
 
-  constructor() {
-    // do stuff
+  constructor(_date: Date, _schedule: Date) {
+    this.Date = _date;
+    this.Schedule = _schedule;
   }
 
   get ScheduleFormat() {
@@ -140,7 +142,7 @@ export enum PaymentMethodEnum {
   BECS_Direct_Debit = 14,
 }
 export interface IDeliveryPaymentMethod {
-  Method: number;
+  Method?: number | undefined;
 
   CardHolder: string;
   AddressCountry: string;
@@ -153,7 +155,7 @@ export interface IDeliveryPaymentMethod {
   PostalCode?: number;
 }
 export class DeliveryPaymentMethod implements IDeliveryPaymentMethod {
-  Method: PaymentMethodEnum;
+  Method?: PaymentMethodEnum | undefined = undefined;
 
   CardHolder: string;
   AddressCountry: string;
@@ -165,8 +167,16 @@ export class DeliveryPaymentMethod implements IDeliveryPaymentMethod {
   CardCvc: string;
   PostalCode: number;
 
-  constructor() {
-    // do stuff
+  constructor(_method: PaymentMethodEnum | undefined, _cardHolder: string, _addressCountry: string, _currency: string, _brand: string, _cardNumber: string, _cardExpiry: string, _cardCvc: string, _postalCode: number) {
+    this.Method = _method;
+    this.CardHolder = _cardHolder;
+    this.AddressCountry = _addressCountry;
+    this.Currency = _currency;
+    this.Brand = _brand;
+    this.CardNumber = _cardNumber;
+    this.CardExpiry = _cardExpiry;
+    this.CardCvc = _cardCvc;
+    this.PostalCode = _postalCode;
   }
 }
 //#endregion

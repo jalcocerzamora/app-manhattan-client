@@ -28,7 +28,7 @@ import {
   FormlyFieldFileComponent,
   FileValueAccessorDirective,
 } from 'projects/core/directives/formly/index';
-import { FormlyConfig } from './formly/formly.config';
+import { FormlyConfigCustom } from './formly/formly.config';
 
 
 @NgModule({
@@ -52,7 +52,7 @@ import { FormlyConfig } from './formly/formly.config';
     FontAwesomeModule,
 
     PipesModule,
-    FormlyModule.forRoot(FormlyConfig),
+    FormlyModule.forRoot(),
     TranslateModule.forRoot({ defaultLanguage: environment.language, loader: { provide: TranslateLoader, useFactory: HttpLoaderFactory, deps: [HttpClient, PlatformLocation] } }),
   ],
   exports: [

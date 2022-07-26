@@ -62,7 +62,7 @@ export class AuthGuard implements CanActivate {
       if (authGroup) {
         return this.authorizationService.hasPermission(authGroup);
       } else {
-        return this.authorizationService.hasPermission(null);
+        return this.authorizationService.hasPermission('BLOCKED');
       }
     } else {
       // Otherwise, must request permissions from the API first
@@ -72,7 +72,7 @@ export class AuthGuard implements CanActivate {
             if (authGroup) {
               resolve(this.authorizationService.hasPermission(authGroup));
             } else {
-              resolve(this.authorizationService.hasPermission(null));
+              resolve(this.authorizationService.hasPermission('BLOCKED'));
             }
           }).catch(() => {
             resolve(false);

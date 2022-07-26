@@ -12,13 +12,13 @@ import { ShopCartService } from '../shopcart/shop-cart.service';
   providedIn: 'root'
 })
 export class PaymentGatewayService {
-  private PaymenItent: PaymentIntent = null;
+  private PaymentItent?: PaymentIntent | null;
 
   private API_ENDPOINT: string = environment.BACKEND_ENDPOINT;
   private HTTP_OPTIONS = { headers: new HttpHeaders( { 'Content-Type': 'application/json', } ) };
 
-  public cardStripe: StripeCardComponent = null;
-  protected buttonSubmit: ElementRef<HTMLButtonElement> = null;
+  public cardStripe: StripeCardComponent | null;
+  protected buttonSubmit: ElementRef<HTMLButtonElement> | null;
   protected dataStripe: any = null;
 
   protected selectedCategoryName = '';
@@ -31,7 +31,11 @@ export class PaymentGatewayService {
 
     private stripeService: StripeService,
     private shopcart: ShopCartService<Subproduct>,
-  ) { }
+  ) {
+    this.PaymentItent = null;
+    this.cardStripe = null;
+    this.buttonSubmit = null;
+  }
 
   public get spinnerStatus(): Observable<boolean> {
     return this.events.asObservable();
@@ -42,12 +46,12 @@ export class PaymentGatewayService {
     console.log('PaymentGatewayService.setButtonSubmit', value);
   }
 
-  public set setCardStripe(value: StripeCardComponent) {
+  public set setCardStripe(value: StripeCardComponent | null) {
     this.cardStripe = value;
     console.log('PaymentGatewayService.setCardStripe', value);
   }
 
-  public set setDataStripe(value: any) {
+  public set setDataStripe(value: StripeCardComponent | null) {
     this.dataStripe = value;
     console.log('PaymentGatewayService.setDataStripe', value);
   }
@@ -61,15 +65,19 @@ export class PaymentGatewayService {
   }
 
   // Show a spinner on payment submission
-  public loading(isLoading) {
+  public loading(isLoading: boolean) {
     // const $btnOrderNow: HTMLButtonElement = document.querySelector('button#btn-order-now');
     if (isLoading) {
       // Disable the button and show a spinner
-      this.buttonSubmit.nativeElement.disabled = true;
+      if(this.buttonSubmit != null){
+        this.buttonSubmit.nativeElement.disabled = true;
+      }
       // document.querySelector('#spinner').classList.remove('hidden');
       // document.querySelector('#button-text').classList.add('hidden');
     } else {
-      this.buttonSubmit.nativeElement.disabled = false;
+      if(this.buttonSubmit != null){
+        this.buttonSubmit.nativeElement.disabled = false;
+      }
       // document.querySelector('#spinner').classList.add('hidden');
       // document.querySelector('#button-text').classList.remove('hidden');
     }
@@ -77,23 +85,24 @@ export class PaymentGatewayService {
 
   /* ------- UI helpers ------- */
   // Shows a success message when the payment is complete
-  public orderComplete(paymentIntentId) {
+  public orderComplete(paymentIntentId: number) {
     this.loading(false);
-    document
-      .querySelector('.result-message a')
-      .setAttribute(
+    let result: HTMLElement | any = document.querySelector('.result-message a');
+    if(result != undefined){
+      result.setAttribute(
         'href',
         'https://dashboard.stripe.com/test/payments/' + paymentIntentId
       );
-    document.querySelector('.result-message').classList.remove('hidden');
-    const $btnOrderNow: HTMLButtonElement = document.querySelector('button#btn-order-now');
-    $btnOrderNow.disabled = true;
+      result.closest('.result-message')?.classList.remove('hidden');
+      const btn: HTMLButtonElement | any = document.querySelector('button#btn-order-now');
+      btn.disabled = true;
+    }
   }
 
   // Show the customer the error from Stripe if their card fails to charge
-  public showError(errorMsgText) {
+  public showError(errorMsgText: any) {
     this.loading(false);
-    const errorMsg = document.querySelector('#card-error');
+    const errorMsg: Element | any = document.querySelector('#card-error');
     errorMsg.textContent = errorMsgText;
     setTimeout(() => {
       errorMsg.textContent = '';
@@ -141,21 +150,23 @@ export class PaymentGatewayService {
 
     this.loading(true);
 
-    this.stripeService
-      .createToken(this.cardStripe.element, {})
-      // tslint:disable-next-line: deprecation
-      .subscribe({
-        next: (result) => {
-          if (result.token) {
-            // Use the token
-            console.log(result.token.id);
-          } else if (result.error) {
-            // Error creating the token
-            console.log(result.error.message);
-          }
-        },
-        error: (err) => { console.log(err); }
-      });
+    if(this.cardStripe != null){
+      this.stripeService
+        .createToken(this.cardStripe.element, {})
+        // tslint:disable-next-line: deprecation
+        .subscribe({
+          next: (result) => {
+            if (result.token) {
+              // Use the token
+              console.log(result.token.id);
+            } else if (result.error) {
+              // Error creating the token
+              console.log(result.error.message);
+            }
+          },
+          error: (err) => { console.log(err); }
+        });
+    }
 
     // stripe
     //   .confirmCardPayment(clientSecret, {
@@ -174,7 +185,7 @@ export class PaymentGatewayService {
     //   });
   }
 
-  handleError(error) {
+  handleError(error: any) {
     let errorMessage = '';
     if (error.error instanceof ErrorEvent) {
       // Get client-side error

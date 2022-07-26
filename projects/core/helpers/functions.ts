@@ -1,9 +1,9 @@
 import { environment } from 'projects/environments/environment';
 
-export function GET_URL_ASSETS(pathImage: string = null) {
+export function GET_URL_ASSETS(pathImage: string | null) {
     const origin = window.location.origin;
 
-    const generateURL = (pathURL) => {
+    const generateURL = (pathURL: string | null) => {
         const HOST = window.location.origin;
         const HREF = window.location.href;
         return (

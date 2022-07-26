@@ -18,10 +18,10 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 })
 export class FileValueAccessorDirective implements ControlValueAccessor {
   value: any;
-  onChange = (_) => {};
+  onChange = () => {};
   onTouched = () => {};
 
-  writeValue(value) {}
+  writeValue() {}
   registerOnChange(fn: any){ this.onChange = fn; }
   registerOnTouched(fn: any){ this.onTouched = fn; }
 }

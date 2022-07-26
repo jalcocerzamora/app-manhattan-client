@@ -25,10 +25,11 @@ export class PlacedOrderService {
     // private socket: Socket
   ) { }
 
-  private extractData(res: Response): any {
-    const body = res;
-    console.log(body);
-    return body || { };
+  private extractData(res: Response): string {
+    const response = res;
+    // const body = response.json();
+    console.log(response);
+    return '';
   }
 
   private handleError(error: HttpErrorResponse): any {
@@ -61,9 +62,9 @@ export class PlacedOrderService {
     const URL = API_ENDPOINT.concat(this.ROUTE);
     const BODY = JSON.stringify(data);
     return this.http.post(URL, BODY, this.HTTP_OPTIONS)
-    .pipe(
-      map(this.extractData),
-      catchError(this.handleError)
-    );
+      .pipe(
+        map(res => this.extractData),
+        catchError(this.handleError)
+      );
   }
 }

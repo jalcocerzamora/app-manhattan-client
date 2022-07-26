@@ -3,17 +3,17 @@ import {
 } from '@core/models/db';
 import { Injectable } from '@angular/core';
 
-import { ShopCart, ShopCartItem } from 'projects/core/models/shopcart';
+import { IShopCart, ShopCart, ShopCartItem } from 'projects/core/models/shopcart';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ShopCartService<T> {
-  private ShopCart: ShopCart<T> = new ShopCart<T>(null);
-  private DeliveryCustomer: Customer = new Customer();
-  private DeliveryTime = new Customer();
-  private Customer = new Customer();
-  private Delivery: Customer = new Customer();
+  private ShopCart: ShopCart<T> = new ShopCart<T>({ Items: new Array<ShopCartItem<T>>, Count: 0, Total: 0 });
+  private DeliveryCustomer: Customer = new Customer("", "", "");
+  // private DeliveryTime = new Customer("", "", "");
+  // private Customer = new Customer("", "", "");
+  // private Delivery: Customer = new Customer("", "", "");
 
   public get GetCount(): number {
     return this.ShopCart.Count;
@@ -46,12 +46,14 @@ export class ShopCartService<T> {
   }
 
   public Update() {
-    if (localStorage.getItem('Cart')) {
-      const ls = JSON.parse(localStorage.getItem('Cart'));
+    let lsCart = localStorage.getItem('Cart');
+    let ls: IShopCart<T> = { Items: new Array<ShopCartItem<T>>, Count: 0, Total: 0 };
+    if (lsCart) {
+      ls = JSON.parse(lsCart) as IShopCart<T>;
       const shopcart = new ShopCart<T>(ls);
       this.ShopCart = shopcart;
     } else {
-      this.ShopCart = new ShopCart<T>(null);
+      this.ShopCart = new ShopCart<T>(ls);
       localStorage.setItem('Cart', JSON.stringify(this.ShopCart));
     }
     // console.log('ShopCartService.Update.localstorage.set', this.ShopCart);
@@ -101,6 +103,7 @@ export class ShopCartService<T> {
 
   public Clear(): void {
     localStorage.removeItem('Cart');
-    this.ShopCart = new ShopCart<T>();
+    let ls: IShopCart<any> = { Items: new Array<ShopCartItem<any>>, Count: 0, Total: 0 };
+    this.ShopCart = new ShopCart<T>(ls);
   }
 }

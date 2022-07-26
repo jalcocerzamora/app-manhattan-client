@@ -29,13 +29,15 @@ export class FormlyFieldQuantityComponent extends FieldType {
 
   decrement() {
     let value = this.formControl.value;
-    if (value > this.field.templateOptions.min) { value--; }
+    let min = this.field.templateOptions?.min || 0;
+    if (value > min) { value--; }
     this.formControl.setValue(value);
   }
 
   increment() {
     let value = this.formControl.value;
-    if (value < this.field.templateOptions.max) { value++; }
+    let max = this.field.templateOptions?.max || 0;
+    if (value < max) { value++; }
     this.formControl.setValue(value);
   }
 

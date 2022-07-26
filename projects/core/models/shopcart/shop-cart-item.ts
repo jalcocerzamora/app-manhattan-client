@@ -26,10 +26,9 @@ export class ShopCartItem<T> implements IShopCartItem<T> {
 
   public Data: T;
 
-  constructor(model: ShopCartItem<T> = null) {
-    this.Id = (model && model.Id ? model.Id : null);
+  constructor(model: ShopCartItem<T> = new ShopCartItem) {
     this.Price = (model && model.Price ? model.Price : 0);
     this.Quantity = (model && model.Quantity ? model.Quantity : 1);
-    this.Data = (model && model.Data ? model.Data : null);
+    this.Data = (model && model.Data ? model.Data : null) as T;
   }
 }

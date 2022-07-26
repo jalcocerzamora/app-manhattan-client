@@ -21,7 +21,7 @@ type ITransformOption = Partial<{
   name: 'formlySelectOptions'
 })
 export class FormlySelectOptionsPipe implements PipeTransform {
-  transform(options: any, field?: FormlyFieldConfig): Observable<ISelectOption[]> {
+  transform(options: any, field: FormlyFieldConfig): Observable<ISelectOption[]> {
     if (!(options instanceof Observable)) {
       options = observableOf(options);
     }
@@ -29,11 +29,11 @@ export class FormlySelectOptionsPipe implements PipeTransform {
     return (options as Observable<any>).pipe(map((value) => this.transformOptions(value, field)));
   }
 
-  private transformOptions(options: any[], field?: FormlyFieldConfig): ISelectOption[] {
+  private transformOptions(options: any[], field: FormlyFieldConfig): ISelectOption[] {
     const to = this.transformSelectProps(field);
 
     const opts: ISelectOption[] = [];
-    const groups = {};
+    const groups: any = {};
 
     options.forEach((option) => {
       const o = this.transformOption(option, to);
@@ -42,7 +42,7 @@ export class FormlySelectOptionsPipe implements PipeTransform {
         if (id === undefined) {
           groups[o.label] = opts.push(o) - 1;
         } else {
-          o.group.forEach((o) => opts[id].group.push(o));
+          o.group.forEach((o) => opts[id].group?.push(o));
         }
       } else {
         opts.push(o);
@@ -57,18 +57,18 @@ export class FormlySelectOptionsPipe implements PipeTransform {
   }
 
   private transformOption(option: any, to: ITransformOption): ISelectOption {
-    const group = to.groupProp(option);
+    const group = to.groupProp?(option) : null;
     if (Array.isArray(group)) {
       return {
-        label: to.labelProp(option),
+        label: to.labelProp?(option) : null,
         group: group.map((opt) => this.transformOption(opt, to)),
       };
     }
 
     option = {
-      label: to.labelProp(option),
-      value: to.valueProp(option),
-      disabled: !!to.disabledProp(option),
+      label: to.labelProp?(option) : null,
+      value: to.valueProp?(option) : null,
+      disabled: !!to.disabledProp?(option) : null,
     };
 
     if (group) {
@@ -80,7 +80,7 @@ export class FormlySelectOptionsPipe implements PipeTransform {
 
   private transformSelectProps(field: FormlyFieldConfig): ITransformOption {
     const to = field && field.templateOptions ? field.templateOptions : {};
-    const selectPropFn = (prop: any) => (typeof prop === 'function' ? prop : (o) => o[prop]);
+    const selectPropFn = (prop: any) => (typeof prop === 'function' ? prop : (o: any) => o[prop]);
 
     return {
       groupProp: selectPropFn(to.groupProp || 'group'),

@@ -19,9 +19,9 @@ const API_URL: string = environment.BACKEND_ENDPOINT;
   providedIn: 'root'
 })
 export class AuthenticationService {
-  permissions: Array<string>; // Store the actions for which this user has permission
-  private currentLoginSubject: BehaviorSubject<Login> = new BehaviorSubject<Login>(null);
-  public currentLogin: Observable<Login> = this.currentLoginSubject.asObservable();
+  permissions: Array<string> = []; // Store the actions for which this user has permission
+  private currentLoginSubject: BehaviorSubject<Login>;
+  public currentLogin: Observable<Login>;
 
   constructor(
     private http: HttpClient,
@@ -48,7 +48,7 @@ export class AuthenticationService {
 
     if (this.currentLoginValue) {
       // tslint:disable-next-line: deprecation
-      const obs1 = Observable.create((observer) => {
+      const obs1 = Observable.create((observer: any) => {
         observer.next(this.currentLoginValue);
         observer.complete();
       });
@@ -74,10 +74,10 @@ export class AuthenticationService {
 
     // remove USER from local storage to log USER out
     localStorage.removeItem('currentLogin');
-    this.currentLoginSubject.next(null);
+    this.currentLoginSubject.next(new Login());
   }
 
-  private setSession(request) {
+  private setSession(request: any) {
     // console.log('AuthenticationService.setSession', request);
 
     // login successful if there's a jwt token in the response
@@ -96,7 +96,7 @@ export class AuthenticationService {
     // localStorage.setItem("expires_at", JSON.stringify(expiresAt.valueOf()) );
   }
 
-  private handleError1(error) {
+  private handleError1(error: any) {
     console.log('AuthenticationService.handleError1');
     let errorMessage = '';
     if (error.error instanceof ErrorEvent) {

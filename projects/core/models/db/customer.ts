@@ -20,4 +20,10 @@ export class Customer implements ICustomer, ITimestamps {
 
   createdAt?: string;
   updatedAt?: string;
+
+  constructor(_firstname: string, _lastname: string, _email: string){
+    this.firstname = _firstname;
+    this.lastname = _lastname;
+    this.email = _email;
+  }
 }

@@ -3,7 +3,7 @@ import { AuthGroup } from './authorization.types';
 
 @Injectable({ providedIn: 'root' })
 export class AuthorizationService {
-  permissions: Array<string>; // Store the actions for which this user has permission
+  permissions: Array<string> = []; // Store the actions for which this user has permission
 
   constructor(
     // private authorizationDataService: AuthorizationDataService

@@ -6,9 +6,9 @@ const maxAge = 30000;
 export class RequestCacheService {
     private cache = new Map<string, [Date, HttpResponse<any>]>();
 
-    get(key): HttpResponse<any> {
+    get(key: any): HttpResponse<any> {
         const tuple = this.cache.get(key);
-        if (!tuple) { return null; }
+        if (!tuple) { return new HttpResponse<null>(); }
 
         const expires = tuple[0];
         const httpResponse = tuple[1];
@@ -17,19 +17,19 @@ export class RequestCacheService {
         const now = new Date();
         if (expires && expires.getTime() < now.getTime()) {
             this.cache.delete(key);
-            return null;
+            return new HttpResponse<null>();
         }
 
         return httpResponse;
     }
 
-    set(key, value, ttl = null) {
+    set(key: string, value: HttpResponse<any>, ttl = null) {
         if (ttl) {
             const expires = new Date();
             expires.setSeconds(expires.getSeconds() + ttl);
             this.cache.set(key, [expires, value]);
         } else {
-            this.cache.set(key, [null, value]);
+            this.cache.set(key, [new Date(0), value]);
         }
     }
 
