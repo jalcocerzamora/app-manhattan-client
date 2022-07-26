@@ -18,7 +18,7 @@ import { Title } from '@angular/platform-browser';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AppComponent implements OnInit {
-  title = 'store';
+  public title = 'store';
 
   constructor(
     private router: Router,
@@ -40,7 +40,7 @@ export class AppComponent implements OnInit {
       ).subscribe({
         next: () => {
           const rt = this.getChild(this.activatedRoute);
-          rt.data.subscribe(data => { this.titleService.setTitle(data.title); });
+          rt.data.subscribe((data: any) => { this.titleService.setTitle(data.title); });
         },
         error: (err) => {
           console.log(err);
@@ -48,7 +48,7 @@ export class AppComponent implements OnInit {
       });
   }
 
-  getChild(activatedRoute: ActivatedRoute) {
+  getChild(activatedRoute: ActivatedRoute): ActivatedRoute {
     if (activatedRoute.firstChild) {
       return this.getChild(activatedRoute.firstChild);
     } else {

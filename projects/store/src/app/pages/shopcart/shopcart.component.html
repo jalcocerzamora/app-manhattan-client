@@ -37,14 +37,14 @@
       <h1 [translate]="'HOME.txtCompanyName'" class="text-gray-800 text-sm font-bold"></h1>
     </div>
     <div class="flex flex-row text-gray-600">
-      <a [routerLink]="['/menu']" [routerLinkActiveOptions]="{exact:true}" routerLinkActive="bg-gray-100 bg-opacity-50 text-gray-700" href="javascript:void(0)" class="border-l-1 border-gray-500 py-1 px-3"> <!-- #f1eff1 -->
+      <a title="Menu" [routerLink]="['/menu']" [routerLinkActiveOptions]="{exact:true}" routerLinkActive="bg-gray-100 bg-opacity-50 text-gray-700" href="javascript:void(0)" class="border-l-1 border-gray-500 py-1 px-3"> <!-- #f1eff1 -->
         <fa-icon icon="book"></fa-icon>
       </a>
       <!-- <a [routerLink]="['/info']" [routerLinkActiveOptions]="{exact:true}" routerLinkActive="bg-gray-100 bg-opacity-50 text-gray-700" href="javascript:void(0)"
         class="border-l-1 border-gray-500 py-1 px-3">
         <fa-icon icon="info-circle"></fa-icon>
       </a> -->
-      <a [routerLink]="['/shopcart']" [routerLinkActiveOptions]="{exact:true}" routerLinkActive="bg-gray-100 bg-opacity-50 text-gray-700" href="javascript:void(0)" class="border-l-1 border-gray-500 rounded-tr-lg py-1 px-3">
+      <a title="Shopcart" [routerLink]="['/shopcart']" [routerLinkActiveOptions]="{exact:true}" routerLinkActive="bg-gray-100 bg-opacity-50 text-gray-700" href="javascript:void(0)" class="border-l-1 border-gray-500 rounded-tr-lg py-1 px-3">
           <ng-container *ngIf="serviceShopCart.GetAny; else shopcartWithoutCounter">
             <fa-layers [fixedWidth]="true">
               <fa-icon icon="shopping-cart"></fa-icon>
@@ -78,7 +78,7 @@
             </tr>
           </thead>
           <tbody class="bg-white products border border-gray-400 overflow-y-auto flex flex-col items-start">
-            <ng-container *ngFor="let item of shopcart.Items;"><!-- trackBy:item.i -->
+            <ng-container *ngFor="let item of shopcart?.Items;"><!-- trackBy:item.i -->
               <tr class="product_item w-full relative flex flex-row justify-start">
                 <th scope="row" class="product_detail py-1 pl-2 pr-5" [innerText]="item.Quantity + 'pz'"></th>
                 <td class="py-1 pl-2 pr-5 flex-1" [innerText]="item.Data.name"></td>
@@ -91,7 +91,7 @@
           <tfoot class="invoice bg-white border border-gray-400">
             <tr>
               <td colspan="2" class="py-1 px-2"><small>Sub-Total</small></td>
-              <td class="py-1 px-2 text-right"><small [innerText]="shopcart.Total | currency">$0 MXN</small></td>              
+              <td class="py-1 px-2 text-right"><small [innerText]="shopcart?.Total | currency">$0 MXN</small></td>              
             </tr>
             <!--
             <tr>
@@ -101,7 +101,7 @@
             -->
             <tr class="font-semibold">
               <td colspan="1" class="py-1 px-2">Total:</td>
-              <td colspan="2" class="py-1 px-2 text-right" [innerText]="shopcart.Total | currency">$0 MXN</td>
+              <td colspan="2" class="py-1 px-2 text-right" [innerText]="shopcart?.Total | currency">$0 MXN</td>
             </tr>
           </tfoot>
         </table>
@@ -127,7 +127,7 @@
       <button #btnPaymentOrder (click)="onSubmitOrder($event)" [disabled]="!formPaymentGatewayValid" [ngClass]="{'disabled': !formPaymentGatewayValid}" class="btn-order-now divide-x divide-gray-400 pulsex">
         <div class="w-2/5 flex flex-col space-y-2 justify-start items-start content-start text-left px-5">
           <p class="text-xs">TOTAL</p>
-          <p class="text-xs sm:text-sm" [innerText]="shopcart.Total | currency">$0 MXN</p>
+          <p class="text-xs sm:text-sm" [innerText]="shopcart?.Total | currency">$0 MXN</p>
         </div>
         <div class="w-3/5">
           <p class="sm:text-sm" [translate]="'SHOPCART.FOOTER.btnOrderNow'"></p>

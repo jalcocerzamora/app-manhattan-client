@@ -22,7 +22,7 @@ export class PlacingYourOrderComponent implements OnInit {
   public progressTime: 0;
   private interval = null;
 
-  @ViewChild('myBar') progressBar: ElementRef<HTMLDivElement>;
+  @ViewChild('myBar') progressBar: ElementRef<HTMLDivElement> | null = null;
 
   constructor(
     private el: ElementRef,

@@ -1,18 +1,5 @@
-import {
-  AfterViewInit,
-  ChangeDetectionStrategy,
-  Component,
-  ElementRef,
-  OnInit,
-  Renderer2,
-  ViewChild
-  } from '@angular/core';
-import {
-  Customer,
-  ICustomer,
-  ISubproductsWithCategory,
-  Subproduct
-  } from '@core/models/db';
+import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, OnInit, Renderer2, ViewChild } from '@angular/core';
+import { Customer, ICustomer, ISubproductsWithCategory, Subproduct } from '@core/models/db';
 import { DeliveryTime, ShopCart } from '@core/models/shopcart';
 import { first } from 'rxjs/operators';
 import { Observable } from 'rxjs';
@@ -35,16 +22,16 @@ import { SubproductService } from '@core/services/db/subproduct/subproduct.servi
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ShopcartComponent implements OnInit, AfterViewInit {
-  @ViewChild('container_menu_header') containerHeader: ElementRef<HTMLDivElement>;
+  @ViewChild('container_menu_header') containerHeader: ElementRef<HTMLDivElement> | null = null;
   // @ViewChild('container_menu_body_markup_banner') containerBanner: ElementRef<HTMLDivElement>;
 
-  @ViewChild('btnPaymentOrder') btnPaymentOrder: ElementRef<HTMLButtonElement>;
+  @ViewChild('btnPaymentOrder') btnPaymentOrder: ElementRef<HTMLButtonElement> | null = null;
 
   public CategoryWithProducts: Observable<Array<ISubproductsWithCategory>> = this.getProducts();
 
-  public shopcart: ShopCart<Subproduct> = null;
+  public shopcart: ShopCart<Subproduct> | null = null;
 
-  @ViewChild(StripeCardComponent) card: StripeCardComponent;
+  @ViewChild(StripeCardComponent) card: StripeCardComponent | null = null;
   public formPaymentGatewayValid = false;
 
   constructor(
@@ -81,7 +68,7 @@ export class ShopcartComponent implements OnInit, AfterViewInit {
     this.formPaymentGatewayValid = status;
   }
 
-  onSubmitOrder(event) {
+  onSubmitOrder(event: any) {
     if (this.formPaymentGatewayValid) {
       if (this.paymentGatewayService.cardStripe !== null) {
         this.paymentGatewayService.setButtonSubmit = this.btnPaymentOrder;
@@ -90,16 +77,16 @@ export class ShopcartComponent implements OnInit, AfterViewInit {
         // const dataCustomer: ICustomer = this.shopcart
 
         const data: PlacedOrder = {
-          customer_id: null,
+          customer_id: undefined,
           // order_time: new da;
           // estimated_delivery_time: null;
           // food_ready: null;
           // actual_delivery_time: null;
           // delivery_address_id: null;
           // customer_id: null,
-          subtotal: this.shopcart.Subtotal,
+          subtotal: this.shopcart?.Subtotal ?? 0,
           discount: 0,
-          total: this.shopcart.Total,
+          total: this.shopcart?.Total ?? 0,
           // comment: null,
         };
 

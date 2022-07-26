@@ -11,8 +11,9 @@
                 <!-- 'info' | 'info-circle' | 'info-square' |  -->
             </div>
             <div class="w-1/12 text-gray-500">
-                <button [ngClass]="{'text-white bg-gray-600': !getCurrentStep(1)}" (click)="onClickChangeStep(1)"
-                    class="btn-option-step">
+                <button title="Edit Contact" class="btn-option-step"
+                    [ngClass]="{'text-white bg-gray-600': !getCurrentStep(1)}" 
+                    (click)="onClickChangeStep(1)">
                     <fa-icon [icon]="(getCurrentStep(1) ? 'pencil-alt' : 'edit')"></fa-icon>
                 </button>
             </div>
@@ -20,9 +21,9 @@
         <div class="pg-body w-full">
             <div [hidden]="!(contactComplete && getCurrentStep(1))" class="pg-data-confirmed w-10/12 mx-auto">
                 <p class="leading-none">
-                    <small [innerText]="modelContact.firstname + ' ' + modelContact.lastname"></small><br>
-                    <small [innerText]="modelContact.email"></small><br>
-                    <small [innerText]="modelContact.cellphone"></small>
+                    <small [innerText]="modelContact?.firstname + ' ' + modelContact?.lastname"></small><br>
+                    <small [innerText]="modelContact?.email"></small><br>
+                    <small [innerText]="modelContact?.cellphone"></small>
                 </p>
             </div>
 
@@ -49,8 +50,9 @@
                 <p class="font-semibold uppercase" [translate]="'SHOPCART.STEPS.txtStep2'"></p>
             </div>
             <div class="w-1/12 text-gray-500">
-                <button [ngClass]="{'text-white bg-gray-600': !getCurrentStep(2)}" (click)="onClickChangeStep(2)"
-                    class="btn-option-step">
+                <button title="Edit Location" class="btn-option-step"
+                    [ngClass]="{'text-white bg-gray-600': !getCurrentStep(2)}" 
+                    (click)="onClickChangeStep(2)">
                     <fa-icon [icon]="(getCurrentStep(2) ? 'pencil-alt' : 'edit')"></fa-icon>
                 </button>
             </div>
@@ -58,7 +60,7 @@
         <div class="pg-body w-full">
             <div [hidden]="!(orderingComplete && getCurrentStep(2))" class="pg-data-confirmed w-10/12 mx-auto">
                 <p class="leading-none">
-                    <small [innerText]="modelOrdering.PlaceName"></small>
+                    <small [innerText]="modelOrdering?.PlaceName"></small>
                 </p>
             </div>
             <div [hidden]="!(CurrentStep == 2)" class="pg-data-rectify w-full pt-1">
@@ -135,8 +137,9 @@
                 <p class="font-semibold uppercase" [translate]="'SHOPCART.STEPS.txtStep3'"></p>
             </div>
             <div class="w-1/12 text-gray-500">
-                <button [ngClass]="{'text-white bg-gray-600': !getCurrentStep(3)}" (click)="onClickChangeStep(3)"
-                    class="btn-option-step">
+                <button title="Edit Time" class="btn-option-step"
+                    [ngClass]="{'text-white bg-gray-600': !getCurrentStep(3)}"
+                    (click)="onClickChangeStep(3)">
                     <fa-icon [icon]="(getCurrentStep(3) ? 'pencil-alt' : 'edit')"></fa-icon>
                 </button>
             </div>
@@ -144,13 +147,13 @@
         <div class="pg-body w-full">
             <div [hidden]="!(timeComplete && getCurrentStep(3))" class="pg-data-confirmed w-10/12 mx-auto">
                 <p class="leading-none">
-                    <ng-container *ngIf="modelTime.Method == 2; else elseBodyClock">
+                    <ng-container *ngIf="modelTime?.Method == 2; else elseBodyClock">
                         <small>
                             <strong [translate]="'SHOPCART.FORMS.Step3.txtDate'"></strong>: <span
-                                [innerText]="modelTime.Date | date:'longDate' | uppercase"></span>
+                                [innerText]="modelTime?.Date | date:'longDate' | uppercase"></span>
                             &nbsp;
                             <strong [translate]="'SHOPCART.FORMS.Step3.txtSchedule'"></strong>: <span
-                                [innerText]="modelTime.ScheduleFormat | date:'h:mm a' | uppercase"></span>
+                                [innerText]="modelTime?.ScheduleFormat | date:'h:mm a' | uppercase"></span>
                         </small>
                     </ng-container>
                     <ng-template #elseBodyClock>
@@ -180,7 +183,9 @@
                 <p class="font-semibold uppercase" [translate]="'SHOPCART.STEPS.txtStep4'"></p>
             </div>
             <div class="w-1/12 text-gray-500">
-                <button [ngClass]="{'text-white bg-gray-600': !getCurrentStep(4)}" (click)="onClickChangeStep(4)" class="btn-option-step">
+                <button title="Edit Payment" class="btn-option-step"
+                    [ngClass]="{'text-white bg-gray-600': !getCurrentStep(4)}"
+                    (click)="onClickChangeStep(4)">
                     <fa-icon [icon]="(getCurrentStep(4) ? 'pencil-alt' : 'edit')"></fa-icon>
                 </button>
             </div>
@@ -258,7 +263,7 @@
                         </ul>
                     </nav>
 
-                    <div class="payment-info card" [ngClass]="{'visible': modelPayment.Method == 1}">
+                    <div class="payment-info card" [ngClass]="{'visible': modelPayment?.Method == 1}">
                         <!-- <input formControlName="amount" /> -->
                         <ngx-stripe-card [options]="cardOptions" [elementsOptions]="elementsOptions"
                             (change)="onChangeStripe($event)"></ngx-stripe-card>

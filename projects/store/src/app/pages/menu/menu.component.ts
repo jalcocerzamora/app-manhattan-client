@@ -16,11 +16,11 @@ import { SubproductService } from '@core/services/db/subproduct/subproduct.servi
   styleUrls: ['./menu.component.scss']
 })
 export class MenuComponent implements OnInit, AfterViewInit {
-  @ViewChild('overlay_inner') overlayInner: ElementRef<HTMLDivElement>;
-  @ViewChild('modal_body') modalBody: ElementRef<HTMLDivElement>;
+  @ViewChild('overlay_inner') overlayInner: ElementRef<HTMLDivElement> | null = null;
+  @ViewChild('modal_body') modalBody: ElementRef<HTMLDivElement> | null = null;
 
-  @ViewChild('modal_header') modalHeader: ElementRef<HTMLDivElement>;
-  @ViewChild('menu_banner') menuBanner: ElementRef<HTMLDivElement>;
+  @ViewChild('modal_header') modalHeader: ElementRef<HTMLDivElement> | null = null;
+  @ViewChild('menu_banner') menuBanner: ElementRef<HTMLDivElement> | null = null;
 
   public CategoryWithProducts: Observable<Array<ISubproductsWithCategory>> = this.getProducts();
 
@@ -40,12 +40,16 @@ export class MenuComponent implements OnInit, AfterViewInit {
   ngAfterViewInit(): void {
     const observer = new IntersectionObserver((entries) => {
       if (entries[0].isIntersecting === true) {
-          this.modalHeader.nativeElement.classList.add('modal-header-transparent');
+          this.modalHeader?.nativeElement.classList.add('modal-header-transparent');
       } else {
-        this.modalHeader.nativeElement.classList.remove('modal-header-transparent');
+        this.modalHeader?.nativeElement.classList.remove('modal-header-transparent');
       }
     }, { threshold: [0] });
-    observer.observe(this.menuBanner.nativeElement);
+
+    let banner = this.menuBanner?.nativeElement;
+    if(banner){
+      observer.observe(banner);
+    }
   }
 
   loadComponent() {

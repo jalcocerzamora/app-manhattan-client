@@ -1,5 +1,5 @@
 import { Component, OnInit, ChangeDetectionStrategy, OnDestroy, Output, EventEmitter, ViewChild, ElementRef, Type, AfterViewInit } from '@angular/core';
-import { FormGroup, Validators } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, Subscription, throwError } from 'rxjs';
@@ -12,38 +12,33 @@ import { TranslateService } from '@ngx-translate/core';
   //#region MAPBOX GL
 import * as mapboxgl from 'mapbox-gl';
 import MapboxGeocoder from '@mapbox/mapbox-gl-geocoder';
-import { MapBoxGLService } from '@core/services/helpers/mapboxgl.service';
-import { Map, Marker, GeolocateControl, NavigationControl, MapboxEvent, EventData, LngLatLike, LngLat } from 'mapbox-gl';
+// import { MapBoxGLService } from '@core/services/helpers/mapboxgl.service';
+import { Marker, GeolocateControl, MapboxEvent, EventData, LngLatLike, LngLat } from 'mapbox-gl';
 import '@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css';
 import { ControlComponent, MapComponent, Position } from 'ngx-mapbox-gl';
   //#endregion
 
-  //#region LEAFLET
+//#region LEAFLET
 // import { Map, Layer, Control, Marker, circle, latLng, tileLayer, marker, point, control, polygon, polyline, MapOptions,
 // LatLngTuple } from 'leaflet';
 // import { LeafletControlLayersConfig, LeafletDirective, LeafletLayerDirective } from '@asymmetrik/ngx-leaflet';
 // import { NgxLeafletLocateComponent } from '@runette/ngx-leaflet-locate';
 // import { * } from 'leaflet.locatecontrol';
-  //#endregion
 //#endregion
 
 //
-import {
-  IDeliveryContact, IDeliveryMethod, IDeliveryTime, IDeliveryPaymentMethod,
-  DeliveryContact, DeliveryMethod, DeliveryTime, DeliveryPaymentMethod, PaymentMethodEnum
-} from 'projects/core/models/shopcart';
+import { IDeliveryMethod, DeliveryContact, DeliveryMethod, DeliveryTime, DeliveryPaymentMethod, PaymentMethodEnum, IDeliveryPaymentMethod } from 'projects/core/models/shopcart';
 import { DatePipe } from '@angular/common';
 
 import { ValidationService } from 'projects/core/directives/formly/validation/validation.service';
 
-import { PaymentGatewayService } from '../../../../../core/services/payment/payment-gateway.service';
-import {
-  // StripeService,
-  StripeCardComponent } from 'ngx-stripe';
+import { PaymentGatewayService } from 'projects/core/services/payment/payment-gateway.service';
+import { StripeCardComponent } from 'ngx-stripe';
 import { StripeCardElementChangeEvent, StripeCardElementOptions, StripeElementsOptions } from '@stripe/stripe-js';
-import { GeolocateControlDirective } from 'ngx-mapbox-gl/lib/control/geolocate-control.directive';
-import { GeocoderControlDirective } from 'ngx-mapbox-gl/lib/control/geocoder-control.directive';
+// import { GeolocateControlDirective } from 'ngx-mapbox-gl/lib/control/geolocate-control.directive';
+// import { GeocoderControlDirective } from 'ngx-mapbox-gl/lib/control/geocoder-control.directive';
 import { MarkerComponent } from 'ngx-mapbox-gl/lib/marker/marker.component';
+import { FormlyHookFn, FormlyLifeCycleFn } from '@ngx-formly/core/lib/components/formly.field.config';
 
 // Before the component
 declare var Stripe: any;
@@ -82,35 +77,38 @@ export class PaymentGatewayComponent implements OnInit, OnDestroy, AfterViewInit
   public CurrentStep: StepsPaymentGateway = StepsPaymentGateway.None;
 
   //#region FORM STEPS
-  @ViewChild('cardErrors') cardErrors: ElementRef<HTMLDivElement>;
+  @ViewChild('cardErrors') cardErrors: ElementRef<HTMLDivElement> | null = null;
 
   public contactComplete = false;
   public formContact: FormGroup = new FormGroup({});
-  public modelContact: DeliveryContact = null;
+  public modelContact: DeliveryContact | null = null;
   public optionsContact: FormlyFormOptions = {}; // { formState: { awesomeIsForced: true, } };
   public fieldsContact: FormlyFieldConfig[] = [];
 
   public orderingComplete = false;
   public formOrdering = new FormGroup({});
-  public modelOrdering: DeliveryMethod = null;
+  public modelOrdering: DeliveryMethod | null = null;
   public optionsOrdering: FormlyFormOptions = {};
   public fieldsOrdering: FormlyFieldConfig[] = [];
 
   public timeComplete = false;
   public formTime = new FormGroup({});
-  public modelTime: DeliveryTime = null;
+  public modelTime: DeliveryTime | null = null;
   public optionsTime: FormlyFormOptions = {};
   public fieldsTime: FormlyFieldConfig[] = [];
 
   public paymentComplete = false;
-  public formPayment = new FormGroup({});
-  public modelPayment: DeliveryPaymentMethod = null;
+  public formPayment = new FormGroup({
+    Brand: new FormControl('', Validators.required)
+  });
+  public modelPayment: DeliveryPaymentMethod | null = null;
   public optionsPayment: FormlyFormOptions = {};
   public fieldsPayment: FormlyFieldConfig[] = [];
   //#endregion
 
   //#region STRIPE ELEMENTS
-  @ViewChild(StripeCardComponent) card: StripeCardComponent;
+  @ViewChild(StripeCardComponent) 
+  card: StripeCardComponent| null = null;
   public elementsOptions: StripeElementsOptions = { locale: 'es' };
   public cardOptions: StripeCardElementOptions = {
     style: {
@@ -142,15 +140,15 @@ export class PaymentGatewayComponent implements OnInit, OnDestroy, AfterViewInit
   public mapboxHighAccuracy: boolean = false;
   public mapboxShowUserLocate: boolean = true;
   public mapboxTrackUserLocate: boolean = true;
-  public mapboxGL: mapboxgl.Map; // Map;
-  public mapboxMarkerCenter: LngLatLike = [0 , 0];
+  public mapboxGL: mapboxgl.Map | null = null; // Map;
+  public mapboxMarkerCenter: LngLatLike | null = [0 , 0];
   public mapboxCenter = [-86.8475, 21.16056];
-  public mapboxBounds: [
+  public mapboxBounds: any = [
     -86.9712121848562, 21.0297633301856, // Southwest coordinates
     -86.7405402017646, 21.2130333805118, // Northeast coordinates
   ];
-  private subscriptionMapBoxResult$: Subscription;
-  private subscriptionMapBoxResult: Observable<any>;
+  private subscriptionMapBoxResult$: Subscription | null = null;
+  private subscriptionMapBoxResult: Observable<any> | null = null;
   //#endregion
 
   public modelOrderinWithMapBox = {
@@ -180,7 +178,7 @@ export class PaymentGatewayComponent implements OnInit, OnDestroy, AfterViewInit
   ngOnInit(): void {
     // console.log('PaymentGatewayComponent.ngOnInit: ', this);
 
-    this.modelContact = new DeliveryContact();
+    this.modelContact = new DeliveryContact('', '', '');
     this.fieldsContact = [
       {
         fieldGroupClassName: 'flex flex-wrap content-start',
@@ -198,13 +196,18 @@ export class PaymentGatewayComponent implements OnInit, OnDestroy, AfterViewInit
           {
             key: 'cellphone', type: 'tel', defaultValue: '9191309422', className: 'w-2/3 mb-5 relative',
             templateOptions: { placeholder: 'SHOPCART.FORMS.Step1.lblCellPhone', inputClass: 'form-control-sm', addonLeft: { icon: 'mobile-alt', }, required: true, translate: true, attributes: { autocomplete: 'new_firstname' } },
-            validation: { show: true, messages: { pattern: (error, field: FormlyFieldConfig) => this.translate.stream('FORM.VALIDATION.TEL', { value: field.formControl.value }), }, },
+            validation: { 
+              show: true, 
+              messages: { 
+                pattern: (error, field: FormlyFieldConfig | undefined) => this.translate.stream('FORM.VALIDATION.TEL', { value: field?.formControl?.value }), 
+              }, 
+            },
           },
           {
             key: 'country', type: 'input', className: 'w-1/3 mb-5 relative',
             templateOptions: { placeholder: 'SHOPCART.FORMS.Step1.lblCountry', inputDatalist: 'countries', inputClass: 'form-control-sm', addonLeft: { icon: 'globe', }, required: false, translate: true, attributes: { autocomplete: 'new_firstname' } },
             hooks: {
-              onInit: (field: FormlyFieldConfig) => {
+              onInit: (field: FormlyFieldConfig | undefined) => {
                 const query = (search: string, token: string = this.MAPBOX_ACCESS_TOKEN): Observable<any> => {
                   const apiUrl = `https://api.mapbox.com/geocoding/v5/mapbox.places/${search}.json?types=country&access_token=${token}`;
                   const apiUrlEncoded = encodeURI(apiUrl);
@@ -223,7 +226,7 @@ export class PaymentGatewayComponent implements OnInit, OnDestroy, AfterViewInit
                   }));
                 };
 
-                const fieldControl = field.form.get('country');
+                const fieldControl = field?.form?.get('country');
 
                 // tslint:disable-next-line: deprecation
                 // fieldControl.valueChanges.subscribe({
@@ -257,14 +260,19 @@ export class PaymentGatewayComponent implements OnInit, OnDestroy, AfterViewInit
           {
             key: 'email', type: 'email', defaultValue: 'jalcocerzamora@gmail.com', className: 'w-full mb-5 relative',
             templateOptions: { placeholder: 'SHOPCART.FORMS.Step1.lblEmail', inputClass: 'form-control-sm', addonLeft: { icon: 'envelope', }, required: true, translate: true, attributes: { autocomplete: 'new_firstname' } },
-            validation: { show: true, messages: { pattern: (error, field: FormlyFieldConfig) => this.translate.stream('FORM.VALIDATION.EMAIL', { value: field.formControl.value }), }, },
+            validation: { 
+              show: true, 
+              messages: { 
+                pattern: (error, field: FormlyFieldConfig | undefined) => this.translate.stream('FORM.VALIDATION.EMAIL', { value: field?.formControl?.value }), 
+              }, 
+            },
             validators: Validators.compose([Validators.required, ValidationService.emailValidator]),
           },
         ]
       },
     ];
 
-    this.modelOrdering = new DeliveryMethod();
+    this.modelOrdering = new DeliveryMethod('', 0, 0, 0);
     this.fieldsOrdering = [
       {
         fieldGroupClassName: 'flex space-x-1',
@@ -298,7 +306,7 @@ export class PaymentGatewayComponent implements OnInit, OnDestroy, AfterViewInit
       },
     ];
 
-    this.modelTime = new DeliveryTime();
+    this.modelTime = new DeliveryTime(new Date(), new Date());
     const currentDate = this.datePipe.transform(Date.now(), 'yyyy-MM-dd');
     const currentTime = this.datePipe.transform(Date.now(), 'HH:mm');
     this.fieldsTime = [
@@ -346,7 +354,7 @@ export class PaymentGatewayComponent implements OnInit, OnDestroy, AfterViewInit
       },
     ];
 
-    this.modelPayment = new DeliveryPaymentMethod();
+    this.modelPayment = new DeliveryPaymentMethod(undefined, '', '', '', '', '', '', '', 0);
     this.fieldsPayment = [
       {
         fieldGroupClassName: 'flex flex-row justify-aroundx space-x-1',
@@ -358,15 +366,15 @@ export class PaymentGatewayComponent implements OnInit, OnDestroy, AfterViewInit
               options: [{ value: 0, label: 'En la entrega' }, { value: 1, label: 'Tarjeta de debito/credito' }],
             },
             hooks: {
-              onInit: (field) => {
-                return field.formControl.valueChanges.pipe(tap((value: PaymentMethodEnum) => {
+              onInit: (field: FormlyFieldConfig | undefined) => {
+                return field?.formControl?.valueChanges.pipe(tap((value: PaymentMethodEnum) => {
                   let validBrand = false;
                   if (value !== PaymentMethodEnum.Cash) {
                     this.paymentGatewayService.setCardStripe = this.card;
                   } else {
                     this.paymentGatewayService.setCardStripe = null;
-                    this.formPayment.controls.Brand.reset();
-                    validBrand = (value === PaymentMethodEnum.Cash || this.modelPayment.hasOwnProperty('Brand') ? true : false);
+                    // this.formPayment.controls.Brand.reset();
+                    validBrand = (value === PaymentMethodEnum.Cash || this.modelPayment?.hasOwnProperty('Brand') ? true : false);
                   }
                   const fullStatus = (this.formContact.valid && this.formOrdering.valid && this.formTime.valid && this.formPayment.valid && validBrand);
                   this.stepCompleteRequest.emit(fullStatus);
@@ -489,14 +497,14 @@ export class PaymentGatewayComponent implements OnInit, OnDestroy, AfterViewInit
   onChangeStripe(event: StripeCardElementChangeEvent) {
     let fullStatus = false;
     if (!event.complete) {
-      if (event.error) {
+      if (event.error && this.cardErrors) {
         this.cardErrors.nativeElement.textContent = event.error.message;
         this.cardErrors.nativeElement.classList.add('visible');
         this.formPayment.controls.Brand.reset();
         fullStatus = (this.formContact.valid && this.formOrdering.valid && this.formTime.valid && this.formPayment.valid);
       }
       fullStatus = false;
-    } else {
+    } else if (this.cardErrors) {
       this.cardErrors.nativeElement.textContent = '';
       this.cardErrors.nativeElement.classList.remove('visible');
       this.formPayment.controls.Brand.setValue(event.brand);
@@ -569,11 +577,13 @@ export class PaymentGatewayComponent implements OnInit, OnDestroy, AfterViewInit
   //   publicKey: 'pk_test_51HXya7EBr7ET6lVJzagRfQLbyPHuUUA2fiubhV68rK5BGiVpjgkNwvWf0aqTiAzV7i0afuyhZ51qaf9wKwU9DuNv004qz4ckgX'
   // };
 
-  private setDelivery(deliveryMethod: DeliveryMethod) {
-    // const deliveryMethod: IDeliveryMethod = { Latitude: coordinates.latitude, Longitude: coordinates.longitude, PlaceName: place, PostCode: postcode };
-    this.formOrdering.setValue(deliveryMethod);
-    this.formOrdering.updateValueAndValidity({ emitEvent: true, onlySelf: true });
-    this.orderingComplete = true;
+  private setDelivery(deliveryMethod: DeliveryMethod | null) {
+    if(deliveryMethod){
+      // const deliveryMethod: IDeliveryMethod = { Latitude: coordinates.latitude, Longitude: coordinates.longitude, PlaceName: place, PostCode: postcode };
+      this.formOrdering.setValue(deliveryMethod);
+      this.formOrdering.updateValueAndValidity({ emitEvent: true, onlySelf: true });
+      this.orderingComplete = true;
+    }
   }
 
   private getAddress(lng: number, lat: number) {
@@ -608,7 +618,7 @@ export class PaymentGatewayComponent implements OnInit, OnDestroy, AfterViewInit
   }
 
   mapboxRefreshResize(){
-    this.mapboxGL.resize();
+    this.mapboxGL?.resize();
   }
 
   mapboxOnLoad(evt: mapboxgl.Map) {
@@ -631,8 +641,8 @@ export class PaymentGatewayComponent implements OnInit, OnDestroy, AfterViewInit
     this.mapboxShowUserLocate = false;
     this.mapboxTrackUserLocate = false;
     const container: HTMLElement = (evt as MapboxEvent).target.getContainer();
-    const buttonGeolocate: HTMLButtonElement = container.querySelector('.mapboxgl-control-container button.mapboxgl-ctrl-geolocate');
-    if (this.mapboxLocations) { buttonGeolocate.click(); }
+    const buttonGeolocate: HTMLButtonElement | null = container.querySelector('.mapboxgl-control-container button.mapboxgl-ctrl-geolocate');
+    if (this.mapboxLocations) { buttonGeolocate?.click(); }
     this.mapboxLocations = false;
     // if (DEBUG) {console.groupEnd(); }
   }
@@ -645,23 +655,28 @@ export class PaymentGatewayComponent implements OnInit, OnDestroy, AfterViewInit
 
   mapbixOnMouseEnd(evt: EventData) {
     // if (DEBUG) { console.groupCollapsed('mapbixOnMouseEnd'); }
-    this.mapboxGL.resize();
+    this.mapboxGL?.resize();
     // if (DEBUG) {console.groupEnd(); }
   }
 
   mapboxOnMove(evt: EventData) {
     // if (DEBUG) { console.groupCollapsed('mapboxOnMove'); }
-    const coords: LngLat = this.mapboxGL.getCenter();
-    this.mapboxMarkerCenter = coords;
-    const deliveryMethod: IDeliveryMethod = {
-      Latitude: coords.lat,
-      Longitude: coords.lng,
-      PlaceName: '',
-      PostCode: 0
-    };
-    // this.formContact.controls.Country.setValue(country);
-    this.setDelivery(deliveryMethod);
-    // if (DEBUG) { console.groupEnd(); }
+    const coords: LngLat | undefined | null = this.mapboxGL?.getCenter();
+    if(coords){
+      this.mapboxMarkerCenter = coords;
+      const deliveryMethod: IDeliveryMethod | null = {
+        Latitude: coords?.lat,
+        Longitude: coords?.lng,
+        PlaceName: '',
+        PostCode: 0
+      };
+
+      if(deliveryMethod){
+        // this.formContact.controls.Country.setValue(country);
+        this.setDelivery(deliveryMethod);
+        // if (DEBUG) { console.groupEnd(); } 
+      }
+    }
   }
 
   mapboxOnMoveEnd(evt: EventData) {
@@ -718,20 +733,20 @@ export class PaymentGatewayComponent implements OnInit, OnDestroy, AfterViewInit
   mapboxOnGeocoderResult(evt: any) {
     if (DEBUG) { console.groupCollapsed('mapboxOnGeocoderResult'); }
     if (DEBUG) { console.log(evt); }
-    this.mapboxGL.resize();
+    this.mapboxGL?.resize();
     const { result } = evt;
 
     const coordinates: LngLatLike = { lng: result.center[0], lat: result.center[1] };
 
     const place = result.place_name;
-    const address = result.context.find(i => i.id.includes('address')) ? result.context.find(i => i.id.includes('address')).text : '';
-    const postcode = result.context.find(i => i.id.includes('postcode')) ? result.context.find(i => i.id.includes('postcode')).text : '';
-    const city = result.context.find(i => i.id.includes('place')) ? result.context.find(i => i.id.includes('place')).text : '';
-    const state = result.context.find(i => i.id.includes('region')) ? result.context.find(i => i.id.includes('region')).text : '';
-    const country = result.context.find(i => i.id.includes('country')) ? result.context.find(i => i.id.includes('country')).text : '';
-    const countryCode = result.context.find(i => i.id.includes('country')) ? result.context.find(i => i.id.includes('country')).short_code : '';
+    const address = result.context.find((i: any) => i.id.includes('address')) ? result.context.find((i: any) => i.id.includes('address')).text : '';
+    const postcode = result.context.find((i: any) => i.id.includes('postcode')) ? result.context.find((i: any) => i.id.includes('postcode')).text : '';
+    const city = result.context.find((i: any) => i.id.includes('place')) ? result.context.find((i: any) => i.id.includes('place')).text : '';
+    const state = result.context.find((i: any) => i.id.includes('region')) ? result.context.find((i: any) => i.id.includes('region')).text : '';
+    const country = result.context.find((i: any) => i.id.includes('country')) ? result.context.find((i: any) => i.id.includes('country')).text : '';
+    const countryCode = result.context.find((i: any) => i.id.includes('country')) ? result.context.find((i: any) => i.id.includes('country')).short_code : '';
 
-    this.mapboxGL.setCenter(coordinates);
+    this.mapboxGL?.setCenter(coordinates);
 
     const deliveryMethod: IDeliveryMethod = { Latitude: coordinates.lat, Longitude: coordinates.lng, PlaceName: place, PostCode: postcode };
     this.formContact.controls.Country.setValue(country);

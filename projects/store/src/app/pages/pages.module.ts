@@ -1,3 +1,4 @@
+
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA, LOCALE_ID } from '@angular/core';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { CommonModule, PlatformLocation } from '@angular/common';
@@ -10,7 +11,7 @@ import { AppRoutingModule } from '../app-routing.module';
 
 //#region Formly
 import { FormlyModule, FORMLY_CONFIG } from '@ngx-formly/core';
-import { FormlyConfig } from 'projects/core/directives/formly/formly.config';
+// import { FormlyConfigCustom } from 'projects/core/directives/formly/formly.config';
 //#endregion
 
 //#region Translation
@@ -66,7 +67,7 @@ import { LeafletModule } from '@asymmetrik/ngx-leaflet';
         CoreModule,
         DirectivesModule,
         ComponentsModule,
-        FormlyModule.forRoot(FormlyConfig),
+        FormlyModule.forRoot(),
         TranslateModule.forRoot({ defaultLanguage: environment.language, loader: { provide: TranslateLoader, useFactory: HttpLoaderFactory, deps: [HttpClient, PlatformLocation] } }),
         LeafletModule,
     ],

@@ -7,7 +7,7 @@ import { ActivatedRoute, Router } from '@angular/router';
   styleUrls: ['./not-found.component.scss']
 })
 export class NotFoundComponent implements OnInit {
-  public returnUrl: string = null;
+  public returnUrl: string | null = null;
 
   constructor(
     // private router: Router,

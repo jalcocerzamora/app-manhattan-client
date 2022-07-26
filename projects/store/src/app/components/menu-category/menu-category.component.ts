@@ -28,8 +28,8 @@ export class MenuCategoryComponent implements OnInit {
 
   @Input() Template: boolean = false;
 
-  @Input() Overlay: ElementRef;
-  @Input() ParentContainer: ElementRef;
+  @Input() Overlay: ElementRef | null = null;
+  @Input() ParentContainer: ElementRef | null = null;
 
   @Input() Menus: Array<ISubproductsWithCategory> = [];
 

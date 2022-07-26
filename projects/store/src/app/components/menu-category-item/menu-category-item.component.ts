@@ -67,13 +67,13 @@ export class MenuCategoryItemComponent implements OnInit {
   // overlay_inner
   @Input() Template: boolean = false;
 
-  @Input() Overlay: ElementRef;
-  @Input() ParentContainer: ElementRef;
+  @Input() Overlay: ElementRef | null = null;
+  @Input() ParentContainer: ElementRef | null = null;
 
-  @Input() TemplateCategory: ICategory;
-  @Input() Category: ICategory;
-  @Input() TemplateProduct: Array<ISubproduct>;
-  @Input() Products: Array<ISubproduct>;
+  @Input() TemplateCategory: ICategory | null = null;
+  @Input() Category: ICategory | null = null;
+  @Input() TemplateProduct: Array<ISubproduct> | null = null;
+  @Input() Products: Array<ISubproduct> | null = null;
 
   constructor() {
     // console.log('MenuCategoryItemComponent.constructor', this.Overlay);
@@ -88,12 +88,12 @@ export class MenuCategoryItemComponent implements OnInit {
     // console.log('MenuCategoryItemComponent.ngOnInit', this.Overlay);
   }
 
-  getHalft(side: 'Left' | 'Right'): Array<ISubproduct> {
-    const Length = this.Products.length;
+  getHalft(side: 'Left' | 'Right'): Array<ISubproduct> | null {
+    const Length = this.Products?.length ?? 0;
     const Halft = Math.round(Length / 2);
 
-    const Left = this.Products.slice(0, Halft);
-    const Right = this.Products.slice(Halft);
+    const Left = this.Products?.slice(0, Halft) ?? null;
+    const Right = this.Products?.slice(Halft) ?? null;
 
     return (side === 'Left' ? Left : Right);
   }
@@ -102,8 +102,8 @@ export class MenuCategoryItemComponent implements OnInit {
     return ( fisrt ? 'border-t border-gray-300' : (last ? 'border-b border-gray-300' : '') );
   }
 
-  trackByMethod(index: number, el: ISubproduct): number {
-    return el.id;
+  trackByMethod(index: number, el: ISubproduct): number | null {
+    return el.id ?? null;
   }
 
 }

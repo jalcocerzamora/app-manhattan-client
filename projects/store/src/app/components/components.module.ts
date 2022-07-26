@@ -12,7 +12,7 @@ import { FirstCasePipe } from '@core/pipes/first-case.pipe';
 
 import { AppRoutingModule } from './../app-routing.module';
 import { DirectivesModule } from 'projects/core/directives/directives.module';
-import { FormlyConfig } from 'projects/core/directives/formly/formly.config';
+// import { FormlyConfig } from 'projects/core/directives/formly/formly.config';
 
 import { PipesModule } from 'projects/core/pipes/pipes.module';
 
@@ -65,11 +65,11 @@ import { NgxStripeModule } from 'ngx-stripe';
         HttpClientModule,
         FormsModule,
         ReactiveFormsModule,
-        FontAwesomeModule,
+        // FontAwesomeModule,
         PipesModule,
-        FormlyModule.forRoot(FormlyConfig),
-        TranslateModule.forRoot({ defaultLanguage: environment.language, loader: { provide: TranslateLoader, useFactory: HttpLoaderFactory, deps: [HttpClient, PlatformLocation] } }),
-        NgxStripeModule.forRoot(environment.STRIPE.PUBLIC_KEY),
+        FormlyModule.forRoot(),
+        // TranslateModule.forRoot({ defaultLanguage: environment.language, loader: { provide: TranslateLoader, useFactory: HttpLoaderFactory, deps: [HttpClient, PlatformLocation] } }),
+        // NgxStripeModule.forRoot(environment.STRIPE.PUBLIC_KEY),
         NgxMapboxGLModule.withConfig({
             accessToken: environment.MAPBOX.ACCESS_TOKEN, // Optional, can also be set per map (accessToken input of mgl-map)
             // geocoderAccessToken: 'TOKEN' // Optional, specify if different from the map access token, can also be set per mgl-geocoder (accessToken input of mgl-geocoder)

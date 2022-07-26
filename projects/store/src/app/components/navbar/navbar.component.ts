@@ -8,7 +8,7 @@ import { TranslateService } from '@ngx-translate/core';
 })
 export class NavbarComponent implements OnInit, AfterViewInit {
 
-  @ViewChild('navbarToggler') navbarToggler: ElementRef;
+  @ViewChild('navbarToggler') navbarToggler: ElementRef | null = null;
 
   constructor(
     // private elementRef: ElementRef,
@@ -22,9 +22,9 @@ export class NavbarComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    const toggle = this.navbarToggler.nativeElement;
+    const toggle = this.navbarToggler?.nativeElement;
     toggle.addEventListener('click', () => {
-      this.navbarToggler.nativeElement.classList.toggle('active');
+      this.navbarToggler?.nativeElement.classList.toggle('active');
     });
   }
 

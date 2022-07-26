@@ -4,11 +4,11 @@ import '@angular/common/locales/fr-CA';
 
 import { ISubproduct, ICategory } from 'projects/core/models/db';
 
-import { createPopper, Placement } from '@popperjs/core';
+import { createPopper, Instance, Placement } from '@popperjs/core';
 
 import { ProductPopperComponent } from 'projects/store/src/app/components/product-popper/product-popper.component';
 import { GET_URL_ASSETS } from 'projects/core/helpers/functions';
-import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
+// import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 import { PixelService } from 'ngx-pixel';
 
 @Component({
@@ -64,21 +64,22 @@ import { PixelService } from 'ngx-pixel';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ProductItemComponent implements OnInit, AfterViewInit {
-  private popperInstance = null;
-  private popoverShow = null;
-  private productCurrent = null;
+  private popperInstance: Instance | null = null;
+  private popoverShow: boolean | null = null;
+  private productCurrent: Element | null = null;
 
   @Input() Template: boolean = false;
 
-  @Input() ParentContainer: ElementRef;
-  @Input() PopperPlacement: string;
-  @Input() Overlay: ElementRef;
+  @Input() ParentContainer: ElementRef | null = null;
+  @Input() PopperPlacement: string | null = null;
+  @Input() Overlay: ElementRef | null = null;
 
-  @Input() addClass: string = null;
-  @Input() Category: ICategory = null;
-  @Input() Product: ISubproduct = null;
+  @Input() addClass: string | null = null;
+  @Input() Category: ICategory | null = null;
+  @Input() Product: ISubproduct | null = null;
 
-  @ViewChild('viewTemplatePopper', { read: ViewContainerRef }) viewTemplatePopper: ViewContainerRef;
+  @ViewChild('viewTemplatePopper', { read: ViewContainerRef }) 
+  viewTemplatePopper: ViewContainerRef | null = null;
   private componentRef: any;
 
   @HostListener('click', ['$event.target']) onClick(target: HTMLDivElement) {
@@ -92,11 +93,11 @@ export class ProductItemComponent implements OnInit, AfterViewInit {
           this.createComponent(target);
           this.pixel.track('ViewContent', {
             // contents,
-            content_ids: [ this.Product.id ],       // Item SKUs
-            content_category: this.Category.title,  // Category of the product.
-            content_name: this.Product.name,        // Name of the product
+            content_ids: [ this.Product?.id ?? 0 ],       // Item SKUs
+            content_category: this.Category?.title,  // Category of the product.
+            content_name: this.Product?.name,        // Name of the product
             content_type: 'product',                // product or product_group
-            value: this.Product.price,              // Value of all items
+            value: this.Product?.price,              // Value of all items
             currency: 'MXN'                         // Currency of the value
           });
         }
@@ -110,7 +111,7 @@ export class ProductItemComponent implements OnInit, AfterViewInit {
   }
 
   get productAlt(): string {
-    return `${this.Category.title.trim()}-${this.Product.name.trim()}`;
+    return `${this.Category?.title.trim()}-${this.Product?.name.trim()}`;
   }
 
   constructor(
@@ -134,22 +135,24 @@ export class ProductItemComponent implements OnInit, AfterViewInit {
     // console.log('ProductItemComponent.ngAfterViewInit', this.Overlay);
   }
 
-  createComponent(target: Element ) {
-    target.classList.toggle('relative');
-    target.classList.toggle('bg-white');
-    this.renderer.addClass(this.ParentContainer.nativeElement, 'overflow-hidden');
+  createComponent(target: Element | null) {
+    if(target){
+      target.classList.toggle('relative');
+      target.classList.toggle('bg-white');
+      this.renderer.addClass(this.ParentContainer?.nativeElement, 'overflow-hidden');
 
-    this.productCurrent = target;
-    this.popoverShow = true;
+      this.productCurrent = target;
+      this.popoverShow = true;
 
-    this.viewTemplatePopper.clear();
-    const componentFactory = this.resolver.resolveComponentFactory(ProductPopperComponent);
-    this.componentRef = this.viewTemplatePopper.createComponent<ProductPopperComponent>(componentFactory);
-    this.componentRef.instance.category = this.Category;
-    this.componentRef.instance.subproduct = this.Product;
-    this.componentRef.instance.destroyPopper.subscribe(i => this.destroyComponent());
+      this.viewTemplatePopper?.clear();
+      const componentFactory = this.resolver.resolveComponentFactory(ProductPopperComponent);
+      this.componentRef = this.viewTemplatePopper?.createComponent<ProductPopperComponent>(componentFactory);
+      this.componentRef.instance.category = this.Category;
+      this.componentRef.instance.subproduct = this.Product;
+      this.componentRef.instance.destroyPopper.subscribe((i: any) => this.destroyComponent());
 
-    this.showPoppper();
+      this.showPoppper();
+    }
   }
 
   showPoppper() {
@@ -158,7 +161,7 @@ export class ProductItemComponent implements OnInit, AfterViewInit {
     this.renderer.setStyle($popper, 'display', 'none');
     this.createPoppper();
     setTimeout(async () => {
-      const state = await this.popperInstance.update();
+      const state = await this.popperInstance?.update();
       // console.log(state);
     }, 50);
   }
@@ -166,7 +169,7 @@ export class ProductItemComponent implements OnInit, AfterViewInit {
   createPoppper() {
     const $reference  = this.el.nativeElement;
     const $popper     = this.componentRef.location.nativeElement;
-    const $boundary: HTMLElement   = this.ParentContainer.nativeElement.querySelector('.modal-overlay');
+    const $boundary: HTMLElement   = this.ParentContainer?.nativeElement.querySelector('.modal-overlay');
     const arrow = document.querySelector('#arrow');
 
     this.renderer.removeClass($boundary, 'hidden');
@@ -209,9 +212,9 @@ export class ProductItemComponent implements OnInit, AfterViewInit {
 
   destroyComponent() {
     // console.log('destroyComponent');
-    this.renderer.removeClass(this.ParentContainer.nativeElement, 'overflow-hidden');
-    this.productCurrent.classList.toggle('relative');
-    this.productCurrent.classList.toggle('bg-white');
+    this.renderer.removeClass(this.ParentContainer?.nativeElement, 'overflow-hidden');
+    this.productCurrent?.classList.toggle('relative');
+    this.productCurrent?.classList.toggle('bg-white');
     this.componentRef.destroy();
     this.hidePoppper();
     this.productCurrent = null;
@@ -228,7 +231,7 @@ export class ProductItemComponent implements OnInit, AfterViewInit {
   hidePoppper() {
     const $reference  = this.el.nativeElement;
     const $popper     = this.componentRef.location.nativeElement;
-    const $boundary: HTMLElement   = this.ParentContainer.nativeElement.querySelector('.modal-overlay');
+    const $boundary: HTMLElement   = this.ParentContainer?.nativeElement.querySelector('.modal-overlay');
 
     // $popper.removeAttribute('data-show');
     // this.Overlay.nativeElement.classList.toggle('hidden');
