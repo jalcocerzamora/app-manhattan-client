@@ -11,8 +11,8 @@ import { TranslateService } from '@ngx-translate/core';
 import { AuthenticationService } from 'projects/core/services';
 
 import { Login } from 'projects/core/models/db';
-import { MasterComponent } from '../pages.module';
 import { first } from 'rxjs/operators';
+import { MasterComponent } from '../../components/master/master.component';
 
 @Component({
   selector: 'app-login',
@@ -20,16 +20,16 @@ import { first } from 'rxjs/operators';
   styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent extends MasterComponent implements OnInit {
-  private returnUrl: string;
+  private returnUrl: string = '';
 
-  pageTitle = '';
-  pageBodyClass = 'login';
+  pageTitle: string = '';
+  pageBodyClass: string = 'login';
 
-  public errorMessage: string;
-  public loading = false;
-  public submitted = false;
+  public errorMessage: string = '';
+  public loading: boolean = false;
+  public submitted: boolean = false;
 
-  public loginComplete = false;
+  public loginComplete: boolean = false;
   public formLogin: FormGroup = new FormGroup({});
   public modelLogin: Login = { Username: 'jalcocer', Password: '12345'};
   public optionsLogin: FormlyFormOptions = {}; // { formState: { awesomeIsForced: true, } };
@@ -38,7 +38,7 @@ export class LoginComponent extends MasterComponent implements OnInit {
   constructor(
     @Inject(DOCUMENT) document: Document,
     route: ActivatedRoute,
-    title: Title,
+    public title: Title,
     private router: Router,
     private translate: TranslateService,
     private fb: FormBuilder,
@@ -59,7 +59,7 @@ export class LoginComponent extends MasterComponent implements OnInit {
           {
             key: 'Username', type: 'input', defaultValue: '', className: 'flex-grow lg:flex-grow mb-5',
             templateOptions: { placeholder: 'LOGIN.FORM.txtEmail', inputClass: 'intro-x', addonLeft: { icon: 'envelope', }, required: true, translate: true, },
-            validation: { show: false, messages: { pattern: (error, field: FormlyFieldConfig) => this.translate.stream('FORM.VALIDATION.EMAIL', { value: field.formControl.value }), }, },
+            validation: { show: false, messages: { pattern: (error, field: FormlyFieldConfig) => this.translate.stream('FORM.VALIDATION.EMAIL', { value: field.formControl?.value }), }, },
             // validators: {
             //   validation: Validators.compose([Validators.required, ValidationService.emailValidator])
             // }

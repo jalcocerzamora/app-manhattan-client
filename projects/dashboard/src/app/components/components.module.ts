@@ -10,12 +10,14 @@ import { faBars } from '@fortawesome/free-solid-svg-icons';
 
 import { NavbarComponent } from 'projects/dashboard/src/app/components/navbar/navbar.component';
 import { HeaderComponent } from 'projects/dashboard/src/app/components/header/header.component';
+import { MasterComponent } from 'projects/dashboard/src/app/components/master/master.component';
 
 
 @NgModule({
   declarations: [
     NavbarComponent,
-    HeaderComponent
+    HeaderComponent,
+    MasterComponent
   ],
   imports: [
     CommonModule,
@@ -24,7 +26,8 @@ import { HeaderComponent } from 'projects/dashboard/src/app/components/header/he
   ],
   exports: [
     NavbarComponent,
-    HeaderComponent
+    HeaderComponent,
+    MasterComponent
   ]
 })
 export class ComponentsModule {

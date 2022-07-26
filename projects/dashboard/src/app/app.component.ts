@@ -1,8 +1,8 @@
 import { Component, OnInit, Inject, ɵConsole } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
-import { MasterComponent } from './pages/pages.module';
 import { ActivatedRoute } from '@angular/router';
 import { Title } from '@angular/platform-browser';
+import { MasterComponent } from './components/master/master.component';
 
 @Component({
   selector: 'app-root',
@@ -14,7 +14,7 @@ export class AppComponent extends MasterComponent {
   constructor(
     @Inject(DOCUMENT) document: Document,
     route: ActivatedRoute,
-    title: Title,
+    public title: Title,
   ) {
     super(document, route, title);
   }

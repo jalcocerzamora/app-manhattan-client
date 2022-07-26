@@ -4,7 +4,7 @@ import { Title } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import { ScriptService } from '@core/services/helpers/script.service';
 
-import { MasterComponent } from '../pages.module';
+import { MasterComponent } from 'projects/dashboard/src/app/components/master/master.component';
 
 import ChartJS from 'chart.js';
 
@@ -16,13 +16,14 @@ export class HomeComponent extends MasterComponent implements OnInit {
   pageTitle = '';
   pageBodyClass = 'dashboard';
 
-  @ViewChild('canvasChart', { static: true }) canvasChart: ElementRef<HTMLCanvasElement>;
-  private myChart: ChartJS;
+  @ViewChild('canvasChart', { static: true })
+  canvasChart!: ElementRef<HTMLCanvasElement>;
+  private myChart: any;
 
   constructor(
     @Inject(DOCUMENT) document: Document,
     route: ActivatedRoute,
-    title: Title,
+    public title: Title,
     private serviceScript: ScriptService,
   ) {
     super(document, route, title);
@@ -133,7 +134,7 @@ export class HomeComponent extends MasterComponent implements OnInit {
   }
 
   randomScalingFactor() {
-    function rand(min, max) {
+    function rand(min: number, max: number) {
       let seed = Date.now();
       min = min === undefined ? 0 : min;
       max = max === undefined ? 1 : max;
