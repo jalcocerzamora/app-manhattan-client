@@ -28,6 +28,7 @@
     "int:extract": "ng xi18n"
   },
   "private": true,
+  "stack": "heroku-20",
   "engines": {
     "node": "14.15.1",
     "npm": "6.14.5"
