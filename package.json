@@ -3,19 +3,20 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "node server.js",
-    "build": "ng build",
+    "start": "node server.js -o --extra-webpack-config projects/store/webpack.partial.js",
     "start:store": "ng serve store",
     "start:store:es": "ng serve store --configuration=es",
     "start:store:en": "ng serve store --configuration=en",
-    "build:store": "ng build store --configuration production",
     "start:dashboard": "ng serve dashboard --port=4201",
-    "build:dashboard": "ng build dashboard --configuration production",
-    "build:prod": "NODE_ENV=production ng build --configuration production",
-    "heroku-postbuild": "ng build store --configuration production --base-href=https://app-manhattan-client.herokuapp.com/",
-    "xpostinstallx": "ng build --aot --configuration production",
-    "build:store:prod:repo": "ng build store --configuration production --base-href=https://jalcocerzamora.github.io/app-manhattan-client/",
-    "build:gh-prod-aot": "ng build --configuration production --base-href=https://jalcocerzamora.github.io/app-manhattan-client/ --aot --build-optimizer && gzipper --verbose ./dist",
+    
+    "build": "ng build",
+    "build:store": "ng build store --configuration=production",
+    "build:dashboard": "ng build dashboard --configuration=production",
+    "build:prod": "NODE_ENV=production ng build --configuration=production",
+    "heroku-postbuild": "ng build store --configuration=production --base-href=https://app-manhattan-client.herokuapp.com/",
+    "xpostinstallx": "ng build --aot --configuration=production",
+    "build:store:prod:repo": "ng build store --configuration=production --base-href=https://jalcocerzamora.github.io/app-manhattan-client/",
+    "build:gh-prod-aot": "ng build --configuration=production --base-href=https://jalcocerzamora.github.io/app-manhattan-client/ --aot --build-optimizer && gzipper --verbose ./dist",
     "build:stats": "ng build --stats-json",
     "stats:webpack": "webpack-bundle-analyzer ./dist/store/stats.json",
     "deploy": "gh-pages -d dist",
@@ -29,6 +30,7 @@
     "postinstall": "ngcc"
   },
   "private": true,
+  "stack": "heroku-20",
   "engines": {
     "node": "14.15.1",
     "npm": "6.14.5"
@@ -68,6 +70,7 @@
     "@stripe/stripe-js": "^1.13.2",
     "@tailwindcss/forms": "^0.2.1",
     "angular-chart.js": "^1.1.0",
+    "autoprefixer": "10.4.5",
     "crypto-js": "^4.0.0",
     "express": "^4.17.1",
     "leaflet": "^1.7.1",
@@ -82,9 +85,11 @@
     "rxjs-compat": "^6.6.2",
     "tslib": "^1.10.0",
     "typescript": "^4.3.5",
+    "url": "^0.11.0",
     "zone.js": "~0.11.4"
   },
   "devDependencies": {
+    "@angular-builders/custom-webpack": "^14.0.0",
     "@angular-devkit/build-angular": "^14.1.0",
     "@biesbjerg/ngx-translate-extract": "^7.0.2",
     "@nrwl/workspace": "14.4.3",
@@ -98,10 +103,9 @@
     "@types/mapbox__mapbox-gl-geocoder": "^4.7.0",
     "@types/node": "^12.20.1",
     "angular-cli-ghpages": "^1.0.0-rc.1",
-    "autoprefixer": "^10.0.2",
     "codelyzer": "^0.0.28",
     "copy-webpack-plugin": "^7.0.0",
-    "css-loader": "^5.0.2",
+    "css-loader": "^5.2.7",
     "jasmine-core": "~3.6.0",
     "jasmine-spec-reporter": "~5.0.0",
     "karma": "^6.4.0",
@@ -120,13 +124,19 @@
     "postcss-scss": "^3.0.4",
     "protractor": "~7.0.0",
     "style-loader": "^2.0.0",
-    "tailwindcss": "^2.0.3",
+    "tailwindcss": "^2.2.16",
     "ts-node": "~8.3.0",
     "tslint": "~6.1.0"
   },
   "peerDependencies": {
     "react": "^16.8.0",
     "tslib": "^1.10.0"
+  },
+  "overrides": {
+    "autoprefixer": "10.4.5"
+  },
+  "resolutions": {
+    "autoprefixer": "10.4.5"
   },
   "browser": {
     "crypto": false
